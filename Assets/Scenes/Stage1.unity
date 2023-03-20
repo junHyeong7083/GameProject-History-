@@ -558,7 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 1131689669}
-  speed: 4
+  speed: 6
   dirtxt: {fileID: 406656549}
   atktxt: {fileID: 1450159273}
   lineRenderer: {fileID: 1131689673}
