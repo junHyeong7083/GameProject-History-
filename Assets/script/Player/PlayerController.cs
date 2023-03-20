@@ -10,11 +10,6 @@ public class PlayerController : MonoBehaviour
     public GameObject Player;
     public float speed;
 
-
-    [Header("Test Debug")]
-    public Text dirtxt;
-    public Text atktxt;
-
     //-------------------이동관련-------------------
     [Header("TouchMoved")]
     Touch touch1; // 이동 터치
@@ -29,7 +24,7 @@ public class PlayerController : MonoBehaviour
     Vector3 AtkRange; //
 
     bool isAtk = false; // 공격중일때는 움직임x
-    bool isRender = false;
+    bool isRender = false; 
     bool isMoving = false;
     void Start()
     {
@@ -41,22 +36,14 @@ public class PlayerController : MonoBehaviour
         if (Input.touchCount > 0) // 첫 입력
         {
             touch1 = FindTouchById(0);
-            if (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Began)
+            if (FindTouchById(0).phase == TouchPhase.Moved || FindTouchById(0).phase == TouchPhase.Began)
             {
                 if (!isAtk)
                 {
 
                     dir = (touch1.position - touch1.rawPosition).normalized / 3;
-                    dirtxt.text = "x : " + dir.x + "y : " + dir.y;
+                    // dirtxt.text = "x : " + dir.x + "y : " + dir.y; 테스트
                     isMoving = true;
-                    Player.transform.Translate(dir * speed * Time.deltaTime);
-                }
-            }
-            else if(Input.GetTouch(0).phase == TouchPhase.Stationary)
-            {
-                if(!isAtk)
-                {
-                    dir = new Vector2(0, 0);
                     Player.transform.Translate(dir * speed * Time.deltaTime);
                 }
             }
@@ -72,29 +59,44 @@ public class PlayerController : MonoBehaviour
                     {
                         AtkRange = Camera.main.ScreenToWorldPoint(touch2.position);
                         AtkRange.z = 0f;
-                        atktxt.text = "atkx : " + AtkRange.x + "atky : " + AtkRange.y;
+                       // atktxt.text = "atkx : " + AtkRange.x + "atky : " + AtkRange.y; 테스트
 
                         Vector3 dir = AtkRange.normalized;
 
                         isRender = true;
                         if (isRender)
                         {
-                            Vector3 offset = dir.normalized * 0.5f;
+                            // 중심점 옮기기
+                            float r = (playerTransform.localScale.x / 2) + 0.8f; // 반지름 0.8을 수정하면됨
+                            Vector3 drag = AtkRange;
+                            Vector3 center = playerTransform.position; // 중점
+                            
+                            float theta = Mathf.Atan2(drag.y - center.y, drag.x - center.x);
+                            Vector3 edge = new Vector3(center.x + r * Mathf.Cos(theta), center.y + r * Mathf.Sin(theta));
+
                             Vector3[] positions = new Vector3[lineRenderer.positionCount];
                             lineRenderer.GetPositions(positions);
-                            positions[0] = playerTransform.position + offset; // 플레이어 좌표
-                            positions[1] = AtkRange; // 공격 드래그 끝좌표
-                            lineRenderer.enabled = true;
+                            positions[0] = edge;
+                            positions[1] = AtkRange;
+
                             lineRenderer.SetPositions(positions);
+                            lineRenderer.enabled = true;
+                           
+                            
+                           // Vector3[] positions = new Vector3[lineRenderer.positionCount];
+                           // lineRenderer.GetPositions(positions);
+                           // positions[0] = playerTransform.position; // 플레이어 좌표
+                           // positions[1] = AtkRange; // 공격 드래그 끝좌표
+                           // lineRenderer.enabled = true;
+                           // lineRenderer.SetPositions(positions);
                         }
                     }
 
                     // AtkRnage : 드래그시 좌표값 - 드래그할때마다 갱신됨
                     // LaserPoint랑 AtkRange값 이용해서 라인렌더러 사용하면삘
                 }
-                else if (Input.GetTouch(1).phase == TouchPhase.Ended && Input.GetTouch(0).phase == TouchPhase.Ended) // 손을 뗏을때
+                else if (FindTouchById(0).phase == TouchPhase.Ended || FindTouchById(1).phase == TouchPhase.Ended) // 손을 뗏을때
                 {
-
                     isAtk = false;
 
                     if (isRender) // 그렸던 라인을 지우는 과정
