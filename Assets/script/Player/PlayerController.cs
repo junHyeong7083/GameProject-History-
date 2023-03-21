@@ -6,10 +6,12 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+    //-------------------기본설정-------------------
     [Header("PlayerSet")]
     public GameObject Player;
+    public GameObject Line;
     public float speed;
-
+    public Text debugTest;
     //-------------------이동관련-------------------
     [Header("TouchMoved")]
     Touch touch1; // 이동 터치
@@ -19,18 +21,27 @@ public class PlayerController : MonoBehaviour
     //-------------------공격관련-------------------
     [Header("TouchAtk")]
     public LineRenderer lineRenderer;
-    public Transform playerTransform;
     public float lineDrawSpeed;
     Vector3 AtkRange; //
 
+    //-------------------사용할 컴포넌트-------------------
+    EdgeCollider2D lineCollider; // 라인렌더러시 사용할 콜라이더
+    Rigidbody2D lineRigid;
+
+
+    //---------------------bool--------------------------
     bool isAtk = false; // 공격중일때는 움직임x
-    bool isRender = false; 
+    bool isRender = false;
     bool isMoving = false;
+    bool isRay = false;
+    //---------------------Els--------------------------
+    public Image TestImage;
     void Start()
     {
+        lineCollider = Line.GetComponent<EdgeCollider2D>();
+        lineRigid = Line.GetComponent<Rigidbody2D>();
     }
 
-    int EndedFinger = 0;
     void Update()
     {
         if (Input.touchCount > 0) // 첫 입력
@@ -47,7 +58,7 @@ public class PlayerController : MonoBehaviour
                     Player.transform.Translate(dir * speed * Time.deltaTime);
                 }
             }
- 
+
             if (Input.touchCount >= 1) // 2번째 입력
             {
                 touch2 = FindTouchById(1);
@@ -59,7 +70,7 @@ public class PlayerController : MonoBehaviour
                     {
                         AtkRange = Camera.main.ScreenToWorldPoint(touch2.position);
                         AtkRange.z = 0f;
-                       // atktxt.text = "atkx : " + AtkRange.x + "atky : " + AtkRange.y; 테스트
+                        // atktxt.text = "atkx : " + AtkRange.x + "atky : " + AtkRange.y; 테스트
 
                         Vector3 dir = AtkRange.normalized;
 
@@ -67,10 +78,10 @@ public class PlayerController : MonoBehaviour
                         if (isRender)
                         {
                             // 중심점 옮기기
-                            float r = (playerTransform.localScale.x / 2) + 0.8f; // 반지름 0.8을 수정하면됨
+                            float r = (Player.transform.localScale.x / 2) + 0.5f; // 반지름뒤 숫자를 수정하면됨
                             Vector3 drag = AtkRange;
-                            Vector3 center = playerTransform.position; // 중점
-                            
+                            Vector3 center = Player.transform.position; // 중점
+
                             float theta = Mathf.Atan2(drag.y - center.y, drag.x - center.x);
                             Vector3 edge = new Vector3(center.x + r * Mathf.Cos(theta), center.y + r * Mathf.Sin(theta));
 
@@ -79,26 +90,27 @@ public class PlayerController : MonoBehaviour
                             positions[0] = edge;
                             positions[1] = AtkRange;
 
-                            lineRenderer.SetPositions(positions);
                             lineRenderer.enabled = true;
-                           
-                            
-                           // Vector3[] positions = new Vector3[lineRenderer.positionCount];
-                           // lineRenderer.GetPositions(positions);
-                           // positions[0] = playerTransform.position; // 플레이어 좌표
-                           // positions[1] = AtkRange; // 공격 드래그 끝좌표
-                           // lineRenderer.enabled = true;
-                           // lineRenderer.SetPositions(positions);
+                            lineRenderer.SetPositions(positions);
+
+                            #region RayCast
+                            Vector3 rayDir = (AtkRange - edge).normalized;
+                            RaycastHit2D hit = Physics2D.Raycast(edge, rayDir);
+                            if (hit == GameObject.FindGameObjectWithTag("Boss"))
+                            {
+                                isRay = true;
+                            }
+                            else
+                                isRay = false;
+                            #endregion
+
                         }
                     }
-
-                    // AtkRnage : 드래그시 좌표값 - 드래그할때마다 갱신됨
-                    // LaserPoint랑 AtkRange값 이용해서 라인렌더러 사용하면삘
                 }
-                else if (FindTouchById(0).phase == TouchPhase.Ended || FindTouchById(1).phase == TouchPhase.Ended) // 손을 뗏을때
+                else if (FindTouchById(0).phase == TouchPhase.Ended || FindTouchById(1).phase == TouchPhase.Ended) // 손을 뗏을때1
                 {
                     isAtk = false;
-
+                    isRay = false;
                     if (isRender) // 그렸던 라인을 지우는 과정
                     {
                         Vector3 touchWorldPosition = Camera.main.ScreenToWorldPoint(touch2.position);
@@ -106,25 +118,33 @@ public class PlayerController : MonoBehaviour
                         isRender = false;
                         lineRenderer.enabled = false;
                         lineRenderer.SetPositions(new Vector3[0]);
+
                     }
                 }
 
-
             }
 
-            Touch FindTouchById(int id)
-            {
-                for (int i = 0; i < Input.touchCount; ++i)
+                Touch FindTouchById(int id)
                 {
-                    Touch t = Input.GetTouch(i);
-                    if (t.fingerId == id) return t;
-                }
+                    for (int i = 0; i < Input.touchCount; ++i)
+                    {
+                        Touch t = Input.GetTouch(i);
+                        if (t.fingerId == id) return t;
+                    }
 
-                return default(Touch);
+                    return default(Touch);
+                } // 터치 순서따라 finger id값 저장
             }
+
+        if(isRay) // 몬스터가 피격중일때
+        {
+            TestImage.color = Color.red;
+        }
+        if(!isRay) // 테스트용 나중에 지우기
+        {
+            TestImage.color = Color.white;
         }
     }
-
-
+ 
 }
 
