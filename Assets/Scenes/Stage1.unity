@@ -558,11 +558,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1131689669}
   Line: {fileID: 839213120}
-  speed: 6
+  speed: 4
   debugTest: {fileID: 406656549}
   lineRenderer: {fileID: 1131689673}
   lineDrawSpeed: 6
   TestImage: {fileID: 1450159272}
+  testtest: {fileID: 406656549}
 --- !u!212 &1131689671
 SpriteRenderer:
   m_ObjectHideFlags: 0
