@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     Vector3 previousPosition;
     Vector3 touchPosition;
     Vector2 touch2prePoisition;
-    Vector3 touchWorldPosition;
+    Vector3 lastPosition;
    //-------------------공격관련-------------------
    [Header("TouchAtk")]
     public LineRenderer lineRenderer;
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.touchCount > 0) // 첫 입력
         {
+            isTouch = true;
             touch1 = FindTouchById(0);
             if (FindTouchById(0).phase == TouchPhase.Began)
             {
@@ -130,6 +131,10 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
+             if(FindTouchById(1).phase == TouchPhase.Ended)
+            {
+                lastPosition = touch2prePoisition;
+            }
 
         }
 
@@ -139,9 +144,10 @@ public class PlayerController : MonoBehaviour
         {
             isAtk = false;
             isRay = false;
-            if (isRender) // 그렸던 라인을 지우는 과정
+            if (isRender && isTouch) // 그렸던 라인을 지우는 과정
             {
-                touchWorldPosition = Camera.main.ScreenToWorldPoint(touch2prePoisition);
+                isTouch = false;
+               Vector3 touchWorldPosition = Camera.main.ScreenToWorldPoint(lastPosition);
                 Player.transform.position = new Vector2(touchWorldPosition.x, touchWorldPosition.y);
                 isRender = false;
                 lineRenderer.enabled = false;
