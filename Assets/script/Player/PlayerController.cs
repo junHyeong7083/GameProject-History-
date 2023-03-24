@@ -18,14 +18,12 @@ public class PlayerController : MonoBehaviour
     Touch touch2; // 공격 터치
     Vector2 smoothedDirection;
     Vector3 previousPosition;
-    Vector3 touchPosition;
-    Vector2 touch2prePoisition;
     Vector3 lastPosition;
    //-------------------공격관련-------------------
    [Header("TouchAtk")]
     public LineRenderer lineRenderer;
-    public float lineDrawSpeed;
     Vector3 AtkRange; //
+    public static bool atkState = false;
 
     //-------------------사용할 컴포넌트-------------------
     EdgeCollider2D lineCollider; // 라인렌더러시 사용할 콜라이더
@@ -40,7 +38,6 @@ public class PlayerController : MonoBehaviour
 
     //---------------------Els--------------------------
     public Image TestImage;
-    public Text testtest;
     void Start()
     {
         lineCollider = Line.GetComponent<EdgeCollider2D>();
@@ -53,6 +50,7 @@ public class PlayerController : MonoBehaviour
         {
             isTouch = true;
             touch1 = FindTouchById(0);
+
             if (FindTouchById(0).phase == TouchPhase.Began)
             {
                 previousPosition = touch1.position;
@@ -62,10 +60,10 @@ public class PlayerController : MonoBehaviour
             {
                 if (!isAtk)
                 {
-                    touchPosition = touch1.position;
+                    Vector3 touchPosition = touch1.position;
                     Vector2 newDirection = (touchPosition - previousPosition).normalized;
                     float distance = Vector2.Distance(touchPosition, previousPosition);
-                    float mindistance = 3f;
+                    float mindistance = 3f; // 이 값이 높아지면 터치민감도 낮아짐
                     float smoothFactor = 0.5f; // 입력 방향 보정 계수
                     if (distance > mindistance)
                     {
@@ -76,7 +74,6 @@ public class PlayerController : MonoBehaviour
 
                 }
             }
-
             else if (FindTouchById(0).phase == TouchPhase.Stationary)
             {
                 Player.transform.Translate(Vector2.zero * speed * Time.deltaTime);
@@ -84,7 +81,7 @@ public class PlayerController : MonoBehaviour
             }
 
             touch2 = FindTouchById(1);
-            touch2prePoisition = FindTouchById(1).position;
+            Vector2 touch2prePoisition = FindTouchById(1).position;
 
              if (FindTouchById(1).phase == TouchPhase.Moved)
             {
@@ -101,11 +98,10 @@ public class PlayerController : MonoBehaviour
                     if (isRender)
                     {
                         // 중심점 옮기기
-                        float r = (Player.transform.localScale.x / 2) + 0.5f; // 반지름뒤 숫자를 수정하면됨
-                        Vector3 drag = AtkRange;
+                        float r = (Player.transform.localScale.x / 2) + 0.47f; // 반지름뒤 숫자를 수정하면됨
                         Vector3 center = Player.transform.position; // 중점
 
-                        float theta = Mathf.Atan2(drag.y - center.y, drag.x - center.x);
+                        float theta = Mathf.Atan2(AtkRange.y - center.y, AtkRange.x - center.x);
                         Vector3 edge = new Vector3(center.x + r * Mathf.Cos(theta), center.y + r * Mathf.Sin(theta));
 
                         Vector3[] positions = new Vector3[lineRenderer.positionCount];
@@ -117,7 +113,7 @@ public class PlayerController : MonoBehaviour
                         lineRenderer.SetPositions(positions);
 
                         #region RayCast
-                        float maxRaydistance = Vector3.Distance(edge, drag);
+                        float maxRaydistance = Vector3.Distance(edge, AtkRange);
                         Vector3 rayDir = (AtkRange - edge).normalized;
                         RaycastHit2D hit = Physics2D.Raycast(edge, rayDir, maxRaydistance);
                         if (hit == GameObject.FindGameObjectWithTag("Boss"))
@@ -135,12 +131,9 @@ public class PlayerController : MonoBehaviour
             {
                 lastPosition = touch2prePoisition;
             }
-
         }
 
-
-  
-        if (Input.touchCount == 0)
+        if (Input.touchCount == 0) // 수정해야할지도
         {
             isAtk = false;
             isRay = false;
@@ -168,10 +161,12 @@ public class PlayerController : MonoBehaviour
         if (isRay) // 몬스터가 피격중일때
         {
             TestImage.color = Color.red;
+            atkState = true;
         }
-        if (!isRay) // 테스트용 나중에 지우기
+        if (!isRay) 
         {
             TestImage.color = Color.white;
+            atkState = false;
         }
     }
 
