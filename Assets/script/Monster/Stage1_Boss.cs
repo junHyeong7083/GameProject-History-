@@ -38,7 +38,7 @@ public class Stage1_Boss : MonoBehaviour
         OverlabMixPattern();
         isOverlab = true;
 
-       pattern2.transform.position = new Vector3(-0.3f, 2f, 0);
+       pattern2.transform.position = new Vector3(-10f, 20f, 0);
         pattern2.transform.rotation = Quaternion.Euler(0, 0, 140f);
         StartCoroutine(Scp1_2_1());
     }
@@ -49,18 +49,24 @@ public class Stage1_Boss : MonoBehaviour
         float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 1) // 1초간 rotation.z 값 변경
         {
-            pattern2.transform.position += new Vector3(-0.05f * Time.deltaTime, 0, 0);
-            pattern2.transform.Rotate(0, 0, 4.5f * Time.deltaTime);
+            float backX = 2.5f;
+            float upY = 2f;
+            float RotateZ = 4.5f;
+            pattern2.transform.position += new Vector3(-backX * Time.deltaTime, upY * Time.deltaTime, 0);
+            pattern2.transform.Rotate(0, 0, RotateZ * Time.deltaTime);
             yield return null;
         }
 
         startTime = Time.time; // 시작 시간 재설정
         while (Time.time - startTime < 2.0f) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
         {
-            if(pattern2.transform.position.y  > -2)
+            if(pattern2.transform.position.y  > -12)
             {
-                pattern2.transform.position += new Vector3(1.0f * Time.deltaTime, -4 * 4 * Time.deltaTime, 0);
-                pattern2.transform.Rotate(0, 0, -70 *  4 * Time.deltaTime);
+                float frontX = 30f;
+                float downY = 130f;
+                float RotateZ = 90f;
+                pattern2.transform.position += new Vector3(frontX * Time.deltaTime, -downY * Time.deltaTime, 0);
+                pattern2.transform.Rotate(0, 0, -RotateZ *  4 * Time.deltaTime);
             }
   
 
@@ -70,7 +76,7 @@ public class Stage1_Boss : MonoBehaviour
         nextPtn1State = true;
         if(nextPtn1State)
         {
-            pattern2.transform.position = new Vector3(0.3f, -2.5f, 0);
+            pattern2.transform.position = new Vector3(4, -25f, 0);
             pattern2.transform.rotation = Quaternion.Euler(0, 0, 320f);
             StartCoroutine(Scp1_2_2());
         }
@@ -81,18 +87,24 @@ public class Stage1_Boss : MonoBehaviour
         float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 1) // 1초간 rotation.z 값 변경
         {
-            pattern2.transform.position += new Vector3(+0.05f * Time.deltaTime, 0, 0);
-            pattern2.transform.Rotate(0, 0, 4.5f * Time.deltaTime);
+            float backX = 2.5f;
+            float upY = 2f;
+            float RotateZ = 4.5f;
+            pattern2.transform.position += new Vector3(+backX * Time.deltaTime, -upY * Time.deltaTime, 0);
+            pattern2.transform.Rotate(0, 0, RotateZ * Time.deltaTime);
             yield return null;
         }
 
         startTime = Time.time; // 시작 시간 재설정
         while (Time.time - startTime < 2.0f) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
         {
-            if (pattern2.transform.position.y < 2)
+            if (pattern2.transform.position.y < 25f)
             {
-                pattern2.transform.position += new Vector3(-1.0f * Time.deltaTime, 4 * 4 * Time.deltaTime, 0);
-                pattern2.transform.Rotate(0, 0, -70 * 4 * Time.deltaTime);
+                float frontX = 30f;
+                float upY = 150f;
+                float RotateZ = 80;
+                pattern2.transform.position += new Vector3(-frontX * Time.deltaTime, upY * Time.deltaTime, 0);
+                pattern2.transform.Rotate(0, 0, -RotateZ * 4 * Time.deltaTime);
             }
 
 
@@ -113,13 +125,16 @@ public class Stage1_Boss : MonoBehaviour
 
         isOverlab = true;
         #region Pattern3 Setting Pos
-        pattern3_1.transform.position = new Vector3(PlayerPos.x - 1.3f, PlayerPos.y - f, 0);
+        float posX = 8f;
+        float posY = 10f;
+
+        pattern3_1.transform.position = new Vector3(PlayerPos.x  - posX, PlayerPos.y - posY, 0);
         pattern3_1.transform.eulerAngles = new Vector3(0, 0, 220);
 
-        pattern3_2.transform.position = new Vector3(0, Mathf.Round(PlayerPos.y - 1.3f), 0);
+        pattern3_2.transform.position = new Vector3(PlayerPos.x, PlayerPos.y - posY - 3f, 0);
         pattern3_2.transform.eulerAngles = new Vector3(0, 0, 270);
 
-        pattern3_3.transform.position = new Vector3(PlayerPos.x + 0.7f, PlayerPos.y - 1f, 0);
+        pattern3_3.transform.position = new Vector3(PlayerPos.x + posX, PlayerPos.y - posY, 0);
         pattern3_3.transform.eulerAngles = new Vector3(0, 0, 320);
         #endregion
         StartCoroutine(Scp1_3_1());
@@ -137,10 +152,10 @@ public class Stage1_Boss : MonoBehaviour
         float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 2) // 1초간 rotation.z 값 변경
         {
-             float backPos = 0.1f;
-            pattern3_1.transform.position += new Vector3(-backPos * Time.deltaTime, -backPos * Time.deltaTime, 0);
-            pattern3_2.transform.position += new Vector3(0, -backPos * Time.deltaTime, 0);
-            pattern3_3.transform.position += new Vector3(backPos * Time.deltaTime, -backPos * Time.deltaTime, 0);
+            float backPos = 1f;
+            pattern3_1.transform.position += new Vector3(-backPos * Time.deltaTime,-backPos * Time.deltaTime, 0);
+            pattern3_2.transform.position += new Vector3(0,-backPos * Time.deltaTime, 0);
+            pattern3_3.transform.position += new Vector3( backPos * Time.deltaTime,-backPos * Time.deltaTime, 0);
 
 
             yield return null;          
@@ -148,7 +163,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time;
         while (Time.time - startTime < 2) // 1초간 rotation.z 값 변경
         {
-            float speed = 5f;
+            float speed = 100f;
             pattern3_1.transform.position += new Vector3(speed * dir1.x * Time.deltaTime, speed * dir1.y * Time.deltaTime, 0);
             pattern3_2.transform.position += new Vector3(speed * dir2.x * Time.deltaTime, speed * dir2.y * Time.deltaTime, 0);
             pattern3_3.transform.position += new Vector3(speed * dir3.x * Time.deltaTime, speed * dir3.y * Time.deltaTime, 0);
@@ -168,9 +183,6 @@ public class Stage1_Boss : MonoBehaviour
     void Update()
     {
         PlayerPos = Player.transform.position;
-        Debug.Log(PlayerPos.x);
-        Debug.Log(+PlayerPos.y);
-
          if(PlayerController.atkState) // 공격상태이면
         {
             // 체력 감소하는로직
