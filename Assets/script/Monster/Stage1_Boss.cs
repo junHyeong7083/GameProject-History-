@@ -211,6 +211,12 @@ public class Stage1_Boss : MonoBehaviour
     {
         StartCoroutine(Scp1_4_Total());
     }
+
+
+
+
+
+
     #region Scp 1_4 패턴로직
     IEnumerator Scp1_4_Total()
     {
@@ -721,8 +727,6 @@ public class Stage1_Boss : MonoBehaviour
         StopCoroutine(Scp1_5_5());
     }
     #endregion
-
-
 
 
 
