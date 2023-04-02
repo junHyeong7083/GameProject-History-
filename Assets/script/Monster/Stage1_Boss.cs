@@ -211,12 +211,6 @@ public class Stage1_Boss : MonoBehaviour
     {
         StartCoroutine(Scp1_4_Total());
     }
-
-
-
-
-
-
     #region Scp 1_4 패턴로직
     IEnumerator Scp1_4_Total()
     {
@@ -301,7 +295,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3) 
         {
-            if(pattern4_1.transform.position.x < 25)
+            if(pattern4_1.transform.position.x < -30)
             {
                 float speed = 200f;
                 pattern4_1.transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
@@ -326,7 +320,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_2.transform.position.x > -25)
+            if (pattern4_2.transform.position.x > 30)
             {
                 float speed = 200f;
                 pattern4_2.transform.position += new Vector3(-speed * Time.deltaTime, 0, 0);
@@ -353,7 +347,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_3.transform.position.x < 25)
+            if (pattern4_3.transform.position.x < -30)
             {
                 float speed = 200f;
                 pattern4_3.transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
@@ -378,7 +372,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_4.transform.position.x > -25)
+            if (pattern4_4.transform.position.x > 30)
             {
                 float speed = 200f;
                 pattern4_4.transform.position += new Vector3(-speed * Time.deltaTime, 0, 0);
@@ -404,7 +398,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_5.transform.position.x < 25)
+            if (pattern4_5.transform.position.x < -30)
             {
                 float speed = 200f;
                 pattern4_5.transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
@@ -429,7 +423,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_6.transform.position.x > -25)
+            if (pattern4_6.transform.position.x > 30)
             {
                 float speed = 200f;
                 pattern4_6.transform.position += new Vector3(-speed * Time.deltaTime, 0, 0);
@@ -456,7 +450,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_7.transform.position.x < 25)
+            if (pattern4_7.transform.position.x < -30)
             {
                 float speed = 200f;
                 pattern4_7.transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
@@ -481,7 +475,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_8.transform.position.x > -25)
+            if (pattern4_8.transform.position.x > 30)
             {
                 float speed = 200f;
                 pattern4_8.transform.position += new Vector3(-speed * Time.deltaTime, 0, 0);
@@ -729,7 +723,8 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
 
 
-
+    // -20 ., 20
+     
     // Update is called once per frame
     void Update()
     {
