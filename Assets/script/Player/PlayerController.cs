@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     public GameObject Player;
     public GameObject Line;
     public float speed;
-    public Text debugTest;
     //-------------------이동관련-------------------
     [Header("TouchMoved")]
     Touch touch1; // 이동 터치
@@ -24,7 +23,15 @@ public class PlayerController : MonoBehaviour
     public LineRenderer lineRenderer;
     Vector3 AtkRange; //
     public static bool atkState = false;
+    //-------------------체력관련-------------------
+    public GameObject topHp;
+    public GameObject rightHp;
+    public GameObject bottomHp;
+    public GameObject leftHp;
 
+    public int Hp = 4;
+    bool isHit = false;
+    float hitCoolTime = 2f;
     //-------------------사용할 컴포넌트-------------------
     EdgeCollider2D lineCollider; // 라인렌더러시 사용할 콜라이더
     Rigidbody2D lineRigid;
@@ -37,12 +44,19 @@ public class PlayerController : MonoBehaviour
     bool isTouch = false;
 
     //---------------------Els--------------------------
-    public Image TestImage;
     void Start()
     {
         lineCollider = Line.GetComponent<EdgeCollider2D>();
         lineRigid = Line.GetComponent<Rigidbody2D>();
     }
+
+    public void DecreaseHp()
+    {
+        Hp--;
+    }
+
+
+
 
     void Update()
     {
@@ -133,7 +147,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.touchCount == 0) // 수정해야할지도
+        if (Input.touchCount == 0) 
         {
             isAtk = false;
             isRay = false;
@@ -160,14 +174,49 @@ public class PlayerController : MonoBehaviour
 
         if (isRay) // 몬스터가 피격중일때
         {
-            TestImage.color = Color.red;
             atkState = true;
         }
         if (!isRay) 
         {
-            TestImage.color = Color.white;
             atkState = false;
         }
+
+        if (Hp == 3)
+        {
+            topHp.SetActive(false);
+        }
+        if (Hp == 2)
+        {
+            rightHp.SetActive(false);
+        }
+        if (Hp == 1)
+        {
+            bottomHp.SetActive(false);
+        }
+        if (Hp == 0)
+        {
+            leftHp.SetActive(false);
+        }
+
+
+
+
+        if (hitCoolTime <= 3)
+        {
+            hitCoolTime += Time.deltaTime;
+        }
+        
+        
+        
+        if(isHit)
+        {
+            if(hitCoolTime >= 2)
+            {
+                DecreaseHp();
+                hitCoolTime = 0;
+            }
+        }
+
     }
 
 }

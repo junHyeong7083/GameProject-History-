@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
+using UnityEngine.SubsystemsImplementation;
 using UnityEngine.UI;
 
 
@@ -47,6 +49,22 @@ public class Stage1_Boss : MonoBehaviour
     GameObject pattern5_5;
     GameObject target_5;
     #endregion
+    // ----------------- Pattern6 -----------------
+    public GameObject Sword2;
+    #region Pattern6
+    GameObject pattern6_1;
+    GameObject pattern6_2;
+    #endregion
+    // ----------------- Pattern7 -----------------
+    GameObject pattern7_1;
+    GameObject pattern7_2;
+    GameObject pattern7_3;
+    GameObject pattern7_4;
+    GameObject pattern7_5;
+    GameObject pattern7_6;
+    GameObject pattern7_7;
+    GameObject pattern7_8;
+    GameObject pattern7_9;
     // ----------------- bool -----------------
     bool isOverlab = false;
     void Start()
@@ -54,6 +72,8 @@ public class Stage1_Boss : MonoBehaviour
         // 보스 현재 포지션 0, 2
         rigidbody2D = GetComponent<Rigidbody2D>();
         playerController = Player.GetComponent<PlayerController>();
+
+
 
     }
     void OverlabMixPattern()
@@ -67,7 +87,7 @@ public class Stage1_Boss : MonoBehaviour
         OverlabMixPattern();
         isOverlab = true;
 
-       Sword.transform.position = new Vector3(-10f, 20f, 0);
+        Sword.transform.position = new Vector3(-10f, 20f, 0);
         Sword.transform.rotation = Quaternion.Euler(0, 0, 140f);
         StartCoroutine(Scp1_2_1());
     }
@@ -500,7 +520,7 @@ public class Stage1_Boss : MonoBehaviour
             if(cnt  == 5)
             {
                 pattern5_1 = Instantiate(Gun.gameObject);       
-                pattern5_1.transform.position = new Vector3(-30, 44f, 0);
+                pattern5_1.transform.position = new Vector3(-35, 44f, 0);
                 pattern5_1.transform.eulerAngles = new Vector3(0, 0 ,0);
 
                target_1 = Instantiate(Target.gameObject);
@@ -509,7 +529,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 4)
             {
                 pattern5_2 = Instantiate(Gun.gameObject);
-                pattern5_2.transform.position = new Vector3(30f, 24f, 0);
+                pattern5_2.transform.position = new Vector3(35f, 24f, 0);
                 pattern5_2.transform.eulerAngles = new Vector3(0, 0, 0);
                 target_2 = Instantiate(Target.gameObject);
                 StartCoroutine(Scp1_5_2());
@@ -517,7 +537,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 3)
             {
                 pattern5_3 = Instantiate(Gun.gameObject);
-                pattern5_3.transform.position = new Vector3(-30f, 4f, 0);
+                pattern5_3.transform.position = new Vector3(-35f, 4f, 0);
                 pattern5_3.transform.eulerAngles = new Vector3(0, 0 - 0);
                 target_3 = Instantiate(Target.gameObject);
                 StartCoroutine(Scp1_5_3());
@@ -525,7 +545,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 2)
             {
                 pattern5_4 = Instantiate(Gun.gameObject);
-                pattern5_4.transform.position = new Vector3(30f, -24f, 0);
+                pattern5_4.transform.position = new Vector3(35f, -24f, 0);
                 pattern5_4.transform.eulerAngles = new Vector3(0, 0, 0);
                 target_4 = Instantiate(Target.gameObject);
                 StartCoroutine(Scp1_5_4());
@@ -533,7 +553,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 1)
             {
                 pattern5_5 = Instantiate(Gun.gameObject);
-                pattern5_5.transform.position = new Vector3(-30f, -44f, 0);
+                pattern5_5.transform.position = new Vector3(-35f, -44f, 0);
                 pattern5_5.transform.eulerAngles = new Vector3(0, 0 - 40f);
                 target_5 = Instantiate(Target.gameObject);
                 StartCoroutine(Scp1_5_5());
@@ -558,10 +578,10 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-
+        Transform bulletPosTransform = pattern5_1.transform.Find("BulletPos");
         GameObject bullet = Instantiate(Bullet.gameObject);
         bullet.SetActive(true);
-        bullet.transform.position = pattern5_1.transform.position;
+        bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_1.transform.rotation;
         float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_1.transform.position;
@@ -594,9 +614,10 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
+        Transform bulletPosTransform = pattern5_2.transform.Find("BulletPos");
         GameObject bullet = Instantiate(Bullet.gameObject);
         bullet.SetActive(true);
-        bullet.transform.position = pattern5_2.transform.position;
+        bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_2.transform.rotation;
         float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_2.transform.position;
@@ -627,12 +648,13 @@ public class Stage1_Boss : MonoBehaviour
             target_3.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
             yield return null;
         }
-        startTime = Time.time;
 
+        Transform bulletPosTransform= pattern5_3.transform.Find("BulletPos");
+        startTime = Time.time;
 
         GameObject bullet = Instantiate(Bullet.gameObject);
         bullet.SetActive(true);
-        bullet.transform.position = pattern5_3.transform.position;
+        bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_3.transform.rotation;
         float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_3.transform.position;
@@ -664,10 +686,11 @@ public class Stage1_Boss : MonoBehaviour
 
             yield return null;
         }
+        Transform bulletPosTransform = pattern5_4.transform.Find("BulletPos");
         startTime = Time.time;
         GameObject bullet = Instantiate(Bullet.gameObject);
         bullet.SetActive(true);
-        bullet.transform.position = pattern5_4.transform.position;
+        bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_4.transform.rotation;
         float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_4.transform.position;
@@ -701,9 +724,10 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
+        Transform bulletPosTransform = pattern5_5.transform.Find("BulletPos");
         GameObject bullet = Instantiate(Bullet.gameObject);
         bullet.SetActive(true);
-        bullet.transform.position = pattern5_5.transform.position;
+        bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_5.transform.rotation;
         float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_5.transform.position;
@@ -721,10 +745,368 @@ public class Stage1_Boss : MonoBehaviour
         StopCoroutine(Scp1_5_5());
     }
     #endregion
+    public void Scp1_6()
+    {
+        this.transform.position = new Vector3(0, 7, 0);
 
+        StartCoroutine(Scp1_6_1());
+    }
+    #region Scp 1_6 패턴로직
+    IEnumerator Scp1_6_1()
+    {
+        #region Pattern6_1 오브젝트 생성및 기본설정
+        pattern6_1 = Instantiate(Sword2.gameObject);
+        pattern6_1.transform.position = new Vector3(-10, 30, 0);
+        pattern6_1.transform.eulerAngles = new Vector3(0, 180, 180);
+        SpriteRenderer spritePattern6_1 = pattern6_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern6_1 = spritePattern6_1.color;
+        colorPattern6_1.a = 0f;
+        spritePattern6_1.color = colorPattern6_1;
+        #endregion
+        pattern6_1.SetActive(true);
 
+        #region Pattern6_2 오브젝트 생성및 기본설정
+        pattern6_2 = Instantiate(Sword2.gameObject);
+        pattern6_2.transform.position = new Vector3(10, 30, 0);
+        pattern6_2.transform.eulerAngles = new Vector3(0, 0, 180);
+        SpriteRenderer spritePattern6_2 = pattern6_2.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern6_2 = spritePattern6_2.color;
+        colorPattern6_2.a = 0f;
+        spritePattern6_2.color = colorPattern6_2;
+        #endregion
+        pattern6_2.SetActive(true);
+
+        float startTime = Time.time;
+        while(Time.time - startTime < 1f) 
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            colorPattern6_1.a = alpha;
+            spritePattern6_1.color = colorPattern6_1;
+
+            colorPattern6_2.a = alpha;
+            spritePattern6_2.color = colorPattern6_2;
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time - startTime<2) // 첫번째 애니메이션
+        {
+            float PosX = 7f;
+            float PosY = 5f;
+            float Speed = 160;
+            if (pattern6_1.transform.position.x > -4)
+            {
+                PosX = 0f;
+            }
+                if (pattern6_1.transform.position.y < 12)
+            {
+                PosY = 0f;
+                Speed = 0f;
+            }
+            pattern6_1.transform.eulerAngles += new Vector3(0, 0, -Speed * Time.deltaTime);
+            pattern6_1.transform.position += new Vector3(PosX * Time.deltaTime, -PosY * Time.deltaTime, 0);
+
+            if (Time.time - startTime < 2)
+            {
+                // 대기
+            }
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 2) // 두번째 애니메이션
+        {
+            float PosX = 7f;
+            float PosY = 5f;
+            float Speed = 160;
+            if (pattern6_2.transform.position.x < 4)
+            {
+                PosX = 0f;
+            }
+            if (pattern6_2.transform.position.y < 12)
+            {
+                PosY = 0f;
+                Speed = 0f;
+            }
+            pattern6_2.transform.eulerAngles += new Vector3(0, 0, -Speed * Time.deltaTime);
+            pattern6_2.transform.position += new Vector3(-PosX * Time.deltaTime, -PosY * Time.deltaTime, 0);
+
+            if (Time.time - startTime < 2)
+            {
+            }
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            colorPattern6_1.a = 1f -alpha;
+            spritePattern6_1.color = colorPattern6_1;
+
+            colorPattern6_2.a =1f -alpha;
+            spritePattern6_2.color = colorPattern6_2;
+            yield return null;
+        }
+        Destroy(pattern6_1);
+        Destroy(pattern6_2);
+    }
+    #endregion
     // -20 ., 20
-     
+    public void Scp1_7()
+    {
+        StartCoroutine(Scp1_7_1());
+    }
+    IEnumerator Scp1_7_1()
+    {
+        #region 초기세팅
+        pattern7_1 = Instantiate(Kunai.gameObject);
+        pattern7_1.transform.position = new Vector3(-28, -40, 0);
+        pattern7_1.transform.eulerAngles = new Vector3(0, 0, 270);
+        pattern7_1.SetActive(true);
+        SpriteRenderer spritePattern7_1 = pattern7_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_1 = spritePattern7_1.color;
+        colorPattern7_1.a = 0f;
+        spritePattern7_1.color = colorPattern7_1;
+
+        pattern7_2 = Instantiate(Kunai.gameObject);
+        pattern7_2.transform.position = new Vector3(-21, -40, 0);
+        pattern7_2.transform.eulerAngles = new Vector3(0, 0, 270);
+        pattern7_2.SetActive(true);
+        SpriteRenderer spritePattern7_2 = pattern7_2.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_2 = spritePattern7_2.color;
+        colorPattern7_2.a = 0f;
+        spritePattern7_2.color = colorPattern7_2;
+
+        pattern7_3 = Instantiate(Kunai.gameObject);
+        pattern7_3.transform.position = new Vector3(-14, -40, 0);
+        pattern7_3.transform.eulerAngles = new Vector3(0, 0, 270);
+        pattern7_3.SetActive(true);
+        SpriteRenderer spritePattern7_3 = pattern7_3.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_3 = spritePattern7_3.color;
+        colorPattern7_3.a = 0f;
+        spritePattern7_3.color = colorPattern7_3;
+
+
+        pattern7_4 = Instantiate(Kunai.gameObject);
+        pattern7_4.transform.position = new Vector3(-7, -40, 0);
+        pattern7_4.transform.eulerAngles = new Vector3(0, 0, 270);
+        pattern7_4.SetActive(true);
+        SpriteRenderer spritePattern7_4 = pattern7_4.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_4 = spritePattern7_4.color;
+        colorPattern7_4.a = 0f;
+        spritePattern7_4.color = colorPattern7_4;
+
+        pattern7_5 = Instantiate(Kunai.gameObject);
+        pattern7_5.transform.position = new Vector3(0, -40, 0);
+        pattern7_5.transform.eulerAngles = new Vector3(0, 0, 270);
+        pattern7_5.SetActive(true);
+        SpriteRenderer spritePattern7_5 = pattern7_5.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_5 = spritePattern7_5.color;
+        colorPattern7_5.a = 0f;
+        spritePattern7_5.color = colorPattern7_5;
+
+        pattern7_6 = Instantiate(Kunai.gameObject);
+        pattern7_6.transform.position = new Vector3(7, -40, 0);
+        pattern7_6.transform.eulerAngles = new Vector3(0, 0, 270);
+        pattern7_6.SetActive(true);
+        SpriteRenderer spritePattern7_6 = pattern7_6.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_6 = spritePattern7_6.color;
+        colorPattern7_6.a = 0f;
+        spritePattern7_6.color = colorPattern7_6;
+
+        pattern7_7 = Instantiate(Kunai.gameObject);
+        pattern7_7.transform.position = new Vector3(14, -40, 0);
+        pattern7_7.transform.eulerAngles = new Vector3(0, 0, 270);
+        pattern7_7.SetActive(true);
+        SpriteRenderer spritePattern7_7 = pattern7_7.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_7 = spritePattern7_7.color;
+        colorPattern7_7.a = 0f;
+        spritePattern7_7.color = colorPattern7_7;
+
+        pattern7_8 = Instantiate(Kunai.gameObject);
+        pattern7_8.transform.position = new Vector3(21, -40, 0);
+        pattern7_8.transform.eulerAngles = new Vector3(0, 0, 270);
+        pattern7_8.SetActive(true);
+        SpriteRenderer spritePattern7_8 = pattern7_8.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_8 = spritePattern7_8.color;
+        colorPattern7_8.a = 0f;
+        spritePattern7_8.color = colorPattern7_8;
+
+        pattern7_9 = Instantiate(Kunai.gameObject);
+        pattern7_9.transform.position = new Vector3(28, -40, 0);
+        pattern7_9.transform.eulerAngles = new Vector3(0, 0, 270);
+        pattern7_9.SetActive(true);
+        SpriteRenderer spritePattern7_9 = pattern7_9.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_9 = spritePattern7_9.color;
+        colorPattern7_9.a = 0f;
+        spritePattern7_9.color = colorPattern7_9;
+        #endregion
+        float startTime = Time.time;
+        while(Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            colorPattern7_1.a = alpha;
+            spritePattern7_1.color = colorPattern7_1;
+
+            colorPattern7_2.a = alpha;
+            spritePattern7_2.color = colorPattern7_2;
+
+            colorPattern7_3.a = alpha;
+            spritePattern7_3.color = colorPattern7_3;
+
+            colorPattern7_4.a = alpha;
+            spritePattern7_4.color = colorPattern7_4;
+
+            colorPattern7_5.a = alpha;
+            spritePattern7_5.color = colorPattern7_5;
+
+            colorPattern7_6.a = alpha;
+            spritePattern7_6.color = colorPattern7_6;
+
+            colorPattern7_7.a = alpha;
+            spritePattern7_7.color = colorPattern7_7;
+
+            colorPattern7_8.a = alpha;
+            spritePattern7_8.color = colorPattern7_8;
+
+            colorPattern7_9.a = alpha;
+            spritePattern7_9.color = colorPattern7_9;
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time - startTime <2)
+        {
+            float totalSpeed = 100f;
+            float speed1 = totalSpeed;
+            float speed2 = totalSpeed;
+            float speed3 = totalSpeed;
+            float speed4 = totalSpeed;
+            float speed5 = totalSpeed;
+            float speed6 = totalSpeed;
+            float speed7 = totalSpeed;
+            float speed8 = totalSpeed;
+            float speed9 = totalSpeed;
+            if (Time.time - startTime > 0.1f)
+            {
+                pattern7_1.transform.position += new Vector3(0, speed1 * Time.deltaTime, 0);
+                if (pattern7_1.transform.position.y >= 50)
+                {
+                    speed1 = 0;
+                    pattern7_1.transform.position = new Vector3(-28, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.2f)
+            {
+                pattern7_2.transform.position += new Vector3(0, speed2 * Time.deltaTime, 0);
+                if (pattern7_2.transform.position.y >= 50)
+                {
+                    speed2 = 0;
+                    pattern7_2.transform.position = new Vector3(-21, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.3f)
+            {
+                pattern7_3.transform.position += new Vector3(0, speed3 * Time.deltaTime, 0);
+                if (pattern7_3.transform.position.y >= 50)
+                {
+                    speed3 = 0;
+                    pattern7_3.transform.position = new Vector3(-14, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.4f)
+            {
+                pattern7_4.transform.position += new Vector3(0, speed4 * Time.deltaTime, 0);
+                if (pattern7_4.transform.position.y >= 50)
+                {
+                    speed4 = 0;
+                    pattern7_4.transform.position = new Vector3(-7, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.5f)
+            {
+                pattern7_5.transform.position += new Vector3(0, speed5 * Time.deltaTime, 0);
+                if (pattern7_5.transform.position.y >= 50)
+                {
+                    speed5 = 0;
+                    pattern7_5.transform.position = new Vector3(0, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.6f)
+            {
+                pattern7_6.transform.position += new Vector3(0, speed6 * Time.deltaTime, 0);
+                if (pattern7_6.transform.position.y >= 50)
+                {
+                    speed6 = 0;
+                    pattern7_6.transform.position = new Vector3(7, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.7f)
+            {
+                pattern7_7.transform.position += new Vector3(0, speed7 * Time.deltaTime, 0);
+                if (pattern7_7.transform.position.y >= 50)
+                {
+                    speed7 = 0;
+                    pattern7_7.transform.position = new Vector3(14, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.8f)
+            {
+                pattern7_8.transform.position += new Vector3(0, speed8 * Time.deltaTime, 0);
+                if (pattern7_8.transform.position.y >= 50)
+                {
+                    speed8 = 0;
+                    pattern7_8.transform.position = new Vector3(21, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.9f)
+            {
+                pattern7_9.transform.position += new Vector3(0, speed9 * Time.deltaTime, 0);
+                if (pattern7_9.transform.position.y >= 50)
+                {
+                    speed9 = 0;
+                    pattern7_9.transform.position = new Vector3(28, 50, 0);
+                }
+            }
+
+
+
+            yield return null;
+
+        }
+        startTime = Time.time;
+        while(Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            colorPattern7_1.a = 1f - alpha;
+            spritePattern7_1.color = colorPattern7_1;
+
+            colorPattern7_2.a = 1f - alpha;
+            spritePattern7_2.color = colorPattern7_2;
+
+            colorPattern7_3.a = 1f - alpha;
+            spritePattern7_3.color = colorPattern7_3;
+
+            colorPattern7_4.a = 1f - alpha;
+            spritePattern7_4.color = colorPattern7_4;
+
+            colorPattern7_5.a = 1f - alpha;
+            spritePattern7_5.color = colorPattern7_5;
+
+            colorPattern7_6.a = 1f - alpha;
+            spritePattern7_6.color = colorPattern7_6;
+
+            colorPattern7_7.a = 1f - alpha;
+            spritePattern7_7.color = colorPattern7_7;
+
+            colorPattern7_8.a = 1f - alpha;
+            spritePattern7_8.color = colorPattern7_8;
+
+            colorPattern7_9.a = 1f - alpha;
+            spritePattern7_9.color = colorPattern7_9;
+
+            yield return null;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
