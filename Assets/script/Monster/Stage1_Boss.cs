@@ -12,6 +12,8 @@ public class Stage1_Boss : MonoBehaviour
     private PlayerController playerController;
     public GameObject Player;
     Vector3 PlayerPos;
+    Camera cam;
+    Vector3 cameraOriginalPos;
     // ----------------- Pattern2 -----------------
     bool nextPtn1State = false;
     public GameObject Sword;
@@ -73,7 +75,8 @@ public class Stage1_Boss : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         playerController = Player.GetComponent<PlayerController>();
 
-
+        cam = Camera.main;
+        cameraOriginalPos = cam.transform.position;
 
     }
     void OverlabMixPattern()
@@ -81,6 +84,20 @@ public class Stage1_Boss : MonoBehaviour
         // Rand써서 오버랩가능한 패턴 섞기
     }
 
+
+    IEnumerator CameraShaking(float duration, float magnitude)
+    {
+        float timer = 0;
+        while (timer <= duration)
+        {
+            cam.transform.localPosition = Random.insideUnitSphere * magnitude + cameraOriginalPos;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        cam.transform.localPosition = cameraOriginalPos;
+
+    } // 카메라 쉐이킹
 
     public void Scp1_2()
     {
@@ -515,15 +532,15 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_5_total()
     {
         int cnt = 5;
-        while(cnt > 0)
+        while (cnt > 0)
         {
-            if(cnt  == 5)
+            if (cnt == 5)
             {
-                pattern5_1 = Instantiate(Gun.gameObject);       
+                pattern5_1 = Instantiate(Gun.gameObject);
                 pattern5_1.transform.position = new Vector3(-35, 44f, 0);
-                pattern5_1.transform.eulerAngles = new Vector3(0, 0 ,0);
+                pattern5_1.transform.eulerAngles = new Vector3(0, 0, 0);
 
-               target_1 = Instantiate(Target.gameObject);
+                target_1 = Instantiate(Target.gameObject);
                 StartCoroutine(Scp1_5_1());
             }
             if (cnt == 4)
@@ -567,7 +584,7 @@ public class Stage1_Boss : MonoBehaviour
         pattern5_1.SetActive(true);
         target_1.SetActive(true);
         float startTime = Time.time; // 시작 시간 저장
-        while(Time.time - startTime < 3)
+        while (Time.time - startTime < 3)
         {
             Vector3 direction = PlayerPos - pattern5_1.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
@@ -585,9 +602,11 @@ public class Stage1_Boss : MonoBehaviour
         bullet.transform.rotation = pattern5_1.transform.rotation;
         float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_1.transform.position;
+        StartCoroutine(CameraShaking(0.1f, 0.5f));
+
         while (Time.time - startTime < 2)
         {
-            if(Time.time - startTime < 1.5f)
+            if (Time.time - startTime < 1.5f)
                 Destroy(target_1);
 
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
@@ -621,6 +640,7 @@ public class Stage1_Boss : MonoBehaviour
         bullet.transform.rotation = pattern5_2.transform.rotation;
         float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_2.transform.position;
+        StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
         {
             if (Time.time - startTime < 1.5f)
@@ -649,7 +669,7 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
 
-        Transform bulletPosTransform= pattern5_3.transform.Find("BulletPos");
+        Transform bulletPosTransform = pattern5_3.transform.Find("BulletPos");
         startTime = Time.time;
 
         GameObject bullet = Instantiate(Bullet.gameObject);
@@ -658,6 +678,7 @@ public class Stage1_Boss : MonoBehaviour
         bullet.transform.rotation = pattern5_3.transform.rotation;
         float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_3.transform.position;
+        StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
         {
             if (Time.time - startTime < 1.5f)
@@ -694,6 +715,7 @@ public class Stage1_Boss : MonoBehaviour
         bullet.transform.rotation = pattern5_4.transform.rotation;
         float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_4.transform.position;
+        StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
         {
             if (Time.time - startTime < 1.5f)
@@ -731,6 +753,7 @@ public class Stage1_Boss : MonoBehaviour
         bullet.transform.rotation = pattern5_5.transform.rotation;
         float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_5.transform.position;
+        StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
         {
             if (Time.time - startTime < 1.5f)
