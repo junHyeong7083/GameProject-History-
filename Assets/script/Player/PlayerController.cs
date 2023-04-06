@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     Vector3 AtkRange; //
     public static bool atkState = false;
     //-------------------체력관련-------------------
+    [Header("PlayerHP")]
     public GameObject topHp;
     public GameObject rightHp;
     public GameObject bottomHp;

@@ -4,6 +4,7 @@ using System.Drawing;
 using UnityEngine;
 using UnityEngine.SubsystemsImplementation;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 
 public class Stage1_Boss : MonoBehaviour
@@ -57,6 +58,7 @@ public class Stage1_Boss : MonoBehaviour
     GameObject pattern6_1;
     GameObject pattern6_2;
     #endregion
+    Vector3 dir;
     // ----------------- Pattern7 -----------------
     GameObject pattern7_1;
     GameObject pattern7_2;
@@ -67,6 +69,17 @@ public class Stage1_Boss : MonoBehaviour
     GameObject pattern7_7;
     GameObject pattern7_8;
     GameObject pattern7_9;
+    // ----------------- Pattern8 -----------------
+    public GameObject Bow;
+    public GameObject arrow;
+    GameObject pattern8_1;
+    GameObject pattern8_2;
+    GameObject pattern8_3;
+
+    GameObject arrow1;
+    GameObject arrow2;
+    GameObject arrow3;
+
     // ----------------- bool -----------------
     bool isOverlab = false;
     void Start()
@@ -594,7 +607,9 @@ public class Stage1_Boss : MonoBehaviour
             target_1.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
             yield return null;
         }
+
         startTime = Time.time;
+
         Transform bulletPosTransform = pattern5_1.transform.Find("BulletPos");
         GameObject bullet = Instantiate(Bullet.gameObject);
         bullet.SetActive(true);
@@ -606,9 +621,6 @@ public class Stage1_Boss : MonoBehaviour
 
         while (Time.time - startTime < 2)
         {
-            if (Time.time - startTime < 1.5f)
-                Destroy(target_1);
-
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
             yield return null;
         }
@@ -621,12 +633,17 @@ public class Stage1_Boss : MonoBehaviour
         pattern5_2.SetActive(true);
         target_2.SetActive(true);
         float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer before_Sprite = target_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color before_Color = before_Sprite.color;
+        before_Color.a = 0;
         while (Time.time - startTime < 3)
         {
             Vector3 direction = PlayerPos - pattern5_2.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             pattern5_2.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
 
+            before_Sprite.color = before_Color;
             target_2.transform.position = PlayerPos;
             target_2.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
 
@@ -643,9 +660,6 @@ public class Stage1_Boss : MonoBehaviour
         StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
         {
-            if (Time.time - startTime < 1.5f)
-                Destroy(target_2);
-
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
             yield return null;
         }
@@ -658,12 +672,18 @@ public class Stage1_Boss : MonoBehaviour
         pattern5_3.SetActive(true);
         target_3.SetActive(true);
         float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer before_Sprite = target_2.GetComponent<SpriteRenderer>();
+        UnityEngine.Color before_Color = before_Sprite.color;
+        before_Color.a = 0;
+
         while (Time.time - startTime < 3)
         {
             Vector3 direction = PlayerPos - pattern5_3.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             pattern5_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
 
+            before_Sprite.color = before_Color;
             target_3.transform.position = PlayerPos;
             target_3.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
             yield return null;
@@ -681,9 +701,6 @@ public class Stage1_Boss : MonoBehaviour
         StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
         {
-            if (Time.time - startTime < 1.5f)
-                Destroy(target_3);
-
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
             yield return null;
         }
@@ -696,12 +713,18 @@ public class Stage1_Boss : MonoBehaviour
         pattern5_4.SetActive(true);
         target_4.SetActive(true);
         float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer before_Sprite = target_3.GetComponent<SpriteRenderer>();
+        UnityEngine.Color before_Color = before_Sprite.color;
+        before_Color.a = 0;
+
         while (Time.time - startTime < 3)
         {
             Vector3 direction = PlayerPos - pattern5_4.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             pattern5_4.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
 
+            before_Sprite.color = before_Color ;
             target_4.transform.position = PlayerPos;
             target_4.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
 
@@ -718,9 +741,6 @@ public class Stage1_Boss : MonoBehaviour
         StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
         {
-            if (Time.time - startTime < 1.5f)
-                Destroy(target_4);
-
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
 
             yield return null;
@@ -734,15 +754,24 @@ public class Stage1_Boss : MonoBehaviour
         pattern5_5.SetActive(true);
         target_5.SetActive(true);
         float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer before_Sprite = target_4.GetComponent<SpriteRenderer>();
+        UnityEngine.Color before_Color = before_Sprite.color;
+        before_Color.a = 0;
+
         while (Time.time - startTime < 3)
         {
             Vector3 direction = PlayerPos - pattern5_5.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             pattern5_5.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
 
-            target_5.transform.position = PlayerPos;
-            target_5.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
+            before_Sprite.color = before_Color;
+            if (Time.time - startTime < 0.7) // 조준점이 커지는 시간
+            {
+                target_5.transform.position = PlayerPos;
+                target_5.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
 
+            }
             yield return null;
         }
         startTime = Time.time;
@@ -757,10 +786,15 @@ public class Stage1_Boss : MonoBehaviour
         while (Time.time - startTime < 2)
         {
             if (Time.time - startTime < 1.5f)
-                Destroy(target_5);
+            {
+                Destroy(target_1);
+                Destroy(target_2);
+                Destroy(target_3);
+                Destroy(target_4);
+            } // 조준점 삭제
 
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
-
+            Destroy(target_5);
             yield return null;
         }
         Destroy(pattern5_5);
@@ -779,7 +813,7 @@ public class Stage1_Boss : MonoBehaviour
     {
         #region Pattern6_1 오브젝트 생성및 기본설정
         pattern6_1 = Instantiate(Sword2.gameObject);
-        pattern6_1.transform.position = new Vector3(-10, 30, 0);
+        pattern6_1.transform.position = new Vector3(-15, 20, 0);
         pattern6_1.transform.eulerAngles = new Vector3(0, 180, 180);
         SpriteRenderer spritePattern6_1 = pattern6_1.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern6_1 = spritePattern6_1.color;
@@ -790,7 +824,7 @@ public class Stage1_Boss : MonoBehaviour
 
         #region Pattern6_2 오브젝트 생성및 기본설정
         pattern6_2 = Instantiate(Sword2.gameObject);
-        pattern6_2.transform.position = new Vector3(10, 30, 0);
+        pattern6_2.transform.position = new Vector3(15, 20, 0);
         pattern6_2.transform.eulerAngles = new Vector3(0, 0, 180);
         SpriteRenderer spritePattern6_2 = pattern6_2.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern6_2 = spritePattern6_2.color;
@@ -811,50 +845,37 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-        while(Time.time - startTime<2) // 첫번째 애니메이션
+        Vector3 dir = Vector3.zero;
+        float RotateSpeed = 50;
+        float MoveSpeed = 60f;
+        while (Time.time - startTime<2) // 첫번째 애니메이션
         {
-            float PosX = 7f;
-            float PosY = 5f;
-            float Speed = 160;
-            if (pattern6_1.transform.position.x > -4)
+            if(Time.time - startTime < 1)
             {
-                PosX = 0f;
+                 dir = (PlayerPos - pattern6_1.transform.position).normalized;
             }
-                if (pattern6_1.transform.position.y < 12)
-            {
-                PosY = 0f;
-                Speed = 0f;
-            }
-            pattern6_1.transform.eulerAngles += new Vector3(0, 0, -Speed * Time.deltaTime);
-            pattern6_1.transform.position += new Vector3(PosX * Time.deltaTime, -PosY * Time.deltaTime, 0);
+            pattern6_1.transform.eulerAngles += new Vector3(0, 0, -RotateSpeed* 70 * Time.deltaTime);
 
-            if (Time.time - startTime < 2)
+            if (Time.time - startTime > 1)
             {
-                // 대기
+                pattern6_1.transform.position += dir * MoveSpeed*Time.deltaTime;
             }
             yield return null;
         }
 
         startTime = Time.time;
-        while (Time.time - startTime < 2) // 두번째 애니메이션
+        while (Time.time - startTime < 3.0f) // 두번째 애니메이션
         {
-            float PosX = 7f;
-            float PosY = 5f;
-            float Speed = 160;
-            if (pattern6_2.transform.position.x < 4)
+            if (Time.time - startTime < 1)
             {
-                PosX = 0f;
+                dir = (PlayerPos - pattern6_2.transform.position).normalized;
             }
-            if (pattern6_2.transform.position.y < 12)
-            {
-                PosY = 0f;
-                Speed = 0f;
-            }
-            pattern6_2.transform.eulerAngles += new Vector3(0, 0, -Speed * Time.deltaTime);
-            pattern6_2.transform.position += new Vector3(-PosX * Time.deltaTime, -PosY * Time.deltaTime, 0);
+            pattern6_2.transform.eulerAngles += new Vector3(0, 0, +RotateSpeed * 70 * Time.deltaTime);
+            pattern6_1.transform.eulerAngles += new Vector3(0, 0, -RotateSpeed * 70 * Time.deltaTime);
 
-            if (Time.time - startTime < 2)
+            if (1<Time.time - startTime  && Time.time - startTime < 2)
             {
+                pattern6_2.transform.position += dir * MoveSpeed * Time.deltaTime;
             }
             yield return null;
         }
@@ -878,6 +899,7 @@ public class Stage1_Boss : MonoBehaviour
     {
         StartCoroutine(Scp1_7_1());
     }
+    #region Scp 1_7 패턴로직
     IEnumerator Scp1_7_1()
     {
         #region 초기세팅
@@ -1130,6 +1152,159 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
     }
+    #endregion
+    public void Scp1_8()
+    {
+        StartCoroutine(Scp1_8_Pattern());
+    }
+
+    IEnumerator Scp1_8_Pattern()
+    {
+        #region 초기세팅 위치, 각도, 투명도0
+        pattern8_1 = Instantiate(Bow.gameObject);
+        pattern8_2 = Instantiate(Bow.gameObject);
+        pattern8_3 = Instantiate(Bow.gameObject);
+
+        pattern8_1.SetActive(true);
+        pattern8_2.SetActive(true);
+        pattern8_3.SetActive(true);
+
+        pattern8_1.transform.position = new Vector3(-25, -40, 0);
+        pattern8_1.transform.eulerAngles = new Vector3(0, 0, 45);
+
+        pattern8_2.transform.position = new Vector3(0, -50, 0);
+        pattern8_2.transform.eulerAngles = new Vector3(0, 0, 90);
+
+        pattern8_3.transform.position = new Vector3(25, -41, 0);
+        pattern8_3.transform.eulerAngles = new Vector3(0, 0, 135);
+
+        SpriteRenderer pattern1_sprite = pattern8_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer pattern2_sprite = pattern8_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer pattern3_sprite = pattern8_3.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color pattern1_color = pattern1_sprite.color;
+        UnityEngine.Color pattern2_color = pattern2_sprite.color;
+        UnityEngine.Color pattern3_color = pattern3_sprite.color;
+
+        pattern1_color.a = 0f;
+        pattern2_color.a = 0f;
+        pattern3_color.a = 0f;
+
+        pattern1_sprite.color = pattern1_color;
+        pattern2_sprite.color = pattern2_color;
+        pattern3_sprite.color = pattern3_color;
+
+        arrow1 = Instantiate(arrow.gameObject);
+        arrow2 = Instantiate(arrow.gameObject);
+        arrow3 = Instantiate(arrow.gameObject);
+
+        arrow1.SetActive(true);
+        arrow2.SetActive(true);
+        arrow3.SetActive(true);
+
+        arrow1.transform.position = new Vector3(0, -44, 0);
+        arrow1.transform.eulerAngles = new Vector3(0, 0, 90);
+
+        arrow2.transform.position = new Vector3(-20, -35, 0);
+        arrow2.transform.eulerAngles = new Vector3(0, 0, 45);
+
+        arrow3.transform.position = new Vector3(20, -35, 0);
+        arrow3.transform.eulerAngles = new Vector3(0, 0, 135);
+
+        SpriteRenderer arrow1_sprite = arrow1.GetComponent<SpriteRenderer>();
+        SpriteRenderer arrow2_sprite = arrow2.GetComponent<SpriteRenderer>();
+        SpriteRenderer arrow3_sprite = arrow3.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color arrow1_color = arrow1_sprite.color;
+        UnityEngine.Color arrow2_color = arrow2_sprite.color;
+        UnityEngine.Color arrow3_color = arrow3_sprite.color;
+
+        arrow1_color.a = 0f;
+        arrow2_color.a = 0f;
+        arrow3_color.a = 0f;
+
+        arrow1_sprite.color = arrow1_color;
+        arrow2_sprite.color = arrow2_color;
+        arrow3_sprite.color = arrow3_color;
+
+        int bowCnt = 1;
+        #endregion
+        float startTime = Time.time;
+        while(Time.time - startTime < 3)
+        {
+            
+            if(Time.time - startTime > 0.75f && bowCnt == 1)
+            {
+                arrow1.transform.position += new Vector3(0, -2f, 0); // 활 위치 변경
+                arrow2.transform.position += new Vector3(-1.75f, -1.75f, 0);
+                arrow3.transform.position += new Vector3(1.75f, -1.75f, 0);
+                bowCnt++;
+            }
+            if (Time.time - startTime > 1.5f   && bowCnt == 2)
+            {
+                arrow1.transform.position += new Vector3(0, -2f, 0); // 활 위치 변경
+                arrow2.transform.position += new Vector3(-1.75f, -1.75f, 0);
+                arrow3.transform.position += new Vector3(1.75f, -1.75f, 0);
+                bowCnt++;
+            }
+            if (Time.time - startTime > 2.25f && bowCnt == 3)
+            {
+                arrow1.transform.position += new Vector3(0, -2f, 0); // 활 위치 변경
+                arrow2.transform.position += new Vector3(-1.75f, -1.75f, 0);
+                arrow3.transform.position += new Vector3(1.75f, -1.75f, 0);
+                bowCnt++;
+            }
+            if (Time.time - startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1f;
+                pattern1_color.a = alpha;
+                pattern2_color.a = alpha;
+                pattern3_color.a = alpha;
+
+                arrow1_color.a = alpha;
+                arrow2_color.a = alpha;
+                arrow3_color.a = alpha;
+
+                pattern1_sprite.color = pattern1_color;
+                pattern2_sprite.color = pattern2_color;
+                pattern3_sprite.color = pattern3_color;
+
+                arrow1_sprite.color = arrow1_color;
+                arrow2_sprite.color = arrow2_color;
+                arrow3_sprite.color = arrow3_color;
+            }
+            yield return null;
+        }
+
+        startTime = Time.time;
+
+        Vector3 arrow1Dir = (Vector3.zero - arrow1.transform.position).normalized;
+        Vector3 arrow2Dir = (Vector3.zero - arrow2.transform.position).normalized;
+        Vector3 arrow3Dir = (Vector3.zero - arrow3.transform.position).normalized;
+        float bowSpeed = 150f;
+        while (Time.time - startTime < 2)
+        {
+            //    bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
+            arrow1.GetComponent<Rigidbody2D>().velocity = arrow1Dir * bowSpeed;
+            arrow2.GetComponent<Rigidbody2D>().velocity = arrow2Dir * bowSpeed;
+            arrow3.GetComponent<Rigidbody2D>().velocity = arrow3Dir * bowSpeed;
+            if (Time.time - startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1f;
+                pattern1_color.a = 1f - alpha;
+                pattern2_color.a = 1f - alpha;
+                pattern3_color.a = 1f - alpha;
+
+                pattern1_sprite.color = pattern1_color;
+                pattern2_sprite.color = pattern2_color;
+                pattern3_sprite.color = pattern3_color;
+            }
+
+            yield return null;
+        }
+    }
+
+
     // Update is called once per frame
     void Update()
     {
