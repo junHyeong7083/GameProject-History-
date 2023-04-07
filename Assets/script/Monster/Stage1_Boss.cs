@@ -79,7 +79,11 @@ public class Stage1_Boss : MonoBehaviour
     GameObject arrow1;
     GameObject arrow2;
     GameObject arrow3;
-
+    // ----------------- Pattern8_1 -----------------
+    GameObject target8_1;
+    GameObject arrow8_1;
+    GameObject arrow8_2;
+    GameObject arrow8_3;
     // ----------------- bool -----------------
     bool isOverlab = false;
     void Start()
@@ -1021,7 +1025,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time;
         while(Time.time - startTime <2)
         {
-            float totalSpeed = 100f;
+            float totalSpeed = 200f;
             float speed1 = totalSpeed;
             float speed2 = totalSpeed;
             float speed3 = totalSpeed;
@@ -1151,13 +1155,26 @@ public class Stage1_Boss : MonoBehaviour
 
             yield return null;
         }
+
+        #region 삭제
+        Destroy(pattern7_1);
+        Destroy(pattern7_2);
+        Destroy(pattern7_3);
+        Destroy(pattern7_4);
+        Destroy(pattern7_5);
+        Destroy(pattern7_6);
+        Destroy(pattern7_7);
+        Destroy(pattern7_8);
+        Destroy(pattern7_9);
+        #endregion
+
     }
     #endregion
     public void Scp1_8()
     {
         StartCoroutine(Scp1_8_Pattern());
     }
-
+    #region Scp 1_8 패턴로직
     IEnumerator Scp1_8_Pattern()
     {
         #region 초기세팅 위치, 각도, 투명도0
@@ -1203,13 +1220,13 @@ public class Stage1_Boss : MonoBehaviour
         arrow3.SetActive(true);
 
         arrow1.transform.position = new Vector3(0, -44, 0);
-        arrow1.transform.eulerAngles = new Vector3(0, 0, 90);
+        arrow1.transform.eulerAngles = new Vector3(0, 0, 180);
 
         arrow2.transform.position = new Vector3(-20, -35, 0);
-        arrow2.transform.eulerAngles = new Vector3(0, 0, 45);
+        arrow2.transform.eulerAngles = new Vector3(0, 0, 135);
 
         arrow3.transform.position = new Vector3(20, -35, 0);
-        arrow3.transform.eulerAngles = new Vector3(0, 0, 135);
+        arrow3.transform.eulerAngles = new Vector3(0, 0, 225);
 
         SpriteRenderer arrow1_sprite = arrow1.GetComponent<SpriteRenderer>();
         SpriteRenderer arrow2_sprite = arrow2.GetComponent<SpriteRenderer>();
@@ -1233,21 +1250,21 @@ public class Stage1_Boss : MonoBehaviour
         while(Time.time - startTime < 3)
         {
             
-            if(Time.time - startTime > 0.75f && bowCnt == 1)
+            if(Time.time - startTime > 0.7f && bowCnt == 1)
             {
                 arrow1.transform.position += new Vector3(0, -2f, 0); // 활 위치 변경
                 arrow2.transform.position += new Vector3(-1.75f, -1.75f, 0);
                 arrow3.transform.position += new Vector3(1.75f, -1.75f, 0);
                 bowCnt++;
             }
-            if (Time.time - startTime > 1.5f   && bowCnt == 2)
+            if (Time.time - startTime > 1.4f   && bowCnt == 2)
             {
                 arrow1.transform.position += new Vector3(0, -2f, 0); // 활 위치 변경
                 arrow2.transform.position += new Vector3(-1.75f, -1.75f, 0);
                 arrow3.transform.position += new Vector3(1.75f, -1.75f, 0);
                 bowCnt++;
             }
-            if (Time.time - startTime > 2.25f && bowCnt == 3)
+            if (Time.time - startTime > 2.1f && bowCnt == 3)
             {
                 arrow1.transform.position += new Vector3(0, -2f, 0); // 활 위치 변경
                 arrow2.transform.position += new Vector3(-1.75f, -1.75f, 0);
@@ -1303,9 +1320,164 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
     }
+    #endregion
+    public void Scp1_8_1()
+    {
+        StartCoroutine(Scp1_8_1_Pattern());
+    }
+    #region Scp1_8_1 패턴로직
+    IEnumerator Scp1_8_1_Pattern()
+    {
+        target8_1 = Instantiate(Target.gameObject);
+        target8_1.SetActive(true);
+        SpriteRenderer target_sprite = target8_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color target_color = target_sprite.color;
+        target_color.a = 0;
+        target_sprite.color = target_color;
+        float startTime = Time.time;
+
+        arrow8_1 = Instantiate(arrow.gameObject);
+        arrow8_2 = Instantiate(arrow.gameObject);
+        arrow8_3 = Instantiate(arrow.gameObject);
+
+        arrow8_1.transform.position = new Vector3(-10, 67, 0);
+        arrow8_2.transform.position = new Vector3(0, 67, 0);
+        arrow8_3.transform.position = new Vector3(10, 67, 0);
+
+        arrow8_1.SetActive(true);
+        arrow8_2.SetActive(true);
+        arrow8_3.SetActive(true);
+
+        while (Time.time - startTime < 2) // 2초의 대기시간
+        {
+            #region  타겟 투명도
+            if(Time.time - startTime  < 1)
+            {
+                float alpha = (Time.time - startTime) / 1f;
+                target_color.a = alpha;
+                target_sprite.color = target_color;
+            }   
+            #endregion
+            target8_1.transform.position = PlayerPos;
+
+            Vector3 direction1 = PlayerPos - arrow8_1.transform.position;
+            Quaternion lookRotation1 = Quaternion.LookRotation(Vector3.forward, direction1);
+
+            Vector3 direction2 = PlayerPos - arrow8_1.transform.position;
+            Quaternion lookRotation2 = Quaternion.LookRotation(Vector3.forward, direction2);
+
+            Vector3 direction3 = PlayerPos - arrow8_1.transform.position;
+            Quaternion lookRotation3 = Quaternion.LookRotation(Vector3.forward, direction3);
+
+            arrow8_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation1.eulerAngles.z + 180 );
+            arrow8_2.transform.rotation = Quaternion.Euler(0, 0, lookRotation2.eulerAngles.z + 180);
+            arrow8_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation3.eulerAngles.z + 180);
+            yield return null;
+        }
+        startTime = Time.time;
+        Vector3 targetPosition = new Vector3(target8_1.transform.position.x, target8_1.transform.position.y + 8f, target8_1.transform.position.z);
 
 
+        while (Time.time - startTime < 3)
+        {
+  
+            float Distance1 = Vector3.Distance(arrow8_1.transform.position, target8_1.transform.position);
+            float Distance2 = Vector3.Distance(arrow8_2.transform.position, target8_1.transform.position);
+            float Distance3 = Vector3.Distance(arrow8_3.transform.position, target8_1.transform.position);
+            float Speed = 4f;
+       
+            if (Distance1 <= 1f)
+            {
+                Debug.Log("1");
+                arrow8_1.transform.position = targetPosition;
+                arrow8_1.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            }
+            else if(Distance1 > 1f)
+            {
+                if (Time.time - startTime > 0.15f)
+                {
+                    arrow8_1.GetComponent<Rigidbody2D>().velocity = (targetPosition - arrow8_1.transform.position).normalized * (Distance1 / 2f) * Speed;
+                }
+            }
+
+            if (Distance2 <= 1f)
+            {
+                Debug.Log("2");
+                arrow8_2.transform.position = targetPosition;
+                arrow8_2.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            }
+            else if (Distance2 > 1f)
+            {
+                if (Time.time - startTime > 0.3f)
+                {
+                    arrow8_2.GetComponent<Rigidbody2D>().velocity = (targetPosition - arrow8_2.transform.position).normalized * (Distance2 / 2f) * Speed;
+                }
+            }
+
+            if (Distance3 <= 1f)
+            {
+                Debug.Log("3");
+                arrow8_3.transform.position = targetPosition;
+                arrow8_3.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            }
+            else if(Distance3 > 1f)
+            {
+                if (Time.time - startTime > 0.45f)
+                {
+                    arrow8_3.GetComponent<Rigidbody2D>().velocity = (targetPosition - arrow8_3.transform.position).normalized * (Distance3 / 2f) * Speed;
+                }
+            }
+
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+
+        SpriteRenderer arrow1_sprite = arrow8_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer arrow2_sprite = arrow8_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer arrow3_sprite = arrow8_3.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color arrow1_color = arrow1_sprite.color;
+        UnityEngine.Color arrow2_color = arrow2_sprite.color;
+        UnityEngine.Color arrow3_color = arrow3_sprite.color;
+
+        while (Time.time - startTime< 1)
+        {
+            arrow8_1.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            arrow8_2.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            arrow8_3.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            float alpha = (Time.time - startTime) / 1f;
+            target_color.a = 1 - alpha;
+            target_sprite.color = target_color;
+
+            arrow1_color.a = 1 - alpha;
+            arrow1_sprite.color = arrow1_color;
+
+            arrow2_color.a = 1 - alpha;
+            arrow2_sprite.color = arrow2_color;
+
+            arrow3_color.a = 1 - alpha;
+            arrow3_sprite.color = arrow3_color;
+
+
+            yield return null;
+        }
+        Destroy(arrow8_1);
+        Destroy(arrow8_2);
+        Destroy(arrow8_3);
+        Destroy(target8_1);
+    }
+    #endregion
     // Update is called once per frame
+    public void Scp1_9()
+    {
+        StartCoroutine(Scp1_9_Pattern());
+    }
+    IEnumerator Scp1_9_Pattern()
+    {
+        yield return null;
+    }
     void Update()
     {
         PlayerPos = Player.transform.position;
