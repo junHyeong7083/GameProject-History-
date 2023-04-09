@@ -60,6 +60,7 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
     Vector3 dir;
     // ----------------- Pattern7 -----------------
+    #region Pattern7
     GameObject pattern7_1;
     GameObject pattern7_2;
     GameObject pattern7_3;
@@ -69,21 +70,30 @@ public class Stage1_Boss : MonoBehaviour
     GameObject pattern7_7;
     GameObject pattern7_8;
     GameObject pattern7_9;
+    #endregion
     // ----------------- Pattern8 -----------------
     public GameObject Bow;
     public GameObject arrow;
+    #region Pattern8
     GameObject pattern8_1;
     GameObject pattern8_2;
     GameObject pattern8_3;
-
     GameObject arrow1;
     GameObject arrow2;
     GameObject arrow3;
-    // ----------------- Pattern8_1 -----------------
+    #endregion
+    // ----------------- Pattern8_1 ---------------
+    #region Pattern8_1
     GameObject target8_1;
     GameObject arrow8_1;
     GameObject arrow8_2;
     GameObject arrow8_3;
+    #endregion
+    // ----------------- Pattern9 -----------------
+    #region Pattern9
+    GameObject pattern9_1;
+    GameObject pattern9_2;
+    #endregion
     // ----------------- bool -----------------
     bool isOverlab = false;
     void Start()
@@ -1476,7 +1486,67 @@ public class Stage1_Boss : MonoBehaviour
     }
     IEnumerator Scp1_9_Pattern()
     {
-        yield return null;
+        #region 초기 세팅
+        pattern9_1 = Instantiate(Sword.gameObject);
+        pattern9_2 = Instantiate(Sword.gameObject);
+
+        pattern9_1.transform.position = new Vector3(0, 10, 0);
+        pattern9_1.transform.eulerAngles = new Vector3(0, 0, 270);
+        pattern9_2.transform.position = new Vector3(0, -10, 0);
+        pattern9_2.transform.eulerAngles = new Vector3(0, 0, 90);
+
+        SpriteRenderer pattern9_1sprite = pattern9_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer pattern9_2sprite = pattern9_2.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color pattern9_1color = pattern9_1sprite.color;
+        UnityEngine.Color pattern9_2color = pattern9_2sprite.color;
+
+        pattern9_1color.a = 0f;
+        pattern9_2color.a = 0f;
+
+        pattern9_1sprite.color = pattern9_1color;
+        pattern9_2sprite.color = pattern9_2color;
+
+        pattern9_1.SetActive(true);
+        pattern9_2.SetActive(true);
+        #endregion
+        float startTime = Time.time;
+        int randomValue = Random.Range(1, 11); ;
+        while (Time.time - startTime < 4)
+        {
+            if(Time.time -startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1f;
+                pattern9_1color.a = alpha;
+                pattern9_2color.a = alpha;
+
+                pattern9_1sprite.color = pattern9_1color;
+                pattern9_2sprite.color = pattern9_2color;
+            }
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time - startTime < 2)
+        {
+            float Speed = 50f;
+            float X = 5f;
+            float Y = 5f;
+            if(randomValue >= 1 && randomValue <=4 )
+            {
+                pattern9_1.transform.eulerAngles += new Vector3
+            } // 위쪽검
+            if (randomValue >=5 && randomValue <= 8)
+            {
+                // 아래쪽
+            }
+            if(randomValue >=9 && randomValue <= 10)
+            {
+                // 패턴 x
+                continue;
+            }
+
+        }
+
     }
     void Update()
     {
