@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TitleSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
@@ -13,11 +14,26 @@ public class TitleSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private RectTransform rectJoystick;
 
     public Image JoystickImage;
+    [Header("-------Select Stage-------")]
+    public Image SelectPanel;
+    public Image Stage1_image;
+    public Image Stage2_image;
+    public Image Stage3_image;
     
+
     int SelectIcon;
     private float radius; // Background밖을 joystick가 못나가도록 background의 반지름을 저장할 변수
     Vector2 value;
     bool touch = false;
+
+    void Start()
+    {
+        radius = rectBackground.rect.width / 2;
+        SelectPanel.gameObject.SetActive(false);
+    }
+
+
+
     public void OnDrag(PointerEventData eventData)
     {
         touch = true;
@@ -45,7 +61,7 @@ public class TitleSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             case 1:
                 JoystickImage.color = Color.red;
-                print("Top");
+                SelectPanel.gameObject.SetActive(true);
                 break;
             case 2:
                 JoystickImage.color = Color.green;
@@ -64,12 +80,10 @@ public class TitleSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
 
     }
-
-    void Start()
+    public void stage1_change()
     {
-        radius = rectBackground.rect.width / 2;
+        SceneManager.LoadScene("Stage1");
     }
-
     // Update is called once per frame
     void Update()
     {

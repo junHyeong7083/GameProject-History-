@@ -15,6 +15,8 @@ public class Stage1_Boss : MonoBehaviour
     Vector3 PlayerPos;
     Camera cam;
     Vector3 cameraOriginalPos;
+    Vector3 bossOriginalPos;
+
     // ----------------- Pattern2 -----------------
     bool nextPtn1State = false;
     public GameObject Sword;
@@ -104,7 +106,7 @@ public class Stage1_Boss : MonoBehaviour
 
         cam = Camera.main;
         cameraOriginalPos = cam.transform.position;
-
+        bossOriginalPos = this.transform.position;
     }
     void OverlabMixPattern()
     {
@@ -125,6 +127,57 @@ public class Stage1_Boss : MonoBehaviour
         cam.transform.localPosition = cameraOriginalPos;
 
     } // 카메라 쉐이킹
+    IEnumerator BossShaking(float duration, float magnitude)
+    {
+        float timer = 0;
+        while (timer <= duration)
+        {
+            this.transform.localPosition = Random.insideUnitSphere * magnitude + bossOriginalPos;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        this.transform.localPosition = bossOriginalPos;
+
+    } // 카메라 쉐이킹
+
+
+    public void Scp1_1()
+    {
+        StartCoroutine(Scp1_1_Pattern());
+    }
+    #region Scp1_1 패턴로직
+    IEnumerator Scp1_1_Pattern()
+    {
+        float startTime = Time.time;
+        while(Time.time - startTime < 2)
+        {
+            if(Time.time - startTime < 1)
+            {
+                StartCoroutine(BossShaking(0.3f, 0.15f));
+            }
+            if(Time.time - startTime > 1)
+            {
+                // 애니메이션 실행
+                Debug.Log("anim");
+            }
+            yield return null;
+        }
+        Vector3 targetPos = PlayerPos ;
+        Vector3 startPos = this.transform.position;
+        startTime = Time.time;
+        float duration = 0.7f; // 이동에 걸리는 시간
+        while (Time.time - startTime < 2)
+        {
+            float t = (Time.time - startTime) / duration;
+            rigidbody2D.MovePosition(Vector3.Lerp(startPos, targetPos, t));
+            yield return null;
+        }
+
+
+    }
+
+    #endregion
 
     public void Scp1_2()
     {
@@ -1484,17 +1537,19 @@ public class Stage1_Boss : MonoBehaviour
     {
         StartCoroutine(Scp1_9_Pattern());
     }
+    #region Scp1_9 패턴 로직
     IEnumerator Scp1_9_Pattern()
     {
         #region 초기 세팅
-        pattern9_1 = Instantiate(Sword.gameObject);
-        pattern9_2 = Instantiate(Sword.gameObject);
+        pattern9_1 = Instantiate(Sword2.gameObject);
+        pattern9_2 = Instantiate(Sword2.gameObject);
 
-        pattern9_1.transform.position = new Vector3(0, 10, 0);
+        pattern9_1.transform.position = new Vector3(20, 10, 0);
         pattern9_1.transform.eulerAngles = new Vector3(0, 0, 270);
-        pattern9_2.transform.position = new Vector3(0, -10, 0);
+        pattern9_2.transform.position = new Vector3(-20, -10, 0);
         pattern9_2.transform.eulerAngles = new Vector3(0, 0, 90);
-
+        pattern9_1.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        pattern9_2.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
         SpriteRenderer pattern9_1sprite = pattern9_1.GetComponent<SpriteRenderer>();
         SpriteRenderer pattern9_2sprite = pattern9_2.GetComponent<SpriteRenderer>();
 
@@ -1525,29 +1580,64 @@ public class Stage1_Boss : MonoBehaviour
             }
             yield return null;
         }
+
         startTime = Time.time;
-        while(Time.time - startTime < 2)
+        while(Time.time - startTime < 1)
         {
-            float Speed = 50f;
-            float X = 5f;
-            float Y = 5f;
+            float Speed = 250f;
             if(randomValue >= 1 && randomValue <=4 )
             {
-                pattern9_1.transform.eulerAngles += new Vector3
-            } // 위쪽검
-            if (randomValue >=5 && randomValue <= 8)
+                float X1 = 35f;
+                float Y1 = 1f;
+                if (pattern9_1.transform.eulerAngles.z < 0)
+                {
+                    Debug.Log("1");
+                    Speed = 0f;
+                    X1 = 0f;
+                    Y1 = 0f;
+                }
+                pattern9_1.transform.position += new Vector3(-X1 * Time.deltaTime, -Y1 * Time.deltaTime, 0);
+                pattern9_1.transform.eulerAngles += new Vector3(0,0,-Speed*Time.deltaTime);
+             } // 위쪽검
+           else if (randomValue >=5 && randomValue <= 8)
             {
-                // 아래쪽
+                float X2 = 35f;
+                float Y2 = 1f;
+                if (pattern9_2.transform.eulerAngles.z < -35 )
+                {
+                    Debug.Log("2");
+                    Speed = 0f;
+                    X2= 0f;
+                    Y2 = 0f;
+                }
+                pattern9_2.transform.position += new Vector3(X2 * Time.deltaTime, 0, 0);
+                pattern9_2.transform.eulerAngles += new Vector3(0, Y2*Time.deltaTime, -Speed*Time.deltaTime);
             }
-            if(randomValue >=9 && randomValue <= 10)
+           else if(randomValue >=9 && randomValue <= 10)
             {
                 // 패턴 x
-                continue;
+                //continue;
             }
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            pattern9_1color.a = 1 - alpha;
+            pattern9_2color.a = 1 - alpha;
 
+            pattern9_1sprite.color = pattern9_1color;
+            pattern9_2sprite.color = pattern9_2color;
+
+            yield return null;
         }
 
+        Destroy(pattern9_1);
+        Destroy(pattern9_2);
+
     }
+    #endregion
     void Update()
     {
         PlayerPos = Player.transform.position;
