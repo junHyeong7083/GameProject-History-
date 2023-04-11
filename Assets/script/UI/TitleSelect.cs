@@ -19,7 +19,13 @@ public class TitleSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public Image Stage1_image;
     public Image Stage2_image;
     public Image Stage3_image;
-    
+
+    [Header("-------SelectEffect-------")]
+    public Image select_1;
+    public Image select_2;
+    public Image select_3;
+    public Image select_4;
+
 
     int SelectIcon;
     private float radius; // Background밖을 joystick가 못나가도록 background의 반지름을 저장할 변수
@@ -30,6 +36,21 @@ public class TitleSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         radius = rectBackground.rect.width / 2;
         SelectPanel.gameObject.SetActive(false);
+
+
+        Color image1_color = select_1.color;
+        Color image2_color = select_2.color;
+        Color image3_color = select_3.color;
+        Color image4_color = select_4.color;
+
+        image1_color.a = 0.3f;
+        image2_color.a = 0.3f;
+        image3_color.a = 0.3f;
+        image4_color.a = 0.3f;
+        select_1.color = image1_color;
+        select_2.color = image2_color;
+        select_3.color = image3_color;
+        select_4.color = image4_color;
     }
 
 
@@ -56,24 +77,20 @@ public class TitleSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void OnPointerUp(PointerEventData eventData) // 손뗏을떄
     {
         rectJoystick.localPosition = new Vector3(0, 0, 0);
+
         // 지정한 범위안에 숫자따라 행동하게 
-       switch(SelectIcon)
+        switch (SelectIcon)
         {
-            case 1:
-                JoystickImage.color = Color.red;
+            case 1: 
                 SelectPanel.gameObject.SetActive(true);
                 break;
-            case 2:
-                JoystickImage.color = Color.green;
-                print("right");
+            case 2:          
                 break;
             case 3:
-                JoystickImage.color = Color.yellow;
-                print("bottom");
+              
                 break;
             case 4:
-                JoystickImage.color = Color.blue;
-                print("left");
+             
                 break;
             default:
                 break;
@@ -87,28 +104,81 @@ public class TitleSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     // Update is called once per frame
     void Update()
     {
-      //  print(value);
 ;       if (touch)
         {
-            if (value.x > -0.75 && value.x < 0.75 && value.y < 1 && value.y > 0)  // 1사분면
+            #region SelectEffect 요소 세팅
+            Color image1_color = select_1.color;
+            Color image2_color = select_2.color;
+            Color image3_color = select_3.color;
+            Color image4_color = select_4.color;
+
+            select_1.color = image1_color;
+            select_2.color = image2_color;
+            select_3.color = image3_color;
+            select_4.color = image4_color;
+            #endregion
+            // r - 200 g - 125 b- 100
+
+            if (value.x > -0.75 && value.x < 0.75 && value.y < 1 && value.y > 0)  // 1사분면 d
             {
                 SelectIcon = 1;
-              //  print("Top");
+
+                image1_color.a = 1f;
+                image2_color.a = 1f;
+                image3_color.a = 0.3f;
+                image4_color.a = 0.3f;
+
+                select_1.color = image1_color;
+                select_2.color = image2_color;
+                select_3.color = image3_color;
+                select_4.color = image4_color;
             }
             else if (value.x > 0 && value.x < 1 &&  value.y > -0.75 && value.y < 0.75) //2사
             {
                 SelectIcon = 2;
-             //   print("right");
+
+                image1_color.a = 0.3f;
+                image2_color.a = 1f;
+                image3_color.a = 0.3f;
+                image4_color.a = 1f;
+
+
+                select_1.color = image1_color;
+                select_2.color = image2_color;
+                select_3.color = image3_color;
+                select_4.color = image4_color;
             }
-            else if (value.x > -0.75 && value.x < 0.75 && value.y > -1 && value.y < 0) // 3사
+            else if (value.x > -0.75 && value.x < 0.75 && value.y > -1 && value.y < 0) // 3사 d
             {
                 SelectIcon = 3;
-                //print("bottom");
+
+                image1_color.a = 0.3f;
+                image2_color.a = 0.3f;
+                image3_color.a = 1f;
+                image4_color.a = 1f;
+
+
+
+                select_1.color = image1_color;
+                select_2.color = image2_color;
+                select_3.color = image3_color;
+                select_4.color = image4_color;
+
             }
             else if (value.x < 0 && value.x > -1 && value.y > -0.75 && value.y < 0.75) // 4사
             {
                 SelectIcon = 4;
-                // print("left");  
+
+                image1_color.a = 1f;
+                image2_color.a = 0.3f;
+                image3_color.a = 1f;
+                image4_color.a = 0.3f;
+
+
+                select_1.color = image1_color;
+                select_2.color = image2_color;
+                select_3.color = image3_color;
+                select_4.color = image4_color;
             }
          }
     }
