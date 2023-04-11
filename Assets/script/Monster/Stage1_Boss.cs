@@ -140,7 +140,7 @@ public class Stage1_Boss : MonoBehaviour
         this.transform.localPosition = bossOriginalPos;
 
     } // 카메라 쉐이킹
-
+    // 작업하기싫다
 
     public void Scp1_1()
     {
