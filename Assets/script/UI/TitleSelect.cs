@@ -157,8 +157,6 @@ public class TitleSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 image3_color.a = 1f;
                 image4_color.a = 1f;
 
-
-
                 select_1.color = image1_color;
                 select_2.color = image2_color;
                 select_3.color = image3_color;
