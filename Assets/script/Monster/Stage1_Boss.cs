@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SubsystemsImplementation;
 using UnityEngine.UI;
@@ -96,8 +97,46 @@ public class Stage1_Boss : MonoBehaviour
     GameObject pattern9_1;
     GameObject pattern9_2;
     #endregion
+    #region Overlab
+    // ----------------- PatternOverlab_2 -----------------
+    GameObject overlab_pattern2_1;
+    GameObject overlab_pattern2_2;
+    // ----------------- PatternOverlab_3 -----------------
+    GameObject overlab_pattern3_1;
+    GameObject overlab_pattern3_2;
+    GameObject overlab_pattern3_3;
+    // ----------------- PatternOverlab_5 -----------------
+    GameObject overlab_pattern5_1;
+    GameObject overlab_target1;
+    GameObject overlab_pattern5_2;
+    GameObject overlab_target2;
+    GameObject overlab_pattern5_3;
+    GameObject overlab_target3;
+    GameObject overlab_pattern5_4;
+    GameObject overlab_target4;
+    GameObject overlab_pattern5_5;
+    GameObject overlab_target5;
+    // ----------------- PatternOverlab_7 -----------------
+    GameObject overlab_pattern7_1;
+    GameObject overlab_pattern7_2;
+    GameObject overlab_pattern7_3;
+    GameObject overlab_pattern7_4;
+    GameObject overlab_pattern7_5;
+    GameObject overlab_pattern7_6;
+    GameObject overlab_pattern7_7;
+    GameObject overlab_pattern7_8;
+    GameObject overlab_pattern7_9;
+    // ----------------- PatternOverlab_8.1 -----------------
+    GameObject overlab_target8_1;
+    GameObject overlab_arrow8_1;
+    GameObject overlab_arrow8_2;
+    GameObject overlab_arrow8_3;
+    #endregion
     // ----------------- bool -----------------
     bool isOverlab = false;
+    bool isPattern = false;
+    int randomPattern;
+    int randomOverlab;
     void Start()
     {
         // 보스 현재 포지션 0, 2
@@ -108,11 +147,6 @@ public class Stage1_Boss : MonoBehaviour
         cameraOriginalPos = cam.transform.position;
         bossOriginalPos = this.transform.position;
     }
-    void OverlabMixPattern()
-    {
-        // Rand써서 오버랩가능한 패턴 섞기
-    }
-
 
     IEnumerator CameraShaking(float duration, float magnitude)
     {
@@ -139,11 +173,11 @@ public class Stage1_Boss : MonoBehaviour
         }
         this.transform.localPosition = bossOriginalPos;
 
-    } // 카메라 쉐이킹
-    // 작업하기싫다
+    } // 오브젝트 쉐이킹
 
     public void Scp1_1()
     {
+        isPattern = true;
         StartCoroutine(Scp1_1_Pattern());
     }
     #region Scp1_1 패턴로직
@@ -174,15 +208,14 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
 
-
+        isPattern = false;
     }
 
     #endregion
 
     public void Scp1_2()
     {
-        OverlabMixPattern();
-        isOverlab = true;
+        isPattern = true;
 
         Sword.transform.position = new Vector3(-10f, 20f, 0);
         Sword.transform.rotation = Quaternion.Euler(0, 0, 140f);
@@ -258,6 +291,92 @@ public class Stage1_Boss : MonoBehaviour
         }
         Sword.SetActive(false);
         nextPtn1State = false;
+        isPattern = false;
+    }
+    #endregion
+    void overlab_Scp1_2() 
+    {
+        isOverlab = true;
+        Sword.transform.position = new Vector3(-10f, 20f, 0);
+        Sword.transform.rotation = Quaternion.Euler(0, 0, 140f);
+    } // 오버랩용 함수
+    #region Scp 1_2 Overlab
+    IEnumerator overlab_Scp1_2_1()
+    {
+        overlab_pattern2_1 = Instantiate(Sword.gameObject);
+        overlab_pattern2_2 = Instantiate(Sword.gameObject);
+        overlab_pattern2_1.SetActive(true);
+
+        overlab_pattern2_1.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        overlab_pattern2_2.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+
+        float startTime = Time.time; // 시작 시간 저장
+        while (Time.time - startTime < 1) // 1초간 rotation.z 값 변경
+        {
+            float backX = 2.5f;
+            float upY = 2f;
+            float RotateZ = 4.5f;
+            overlab_pattern2_1.transform.position += new Vector3(-backX * Time.deltaTime, upY * Time.deltaTime, 0);
+            overlab_pattern2_1.transform.Rotate(0, 0, RotateZ * Time.deltaTime);
+            yield return null;
+        }
+
+        startTime = Time.time; // 시작 시간 재설정
+        while (Time.time - startTime < 2.0f) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
+        {
+            if (overlab_pattern2_1.transform.position.y > -12)
+            {
+                float frontX = 30f;
+                float downY = 130f;
+                float RotateZ = 90f;
+                overlab_pattern2_1.transform.position += new Vector3(frontX * Time.deltaTime, -downY * Time.deltaTime, 0);
+                overlab_pattern2_1.transform.Rotate(0, 0, -RotateZ * 4 * Time.deltaTime);
+            }
+
+
+            yield return null;
+        }
+        overlab_pattern2_1.SetActive(false);
+        nextPtn1State = true;
+        if (nextPtn1State)
+        {
+            overlab_pattern2_2.transform.position = new Vector3(4, -25f, 0);
+            overlab_pattern2_2.transform.rotation = Quaternion.Euler(0, 0, 320f);
+            StartCoroutine(overlab_Scp1_2_2());
+        }
+    }
+    IEnumerator overlab_Scp1_2_2()
+    {
+        overlab_pattern2_2.SetActive(true);
+        float startTime = Time.time; // 시작 시간 저장
+        while (Time.time - startTime < 1) // 1초간 rotation.z 값 변경
+        {
+            float backX = 2.5f;
+            float upY = 2f;
+            float RotateZ = 4.5f;
+            overlab_pattern2_2.transform.position += new Vector3(+backX * Time.deltaTime, -upY * Time.deltaTime, 0);
+            overlab_pattern2_2.transform.Rotate(0, 0, RotateZ * Time.deltaTime);
+            yield return null;
+        }
+
+        startTime = Time.time; // 시작 시간 재설정
+        while (Time.time - startTime < 2.0f) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
+        {
+            if (overlab_pattern2_2.transform.position.y < 25f)
+            {
+                float frontX = 30f;
+                float upY = 150f;
+                float RotateZ = 80;
+                overlab_pattern2_2.transform.position += new Vector3(-frontX * Time.deltaTime, upY * Time.deltaTime, 0);
+                overlab_pattern2_2.transform.Rotate(0, 0, -RotateZ * 4 * Time.deltaTime);
+            }
+
+
+            yield return null;
+        }
+        overlab_pattern2_2.SetActive(false);
+        nextPtn1State = false;
+        isOverlab = false;
     }
     #endregion
     public void Scp1_3()
@@ -267,7 +386,7 @@ public class Stage1_Boss : MonoBehaviour
         pattern3_2 = Instantiate(Kunai.gameObject);
         pattern3_3 = Instantiate(Kunai.gameObject);
         #endregion
-        isOverlab = true;
+
         #region Pattern3 Setting Pos
         float posX = 8f;
         float posY = 10f;
@@ -281,6 +400,7 @@ public class Stage1_Boss : MonoBehaviour
         pattern3_3.transform.position = new Vector3(PlayerPos.x + posX, PlayerPos.y - posY, 0);
         pattern3_3.transform.eulerAngles = new Vector3(0, 0, 320);
         #endregion
+        isPattern = true;
         StartCoroutine(Scp1_3_1());
     }
     #region Scp 1_3 패턴로직
@@ -298,13 +418,13 @@ public class Stage1_Boss : MonoBehaviour
         while (Time.time - startTime < 2) // 1초간 rotation.z 값 변경
         {
             float backPos = 1f;
-            
-            pattern3_1.transform.position += new Vector3(-backPos * Time.deltaTime,-backPos * Time.deltaTime, 0);
-            pattern3_2.transform.position += new Vector3(0,-backPos * Time.deltaTime, 0);
-            pattern3_3.transform.position += new Vector3( backPos * Time.deltaTime,-backPos * Time.deltaTime, 0);
+
+            pattern3_1.transform.position += new Vector3(-backPos * Time.deltaTime, -backPos * Time.deltaTime, 0);
+            pattern3_2.transform.position += new Vector3(0, -backPos * Time.deltaTime, 0);
+            pattern3_3.transform.position += new Vector3(backPos * Time.deltaTime, -backPos * Time.deltaTime, 0);
 
 
-            yield return null;          
+            yield return null;
         }
         startTime = Time.time;
         while (Time.time - startTime < 2) // 1초간 rotation.z 값 변경
@@ -321,11 +441,83 @@ public class Stage1_Boss : MonoBehaviour
         Destroy(pattern3_2);
         Destroy(pattern3_3);
 
-        StopCoroutine(Scp1_3_1());
+        isPattern = false;
+    }
+    #endregion
+    void overlab_Scp1_3()
+    {
+        isOverlab = true;
+        overlab_pattern3_1 = Instantiate(Kunai.gameObject);
+        overlab_pattern3_2 = Instantiate(Kunai.gameObject);
+        overlab_pattern3_3 = Instantiate(Kunai.gameObject);
+
+        #region Pattern3 Setting Pos
+        float posX = 8f;
+        float posY = 10f;
+
+        overlab_pattern3_1.transform.position = new Vector3(PlayerPos.x - posX, PlayerPos.y - posY, 0);
+        overlab_pattern3_1.transform.eulerAngles = new Vector3(0, 0, 220);
+
+        overlab_pattern3_2.transform.position = new Vector3(PlayerPos.x, PlayerPos.y - posY - 3f, 0);
+        overlab_pattern3_2.transform.eulerAngles = new Vector3(0, 0, 270);
+
+        overlab_pattern3_3.transform.position = new Vector3(PlayerPos.x + posX, PlayerPos.y - posY, 0);
+        overlab_pattern3_3.transform.eulerAngles = new Vector3(0, 0, 320);
+
+        overlab_pattern3_1.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        overlab_pattern3_2.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        overlab_pattern3_3.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+
+
+
+
+        #endregion
+        isPattern = true;
+        StartCoroutine(overlab_Scp1_3_1());
+    }
+    #region overlab_Scp 1_3 패턴로직
+    IEnumerator overlab_Scp1_3_1()
+    {
+        overlab_pattern3_1.SetActive(true);
+        overlab_pattern3_2.SetActive(true);
+        overlab_pattern3_3.SetActive(true);
+
+        Vector3 dir1 = (PlayerPos - overlab_pattern3_1.transform.position).normalized;
+        Vector3 dir2 = (PlayerPos - overlab_pattern3_2.transform.position).normalized;
+        Vector3 dir3 = (PlayerPos - overlab_pattern3_3.transform.position).normalized;
+
+        float startTime = Time.time; // 시작 시간 저장
+        while (Time.time - startTime < 2) // 1초간 rotation.z 값 변경
+        {
+            float backPos = 1f;
+
+            overlab_pattern3_1.transform.position += new Vector3(-backPos * Time.deltaTime,-backPos * Time.deltaTime, 0);
+            overlab_pattern3_2.transform.position += new Vector3(0,-backPos * Time.deltaTime, 0);
+            overlab_pattern3_3.transform.position += new Vector3( backPos * Time.deltaTime,-backPos * Time.deltaTime, 0);
+
+
+            yield return null;          
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 2) // 1초간 rotation.z 값 변경
+        {
+            float speed = 100f;
+            overlab_pattern3_1.transform.position += new Vector3(speed * dir1.x * Time.deltaTime, speed * dir1.y * Time.deltaTime, 0);
+            overlab_pattern3_2.transform.position += new Vector3(speed * dir2.x * Time.deltaTime, speed * dir2.y * Time.deltaTime, 0);
+            overlab_pattern3_3.transform.position += new Vector3(speed * dir3.x * Time.deltaTime, speed * dir3.y * Time.deltaTime, 0);
+
+            yield return null;
+        }
+
+        Destroy(overlab_pattern3_1);
+        Destroy(overlab_pattern3_2);
+        Destroy(overlab_pattern3_3);
+        isOverlab = false;
     }
     #endregion 
     public void Scp1_4()
     {
+        isPattern = true;
         StartCoroutine(Scp1_4_Total());
     }
     #region Scp 1_4 패턴로직
@@ -601,11 +793,12 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         Destroy(pattern4_8);
-        StopCoroutine(Scp1_4_8());
+        isPattern = false;
     }
     #endregion
     public void Scp1_5()
     {
+        isPattern = true;
         StartCoroutine(Scp1_5_total());
     }
     #region Scp 1_5 패턴로직
@@ -866,13 +1059,279 @@ public class Stage1_Boss : MonoBehaviour
         }
         Destroy(pattern5_5);
         Destroy(bullet);
-        StopCoroutine(Scp1_5_5());
+        isPattern = false;
+    }
+    #endregion
+    void overlab_Scp1_5()
+    {
+        isOverlab = true;
+        StartCoroutine(overlab_Scp1_5_total());
+    }
+    #region overlab_Scp 1_5 패턴로직
+    IEnumerator overlab_Scp1_5_total()
+    {
+        int cnt = 5;
+        while (cnt > 0)
+        {
+            if (cnt == 5)
+            {
+                overlab_pattern5_1 = Instantiate(Gun.gameObject);
+                overlab_pattern5_1.transform.position = new Vector3(-35, 44f, 0);
+                overlab_pattern5_1.transform.eulerAngles = new Vector3(0, 0, 0);
+
+                overlab_target1 = Instantiate(Target.gameObject);
+                StartCoroutine(overlab_Scp1_5_1());
+            }
+            if (cnt == 4)
+            {
+                overlab_pattern5_2 = Instantiate(Gun.gameObject);
+                overlab_pattern5_2.transform.position = new Vector3(35f, 24f, 0);
+                overlab_pattern5_2.transform.eulerAngles = new Vector3(0, 0, 0);
+                overlab_target2 = Instantiate(Target.gameObject);
+                StartCoroutine(overlab_Scp1_5_2());
+            }
+            if (cnt == 3)
+            {
+                overlab_pattern5_3 = Instantiate(Gun.gameObject);
+                overlab_pattern5_3.transform.position = new Vector3(-35f, 4f, 0);
+                overlab_pattern5_3.transform.eulerAngles = new Vector3(0, 0 - 0);
+                overlab_target3 = Instantiate(Target.gameObject);
+                StartCoroutine(overlab_Scp1_5_3());
+            }
+            if (cnt == 2)
+            {
+                overlab_pattern5_4 = Instantiate(Gun.gameObject);
+                overlab_pattern5_4.transform.position = new Vector3(35f, -24f, 0);
+                overlab_pattern5_4.transform.eulerAngles = new Vector3(0, 0, 0);
+                overlab_target4 = Instantiate(Target.gameObject);
+                StartCoroutine(overlab_Scp1_5_4());
+            }
+            if (cnt == 1)
+            {
+                overlab_pattern5_5 = Instantiate(Gun.gameObject);
+                overlab_pattern5_5.transform.position = new Vector3(-35f, -44f, 0);
+                overlab_pattern5_5.transform.eulerAngles = new Vector3(0, 0 - 40f);
+                overlab_target5 = Instantiate(Target.gameObject);
+                StartCoroutine(overlab_Scp1_5_5());
+            }
+            yield return new WaitForSeconds(0.5f);
+            cnt--;
+        }
+    }
+    IEnumerator overlab_Scp1_5_1()
+    {
+        overlab_pattern5_1.SetActive(true);
+        overlab_target1.SetActive(true);
+        float startTime = Time.time; // 시작 시간 저장
+        while (Time.time - startTime < 3)
+        {
+            Vector3 direction = PlayerPos - overlab_pattern5_1.transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
+            overlab_pattern5_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
+
+            overlab_target1.transform.position = PlayerPos;
+            overlab_target1.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
+            yield return null;
+        }
+
+        startTime = Time.time;
+
+        Transform bulletPosTransform = overlab_pattern5_1.transform.Find("BulletPos");
+        GameObject bullet = Instantiate(Bullet.gameObject);
+        bullet.SetActive(true);
+        bullet.transform.position = bulletPosTransform.transform.position;
+        bullet.transform.rotation = overlab_pattern5_1.transform.rotation;
+        float bulletSpeed = 300f;
+        Vector3 dir = PlayerPos - overlab_pattern5_1.transform.position;
+        StartCoroutine(CameraShaking(0.1f, 0.5f));
+
+        while (Time.time - startTime < 2)
+        {
+            bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
+            yield return null;
+        }
+        Destroy(overlab_pattern5_1);
+        Destroy(bullet);
+        StopCoroutine(overlab_Scp1_5_1());
+    }
+    IEnumerator overlab_Scp1_5_2()
+    {
+        overlab_pattern5_2.SetActive(true);
+        overlab_target2.SetActive(true);
+        float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer before_Sprite = overlab_target1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color before_Color = before_Sprite.color;
+        before_Color.a = 0;
+        while (Time.time - startTime < 3)
+        {
+            Vector3 direction = PlayerPos - overlab_pattern5_2.transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
+            overlab_pattern5_2.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
+
+            before_Sprite.color = before_Color;
+            overlab_target2.transform.position = PlayerPos;
+            overlab_target2.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
+
+            yield return null;
+        }
+        startTime = Time.time;
+        Transform bulletPosTransform = overlab_pattern5_2.transform.Find("BulletPos");
+        GameObject bullet = Instantiate(Bullet.gameObject);
+        bullet.SetActive(true);
+        bullet.transform.position = bulletPosTransform.transform.position;
+        bullet.transform.rotation = overlab_pattern5_2.transform.rotation;
+        float bulletSpeed = 300f;
+        Vector3 dir = PlayerPos - overlab_pattern5_2.transform.position;
+        StartCoroutine(CameraShaking(0.1f, 0.5f));
+        while (Time.time - startTime < 2)
+        {
+            bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
+            yield return null;
+        }
+        Destroy(overlab_pattern5_2);
+        Destroy(bullet);
+        StopCoroutine(overlab_Scp1_5_2());
+    }
+    IEnumerator overlab_Scp1_5_3()
+    {
+        overlab_pattern5_3.SetActive(true);
+        overlab_target3.SetActive(true);
+        float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer before_Sprite = overlab_target2.GetComponent<SpriteRenderer>();
+        UnityEngine.Color before_Color = before_Sprite.color;
+        before_Color.a = 0;
+
+        while (Time.time - startTime < 3)
+        {
+            Vector3 direction = PlayerPos - overlab_pattern5_3.transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
+            overlab_pattern5_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
+
+            before_Sprite.color = before_Color;
+            overlab_target3.transform.position = PlayerPos;
+            overlab_target3.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
+            yield return null;
+        }
+
+        Transform bulletPosTransform = overlab_pattern5_3.transform.Find("BulletPos");
+        startTime = Time.time;
+
+        GameObject bullet = Instantiate(Bullet.gameObject);
+        bullet.SetActive(true);
+        bullet.transform.position = bulletPosTransform.transform.position;
+        bullet.transform.rotation = overlab_pattern5_3.transform.rotation;
+        float bulletSpeed = 300f;
+        Vector3 dir = PlayerPos - overlab_pattern5_3.transform.position;
+        StartCoroutine(CameraShaking(0.1f, 0.5f));
+        while (Time.time - startTime < 2)
+        {
+            bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
+            yield return null;
+        }
+        Destroy(overlab_pattern5_3);
+        Destroy(bullet);
+        StopCoroutine(overlab_Scp1_5_3());
+    }
+    IEnumerator overlab_Scp1_5_4()
+    {
+        overlab_pattern5_4.SetActive(true);
+        overlab_target4.SetActive(true);
+        float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer before_Sprite = overlab_target3.GetComponent<SpriteRenderer>();
+        UnityEngine.Color before_Color = before_Sprite.color;
+        before_Color.a = 0;
+
+        while (Time.time - startTime < 3)
+        {
+            Vector3 direction = PlayerPos - overlab_pattern5_4.transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
+            overlab_pattern5_4.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
+
+            before_Sprite.color = before_Color;
+            overlab_target4.transform.position = PlayerPos;
+            overlab_target4.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
+
+            yield return null;
+        }
+        Transform bulletPosTransform = overlab_pattern5_4.transform.Find("BulletPos");
+        startTime = Time.time;
+        GameObject bullet = Instantiate(Bullet.gameObject);
+        bullet.SetActive(true);
+        bullet.transform.position = bulletPosTransform.transform.position;
+        bullet.transform.rotation = overlab_pattern5_4.transform.rotation;
+        float bulletSpeed = 300f;
+        Vector3 dir = PlayerPos - overlab_pattern5_4.transform.position;
+        StartCoroutine(CameraShaking(0.1f, 0.5f));
+        while (Time.time - startTime < 2)
+        {
+            bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
+
+            yield return null;
+        }
+        Destroy(overlab_pattern5_4);
+        Destroy(bullet);
+        StopCoroutine(overlab_Scp1_5_4());
+    }
+    IEnumerator overlab_Scp1_5_5()
+    {
+        overlab_pattern5_5.SetActive(true);
+        overlab_target5.SetActive(true);
+        float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer before_Sprite = overlab_target4.GetComponent<SpriteRenderer>();
+        UnityEngine.Color before_Color = before_Sprite.color;
+        before_Color.a = 0;
+
+        while (Time.time - startTime < 3)
+        {
+            Vector3 direction = PlayerPos - overlab_pattern5_5.transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
+            overlab_pattern5_5.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
+
+            before_Sprite.color = before_Color;
+            if (Time.time - startTime < 0.7) // 조준점이 커지는 시간
+            {
+                overlab_target5.transform.position = PlayerPos;
+                overlab_target5.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
+
+            }
+            yield return null;
+        }
+        startTime = Time.time;
+        Transform bulletPosTransform = overlab_pattern5_5.transform.Find("BulletPos");
+        GameObject bullet = Instantiate(Bullet.gameObject);
+        bullet.SetActive(true);
+        bullet.transform.position = bulletPosTransform.transform.position;
+        bullet.transform.rotation = overlab_pattern5_5.transform.rotation;
+        float bulletSpeed = 300f;
+        Vector3 dir = PlayerPos - overlab_pattern5_5.transform.position;
+        StartCoroutine(CameraShaking(0.1f, 0.5f));
+        while (Time.time - startTime < 2)
+        {
+            if (Time.time - startTime < 1.5f)
+            {
+                Destroy(overlab_target1);
+                Destroy(overlab_target2);
+                Destroy(overlab_target3);
+                Destroy(overlab_target4);
+            } // 조준점 삭제
+
+            bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
+            Destroy(overlab_target5);
+            yield return null;
+        }
+        Destroy(overlab_pattern5_5);
+        Destroy(bullet);
+        isOverlab = false;
     }
     #endregion
     public void Scp1_6()
     {
         this.transform.position = new Vector3(0, 7, 0);
-
+        isPattern = true;
         StartCoroutine(Scp1_6_1());
     }
     #region Scp 1_6 패턴로직
@@ -959,11 +1418,13 @@ public class Stage1_Boss : MonoBehaviour
         }
         Destroy(pattern6_1);
         Destroy(pattern6_2);
+        isPattern = false;
     }
     #endregion
     // -20 ., 20
     public void Scp1_7()
     {
+        isPattern = true;
         StartCoroutine(Scp1_7_1());
     }
     #region Scp 1_7 패턴로직
@@ -1230,12 +1691,300 @@ public class Stage1_Boss : MonoBehaviour
         Destroy(pattern7_8);
         Destroy(pattern7_9);
         #endregion
+        isPattern = false;
+    }
+    #endregion
 
+    void overlab_Scp1_7()
+    {
+        isOverlab = true;
+        StartCoroutine(overlab_Scp1_7_1());
+    }
+    #region overlab_Scp 1_7 패턴로직
+    IEnumerator overlab_Scp1_7_1()
+    {
+        #region 초기세팅
+        overlab_pattern7_1 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_1.transform.position = new Vector3(-28, -40, 0);
+        overlab_pattern7_1.transform.eulerAngles = new Vector3(0, 0, 270);
+        overlab_pattern7_1.SetActive(true);
+        SpriteRenderer spritePattern7_1 = overlab_pattern7_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_1 = spritePattern7_1.color;
+        colorPattern7_1.a = 0f;
+        spritePattern7_1.color = colorPattern7_1;
+
+        overlab_pattern7_2 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_2.transform.position = new Vector3(-21, -40, 0);
+        overlab_pattern7_2.transform.eulerAngles = new Vector3(0, 0, 270);
+        overlab_pattern7_2.SetActive(true);
+        SpriteRenderer spritePattern7_2 = overlab_pattern7_2.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_2 = spritePattern7_2.color;
+        colorPattern7_2.a = 0f;
+        spritePattern7_2.color = colorPattern7_2;
+
+        overlab_pattern7_3 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_3.transform.position = new Vector3(-14, -40, 0);
+        overlab_pattern7_3.transform.eulerAngles = new Vector3(0, 0, 270);
+        overlab_pattern7_3.SetActive(true);
+        SpriteRenderer spritePattern7_3 = overlab_pattern7_3.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_3 = spritePattern7_3.color;
+        colorPattern7_3.a = 0f;
+        spritePattern7_3.color = colorPattern7_3;
+
+
+        overlab_pattern7_4 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_4.transform.position = new Vector3(-7, -40, 0);
+        overlab_pattern7_4.transform.eulerAngles = new Vector3(0, 0, 270);
+        overlab_pattern7_4.SetActive(true);
+        SpriteRenderer spritePattern7_4 = overlab_pattern7_4.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_4 = spritePattern7_4.color;
+        colorPattern7_4.a = 0f;
+        spritePattern7_4.color = colorPattern7_4;
+
+        overlab_pattern7_5 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_5.transform.position = new Vector3(0, -40, 0);
+        overlab_pattern7_5.transform.eulerAngles = new Vector3(0, 0, 270);
+        overlab_pattern7_5.SetActive(true);
+        SpriteRenderer spritePattern7_5 = overlab_pattern7_5.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_5 = spritePattern7_5.color;
+        colorPattern7_5.a = 0f;
+        spritePattern7_5.color = colorPattern7_5;
+
+        overlab_pattern7_6 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_6.transform.position = new Vector3(7, -40, 0);
+        overlab_pattern7_6.transform.eulerAngles = new Vector3(0, 0, 270);
+        overlab_pattern7_6.SetActive(true);
+        SpriteRenderer spritePattern7_6 = overlab_pattern7_6.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_6 = spritePattern7_6.color;
+        colorPattern7_6.a = 0f;
+        spritePattern7_6.color = colorPattern7_6;
+
+        overlab_pattern7_7 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_7.transform.position = new Vector3(14, -40, 0);
+        overlab_pattern7_7.transform.eulerAngles = new Vector3(0, 0, 270);
+        overlab_pattern7_7.SetActive(true);
+        SpriteRenderer spritePattern7_7 = overlab_pattern7_7.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_7 = spritePattern7_7.color;
+        colorPattern7_7.a = 0f;
+        spritePattern7_7.color = colorPattern7_7;
+
+        overlab_pattern7_8 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_8.transform.position = new Vector3(21, -40, 0);
+        overlab_pattern7_8.transform.eulerAngles = new Vector3(0, 0, 270);
+        overlab_pattern7_8.SetActive(true);
+        SpriteRenderer spritePattern7_8 = overlab_pattern7_8.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_8 = spritePattern7_8.color;
+        colorPattern7_8.a = 0f;
+        spritePattern7_8.color = colorPattern7_8;
+
+        overlab_pattern7_9 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_9.transform.position = new Vector3(28, -40, 0);
+        overlab_pattern7_9.transform.eulerAngles = new Vector3(0, 0, 270);
+        overlab_pattern7_9.SetActive(true);
+        SpriteRenderer spritePattern7_9 = overlab_pattern7_9.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern7_9 = spritePattern7_9.color;
+        colorPattern7_9.a = 0f;
+        spritePattern7_9.color = colorPattern7_9;
+
+     
+        overlab_pattern7_1.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+        overlab_pattern7_2.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+        overlab_pattern7_3.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+        overlab_pattern7_4.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+        overlab_pattern7_5.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+        overlab_pattern7_6.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+        overlab_pattern7_7.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+        overlab_pattern7_8.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+        overlab_pattern7_9.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+
+
+        #endregion
+        float startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            colorPattern7_1.a = alpha;
+            spritePattern7_1.color = colorPattern7_1;
+
+            colorPattern7_2.a = alpha;
+            spritePattern7_2.color = colorPattern7_2;
+
+            colorPattern7_3.a = alpha;
+            spritePattern7_3.color = colorPattern7_3;
+
+            colorPattern7_4.a = alpha;
+            spritePattern7_4.color = colorPattern7_4;
+
+            colorPattern7_5.a = alpha;
+            spritePattern7_5.color = colorPattern7_5;
+
+            colorPattern7_6.a = alpha;
+            spritePattern7_6.color = colorPattern7_6;
+
+            colorPattern7_7.a = alpha;
+            spritePattern7_7.color = colorPattern7_7;
+
+            colorPattern7_8.a = alpha;
+            spritePattern7_8.color = colorPattern7_8;
+
+            colorPattern7_9.a = alpha;
+            spritePattern7_9.color = colorPattern7_9;
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 2)
+        {
+            float totalSpeed = 200f;
+            float speed1 = totalSpeed;
+            float speed2 = totalSpeed;
+            float speed3 = totalSpeed;
+            float speed4 = totalSpeed;
+            float speed5 = totalSpeed;
+            float speed6 = totalSpeed;
+            float speed7 = totalSpeed;
+            float speed8 = totalSpeed;
+            float speed9 = totalSpeed;
+            if (Time.time - startTime > 0.1f)
+            {
+                overlab_pattern7_1.transform.position += new Vector3(0, speed1 * Time.deltaTime, 0);
+                if (overlab_pattern7_1.transform.position.y >= 50)
+                {
+                    speed1 = 0;
+                    overlab_pattern7_1.transform.position = new Vector3(-28, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.2f)
+            {
+                overlab_pattern7_2.transform.position += new Vector3(0, speed2 * Time.deltaTime, 0);
+                if (overlab_pattern7_2.transform.position.y >= 50)
+                {
+                    speed2 = 0;
+                    overlab_pattern7_2.transform.position = new Vector3(-21, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.3f)
+            {
+                overlab_pattern7_3.transform.position += new Vector3(0, speed3 * Time.deltaTime, 0);
+                if (overlab_pattern7_3.transform.position.y >= 50)
+                {
+                    speed3 = 0;
+                    overlab_pattern7_3.transform.position = new Vector3(-14, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.4f)
+            {
+                overlab_pattern7_4.transform.position += new Vector3(0, speed4 * Time.deltaTime, 0);
+                if (overlab_pattern7_4.transform.position.y >= 50)
+                {
+                    speed4 = 0;
+                    overlab_pattern7_4.transform.position = new Vector3(-7, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.5f)
+            {
+                overlab_pattern7_5.transform.position += new Vector3(0, speed5 * Time.deltaTime, 0);
+                if (overlab_pattern7_5.transform.position.y >= 50)
+                {
+                    speed5 = 0;
+                    overlab_pattern7_5.transform.position = new Vector3(0, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.6f)
+            {
+                overlab_pattern7_6.transform.position += new Vector3(0, speed6 * Time.deltaTime, 0);
+                if (overlab_pattern7_6.transform.position.y >= 50)
+                {
+                    speed6 = 0;
+                    overlab_pattern7_6.transform.position = new Vector3(7, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.7f)
+            {
+                overlab_pattern7_7.transform.position += new Vector3(0, speed7 * Time.deltaTime, 0);
+                if (overlab_pattern7_7.transform.position.y >= 50)
+                {
+                    speed7 = 0;
+                    overlab_pattern7_7.transform.position = new Vector3(14, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.8f)
+            {
+                overlab_pattern7_8.transform.position += new Vector3(0, speed8 * Time.deltaTime, 0);
+                if (overlab_pattern7_8.transform.position.y >= 50)
+                {
+                    speed8 = 0;
+                    overlab_pattern7_8.transform.position = new Vector3(21, 50, 0);
+                }
+            }
+            if (Time.time - startTime > 0.9f)
+            {
+                overlab_pattern7_9.transform.position += new Vector3(0, speed9 * Time.deltaTime, 0);
+                if (overlab_pattern7_9.transform.position.y >= 50)
+                {
+                    speed9 = 0;
+                    overlab_pattern7_9.transform.position = new Vector3(28, 50, 0);
+                }
+            }
+
+
+
+            yield return null;
+
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            colorPattern7_1.a = 1f - alpha;
+            spritePattern7_1.color = colorPattern7_1;
+
+            colorPattern7_2.a = 1f - alpha;
+            spritePattern7_2.color = colorPattern7_2;
+
+            colorPattern7_3.a = 1f - alpha;
+            spritePattern7_3.color = colorPattern7_3;
+
+            colorPattern7_4.a = 1f - alpha;
+            spritePattern7_4.color = colorPattern7_4;
+
+            colorPattern7_5.a = 1f - alpha;
+            spritePattern7_5.color = colorPattern7_5;
+
+            colorPattern7_6.a = 1f - alpha;
+            spritePattern7_6.color = colorPattern7_6;
+
+            colorPattern7_7.a = 1f - alpha;
+            spritePattern7_7.color = colorPattern7_7;
+
+            colorPattern7_8.a = 1f - alpha;
+            spritePattern7_8.color = colorPattern7_8;
+
+            colorPattern7_9.a = 1f - alpha;
+            spritePattern7_9.color = colorPattern7_9;
+
+            yield return null;
+        }
+
+        #region 삭제
+        Destroy(overlab_pattern7_1);
+        Destroy(overlab_pattern7_2);
+        Destroy(overlab_pattern7_3);
+        Destroy(overlab_pattern7_4);
+        Destroy(overlab_pattern7_5);
+        Destroy(overlab_pattern7_6);
+        Destroy(overlab_pattern7_7);
+        Destroy(overlab_pattern7_8);
+        Destroy(overlab_pattern7_9);
+        #endregion
+        isOverlab = false;
     }
     #endregion
     public void Scp1_8()
     {
+        isPattern = true;
         StartCoroutine(Scp1_8_Pattern());
+        Scp1_8_1();
     }
     #region Scp 1_8 패턴로직
     IEnumerator Scp1_8_Pattern()
@@ -1386,6 +2135,7 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
     public void Scp1_8_1()
     {
+        isPattern = true;
         StartCoroutine(Scp1_8_1_Pattern());
     }
     #region Scp1_8_1 패턴로직
@@ -1530,11 +2280,163 @@ public class Stage1_Boss : MonoBehaviour
         Destroy(arrow8_2);
         Destroy(arrow8_3);
         Destroy(target8_1);
+        isPattern= false;
+    }
+    #endregion
+    void overlab_Scp1_8_1()
+    {
+        isOverlab = true;
+        StartCoroutine(overlab_Scp1_8_1_Pattern());
+    }
+    #region overlab_Scp1_8_1 패턴로직
+    IEnumerator overlab_Scp1_8_1_Pattern()
+    {
+        overlab_target8_1 = Instantiate(Target.gameObject);
+        overlab_target8_1.SetActive(true);
+        SpriteRenderer target_sprite = overlab_target8_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color target_color = target_sprite.color;
+        target_color.a = 0;
+        target_sprite.color = target_color;
+        float startTime = Time.time;
+
+        overlab_arrow8_1 = Instantiate(arrow.gameObject);
+        overlab_arrow8_2 = Instantiate(arrow.gameObject);
+        overlab_arrow8_3 = Instantiate(arrow.gameObject);
+
+        overlab_arrow8_1.transform.position = new Vector3(-10, 67, 0);
+        overlab_arrow8_2.transform.position = new Vector3(0, 67, 0);
+        overlab_arrow8_3.transform.position = new Vector3(10, 67, 0);
+
+        overlab_arrow8_1.SetActive(true);
+        overlab_arrow8_2.SetActive(true);
+        overlab_arrow8_3.SetActive(true);
+
+        while (Time.time - startTime < 2) // 2초의 대기시간
+        {
+            #region  타겟 투명도
+            if (Time.time - startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1f;
+                target_color.a = alpha;
+                target_sprite.color = target_color;
+            }
+            #endregion
+            overlab_target8_1.transform.position = PlayerPos;
+
+            Vector3 direction1 = PlayerPos - overlab_arrow8_1.transform.position;
+            Quaternion lookRotation1 = Quaternion.LookRotation(Vector3.forward, direction1);
+
+            Vector3 direction2 = PlayerPos - overlab_arrow8_1.transform.position;
+            Quaternion lookRotation2 = Quaternion.LookRotation(Vector3.forward, direction2);
+
+            Vector3 direction3 = PlayerPos - overlab_arrow8_1.transform.position;
+            Quaternion lookRotation3 = Quaternion.LookRotation(Vector3.forward, direction3);
+
+            overlab_arrow8_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation1.eulerAngles.z + 180);
+            overlab_arrow8_2.transform.rotation = Quaternion.Euler(0, 0, lookRotation2.eulerAngles.z + 180);
+            overlab_arrow8_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation3.eulerAngles.z + 180);
+            yield return null;
+        }
+        startTime = Time.time;
+        Vector3 targetPosition = new Vector3(overlab_target8_1.transform.position.x, overlab_target8_1.transform.position.y + 8f, overlab_target8_1.transform.position.z);
+
+
+        while (Time.time - startTime < 3)
+        {
+
+            float Distance1 = Vector3.Distance(overlab_arrow8_1.transform.position, overlab_target8_1.transform.position);
+            float Distance2 = Vector3.Distance(overlab_arrow8_2.transform.position, overlab_target8_1.transform.position);
+            float Distance3 = Vector3.Distance(overlab_arrow8_3.transform.position, overlab_target8_1.transform.position);
+            float Speed = 4f;
+
+            if (Distance1 <= 1f)
+            {
+                Debug.Log("1");
+                overlab_arrow8_1.transform.position = targetPosition;
+                overlab_arrow8_1.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            }
+            else if (Distance1 > 1f)
+            {
+                if (Time.time - startTime > 0.15f)
+                {
+                    overlab_arrow8_1.GetComponent<Rigidbody2D>().velocity = (targetPosition - overlab_arrow8_1.transform.position).normalized * (Distance1 / 2f) * Speed;
+                }
+            }
+
+            if (Distance2 <= 1f)
+            {
+                Debug.Log("2");
+                overlab_arrow8_2.transform.position = targetPosition;
+                overlab_arrow8_2.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            }
+            else if (Distance2 > 1f)
+            {
+                if (Time.time - startTime > 0.3f)
+                {
+                    overlab_arrow8_2.GetComponent<Rigidbody2D>().velocity = (targetPosition - overlab_arrow8_2.transform.position).normalized * (Distance2 / 2f) * Speed;
+                }
+            }
+
+            if (Distance3 <= 1f)
+            {
+                Debug.Log("3");
+                overlab_arrow8_3.transform.position = targetPosition;
+                overlab_arrow8_3.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            }
+            else if (Distance3 > 1f)
+            {
+                if (Time.time - startTime > 0.45f)
+                {
+                    overlab_arrow8_3.GetComponent<Rigidbody2D>().velocity = (targetPosition - overlab_arrow8_3.transform.position).normalized * (Distance3 / 2f) * Speed;
+                }
+            }
+
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+
+        SpriteRenderer arrow1_sprite = overlab_arrow8_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer arrow2_sprite = overlab_arrow8_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer arrow3_sprite = overlab_arrow8_3.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color arrow1_color = arrow1_sprite.color;
+        UnityEngine.Color arrow2_color = arrow2_sprite.color;
+        UnityEngine.Color arrow3_color = arrow3_sprite.color;
+
+        while (Time.time - startTime < 1)
+        {
+            overlab_arrow8_1.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            overlab_arrow8_2.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            overlab_arrow8_3.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            float alpha = (Time.time - startTime) / 1f;
+            target_color.a = 1 - alpha;
+            target_sprite.color = target_color;
+
+            arrow1_color.a = 1 - alpha;
+            arrow1_sprite.color = arrow1_color;
+
+            arrow2_color.a = 1 - alpha;
+            arrow2_sprite.color = arrow2_color;
+
+            arrow3_color.a = 1 - alpha;
+            arrow3_sprite.color = arrow3_color;
+
+
+            yield return null;
+        }
+        Destroy(overlab_arrow8_1);
+        Destroy(overlab_arrow8_2);
+        Destroy(overlab_arrow8_3);
+        Destroy(overlab_target8_1);
+        isOverlab = false;
     }
     #endregion
     // Update is called once per frame
     public void Scp1_9()
     {
+        isPattern= true;
         StartCoroutine(Scp1_9_Pattern());
     }
     #region Scp1_9 패턴 로직
@@ -1566,7 +2468,7 @@ public class Stage1_Boss : MonoBehaviour
         pattern9_2.SetActive(true);
         #endregion
         float startTime = Time.time;
-        int randomValue = Random.Range(1, 11); ;
+        int randomValue = Random.Range(1,4); ;
         while (Time.time - startTime < 4)
         {
             if(Time.time -startTime < 1)
@@ -1585,7 +2487,7 @@ public class Stage1_Boss : MonoBehaviour
         while(Time.time - startTime < 1)
         {
             float Speed = 250f;
-            if(randomValue >= 1 && randomValue <=4 )
+            if(randomValue == 1)
             {
                 float X1 = 35f;
                 float Y1 = 1f;
@@ -1599,7 +2501,7 @@ public class Stage1_Boss : MonoBehaviour
                 pattern9_1.transform.position += new Vector3(-X1 * Time.deltaTime, -Y1 * Time.deltaTime, 0);
                 pattern9_1.transform.eulerAngles += new Vector3(0,0,-Speed*Time.deltaTime);
              } // 위쪽검
-           else if (randomValue >=5 && randomValue <= 8)
+           else if (randomValue == 2)
             {
                 float X2 = 35f;
                 float Y2 = 1f;
@@ -1613,7 +2515,7 @@ public class Stage1_Boss : MonoBehaviour
                 pattern9_2.transform.position += new Vector3(X2 * Time.deltaTime, 0, 0);
                 pattern9_2.transform.eulerAngles += new Vector3(0, Y2*Time.deltaTime, -Speed*Time.deltaTime);
             }
-           else if(randomValue >=9 && randomValue <= 10)
+           else if(randomValue == 3)
             {
                 // 패턴 x
                 //continue;
@@ -1635,7 +2537,7 @@ public class Stage1_Boss : MonoBehaviour
 
         Destroy(pattern9_1);
         Destroy(pattern9_2);
-
+        isPattern = false;  
     }
     #endregion
     void Update()
@@ -1645,5 +2547,141 @@ public class Stage1_Boss : MonoBehaviour
         {
             // 체력 감소하는로직
         }
+
+        if (!isPattern && !isOverlab)
+        {
+            randomPattern = Random.Range(1, 11);
+            switch (randomPattern)
+            {
+                case 1: // pattern1
+                    Scp1_1();
+                    break;
+                case 2:
+                    Scp1_2();
+                    randomOverlab = Random.Range(1, 9);
+                    switch (randomOverlab)
+                    {
+                        case 1:
+                            overlab_Scp1_3();
+                            break;
+                        case 2:
+                            overlab_Scp1_5();
+                            break;
+                        case 3:
+                            overlab_Scp1_7();
+                            break;
+                        case 4:
+                            overlab_Scp1_8_1();
+                            break;
+                        default:
+
+                            break;
+                    }
+                    break;
+                case 3:
+                    Scp1_3();
+                    randomOverlab = Random.Range(1, 9);
+                    switch (randomOverlab)
+                    {
+                        case 1:
+                            overlab_Scp1_2();
+                            break;
+                        case 2:
+                            overlab_Scp1_5();
+                            break;
+                        case 3:
+                            overlab_Scp1_7();
+                            break;
+                        case 4:
+                            overlab_Scp1_8_1();
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+                case 4:
+                    Scp1_4();
+                    break;
+                case 5:
+                    Scp1_5();
+                    randomOverlab = Random.Range(1, 9);
+                    switch (randomOverlab)
+                    {
+                        case 1:
+                            overlab_Scp1_3();
+                            break;
+                        case 2:
+                            overlab_Scp1_2();
+                            break;
+                        case 3:
+                            overlab_Scp1_7();
+                            break;
+                        case 4:
+                            overlab_Scp1_8_1();
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+                case 6:
+                    Scp1_6();
+                    break;
+                case 7:
+                    Scp1_7();
+                    randomOverlab = Random.Range(1, 9);
+                    switch (randomOverlab)
+                    {
+                        case 1:
+                            overlab_Scp1_3();
+                            break;
+                        case 2:
+                            overlab_Scp1_5();
+                            break;
+                        case 3:
+                            overlab_Scp1_2();
+                            break;
+                        case 4:
+                            overlab_Scp1_8_1();
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+                case 8:
+                    Scp1_8();
+                    break;
+                case 9:
+                    Scp1_8_1();
+                    randomOverlab = Random.Range(1, 9);
+                    switch (randomOverlab)
+                    {
+                        case 1:
+                            overlab_Scp1_3();
+                            break;
+                        case 2:
+                            overlab_Scp1_5();
+                            break;
+                        case 3:
+                            overlab_Scp1_7();
+                            break;
+                        case 4:
+                            overlab_Scp1_2();
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+                case 10:
+                    Scp1_9();
+                    break;
+
+
+            }
+        }
+
     }
 }
