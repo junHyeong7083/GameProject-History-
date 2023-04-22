@@ -175,7 +175,7 @@ public class Stage1_Boss : MonoBehaviour
 
     } // 오브젝트 쉐이킹
 
-    public void Scp1_1()
+    public void Scp1_1()  
     {
         isPattern = true;
         StartCoroutine(Scp1_1_Pattern());
@@ -220,7 +220,7 @@ public class Stage1_Boss : MonoBehaviour
         Sword.transform.position = new Vector3(-10f, 20f, 0);
         Sword.transform.rotation = Quaternion.Euler(0, 0, 140f);
         StartCoroutine(Scp1_2_1());
-    }
+    } // 투명도처리필요
     #region Scp1_2 패턴로직
     IEnumerator Scp1_2_1()
     {
@@ -299,7 +299,7 @@ public class Stage1_Boss : MonoBehaviour
         isOverlab = true;
         Sword.transform.position = new Vector3(-10f, 20f, 0);
         Sword.transform.rotation = Quaternion.Euler(0, 0, 140f);
-    } // 오버랩용 함수
+    } // 오버랩용 함수 
     #region Scp 1_2 Overlab
     IEnumerator overlab_Scp1_2_1()
     {
@@ -402,7 +402,7 @@ public class Stage1_Boss : MonoBehaviour
         #endregion
         isPattern = true;
         StartCoroutine(Scp1_3_1());
-    }
+    } // 투명도 처리 필요
     #region Scp 1_3 패턴로직
     IEnumerator Scp1_3_1()
     {
@@ -519,7 +519,7 @@ public class Stage1_Boss : MonoBehaviour
     {
         isPattern = true;
         StartCoroutine(Scp1_4_Total());
-    }
+    } // 투명도 처리 필요
     #region Scp 1_4 패턴로직
     IEnumerator Scp1_4_Total()
     {
@@ -800,7 +800,7 @@ public class Stage1_Boss : MonoBehaviour
     {
         isPattern = true;
         StartCoroutine(Scp1_5_total());
-    }
+    } // 투명도 처리 필요
     #region Scp 1_5 패턴로직
     IEnumerator Scp1_5_total()
     {
@@ -1797,7 +1797,7 @@ public class Stage1_Boss : MonoBehaviour
         overlab_pattern7_8.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
         overlab_pattern7_9.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
 
-
+        
         #endregion
         float startTime = Time.time;
         while (Time.time - startTime < 1)
