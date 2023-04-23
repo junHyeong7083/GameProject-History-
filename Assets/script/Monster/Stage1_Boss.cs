@@ -14,13 +14,17 @@ public class Stage1_Boss : MonoBehaviour
     private PlayerController playerController;
     public GameObject Player;
     Vector3 PlayerPos;
+    Vector3 bossPos;
     Camera cam;
     Vector3 cameraOriginalPos;
-    Vector3 bossOriginalPos;
 
     // ----------------- Pattern2 -----------------
     bool nextPtn1State = false;
+    float ptn2_playTime = 0.45f;
+    float ptn2_delayTime = 1.55f;
     public GameObject Sword;
+    GameObject pattern2_1;
+    GameObject pattern2_2;
     // ----------------- Pattern3 -----------------
     public GameObject Kunai;
     #region Pattern3
@@ -139,13 +143,11 @@ public class Stage1_Boss : MonoBehaviour
     int randomOverlab;
     void Start()
     {
-        // 보스 현재 포지션 0, 2
         rigidbody2D = GetComponent<Rigidbody2D>();
         playerController = Player.GetComponent<PlayerController>();
 
         cam = Camera.main;
         cameraOriginalPos = cam.transform.position;
-        bossOriginalPos = this.transform.position;
     }
 
     IEnumerator CameraShaking(float duration, float magnitude)
@@ -166,12 +168,12 @@ public class Stage1_Boss : MonoBehaviour
         float timer = 0;
         while (timer <= duration)
         {
-            this.transform.localPosition = Random.insideUnitSphere * magnitude + bossOriginalPos;
+           this.transform.localPosition = Random.insideUnitSphere * magnitude + bossPos;
 
             timer += Time.deltaTime;
             yield return null;
         }
-        this.transform.localPosition = bossOriginalPos;
+       this.transform.localPosition = bossPos;
 
     } // 오브젝트 쉐이킹
 
@@ -184,11 +186,11 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_1_Pattern()
     {
         float startTime = Time.time;
-        while(Time.time - startTime < 2)
+        while (Time.time - startTime < 2)
         {
             if(Time.time - startTime < 1)
             {
-                StartCoroutine(BossShaking(0.3f, 0.15f));
+                StartCoroutine(BossShaking(0.3f, 0.07f));
             }
             if(Time.time - startTime > 1)
             {
@@ -198,13 +200,12 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         Vector3 targetPos = PlayerPos ;
-        Vector3 startPos = this.transform.position;
         startTime = Time.time;
         float duration = 0.7f; // 이동에 걸리는 시간
         while (Time.time - startTime < 2)
         {
             float t = (Time.time - startTime) / duration;
-            rigidbody2D.MovePosition(Vector3.Lerp(startPos, targetPos, t));
+            rigidbody2D.MovePosition(Vector3.Lerp(bossPos, targetPos, t));
             yield return null;
         }
 
@@ -217,79 +218,118 @@ public class Stage1_Boss : MonoBehaviour
     {
         isPattern = true;
 
-        Sword.transform.position = new Vector3(-10f, 20f, 0);
-        Sword.transform.rotation = Quaternion.Euler(0, 0, 140f);
         StartCoroutine(Scp1_2_1());
     } // 투명도처리필요
     #region Scp1_2 패턴로직
     IEnumerator Scp1_2_1()
     {
-        Sword.SetActive(true);
+        pattern2_1 = Instantiate(Sword.gameObject);
+        pattern2_2 = Instantiate(Sword.gameObject);
+        #region Pattern2_1 Pos Setting
+        pattern2_1.transform.localScale = new Vector3(2, 2, 2);
+        pattern2_1.transform.position = new Vector3(-25, 0, 0);
+        pattern2_1.transform.rotation = Quaternion.Euler(0, 0, 180);
+        #endregion
+
+        #region Pattern2_1
+        SpriteRenderer sprite2_1 = pattern2_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color2_1 = sprite2_1.color;
+        color2_1.a = 0;
+        sprite2_1.color = color2_1;
+        #endregion
+
+
+        pattern2_1.SetActive(true);
         float startTime = Time.time; // 시작 시간 저장
-        while (Time.time - startTime < 1) // 1초간 rotation.z 값 변경
+        while(Time.time - startTime < 1)
         {
-            float backX = 2.5f;
-            float upY = 2f;
-            float RotateZ = 4.5f;
-            Sword.transform.position += new Vector3(-backX * Time.deltaTime, upY * Time.deltaTime, 0);
-            Sword.transform.Rotate(0, 0, RotateZ * Time.deltaTime);
-            yield return null;
-        }
-
-        startTime = Time.time; // 시작 시간 재설정
-        while (Time.time - startTime < 2.0f) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
-        {
-            if(Sword.transform.position.y  > -12)
-            {
-                float frontX = 30f;
-                float downY = 130f;
-                float RotateZ = 90f;
-                Sword.transform.position += new Vector3(frontX * Time.deltaTime, -downY * Time.deltaTime, 0);
-                Sword.transform.Rotate(0, 0, -RotateZ *  4 * Time.deltaTime);
-            }
-  
+            float alpha = (Time.time - startTime) / 1f;
+            color2_1.a = alpha;
+            sprite2_1.color = color2_1;
 
             yield return null;
         }
-        Sword.SetActive(false);
+        startTime = Time.time;
+
+        while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
+        {
+
+            float RotateZ = 90f;
+            pattern2_1.transform.Rotate(0, 0, -RotateZ *  4 * Time.deltaTime);
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time - startTime < ptn2_delayTime)
+        {
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            color2_1.a = 1 - alpha;
+            sprite2_1.color = color2_1;
+
+            yield return null;
+        }
+
+
+
+        pattern2_1.SetActive(false);
         nextPtn1State = true;
         if(nextPtn1State)
-        {
-            Sword.transform.position = new Vector3(4, -25f, 0);
-            Sword.transform.rotation = Quaternion.Euler(0, 0, 320f);
             StartCoroutine(Scp1_2_2());
-        }
+        
     }
     IEnumerator Scp1_2_2()
     {
-        Sword.SetActive(true);
+        #region Pattern2_2 Pos Setting
+        pattern2_2.transform.localScale = new Vector3(2, 2, 2);
+        pattern2_2.transform.position = new Vector3(25, 0, 0);
+        pattern2_2.transform.rotation = Quaternion.Euler(0, 0, 360f);
+        #endregion
+        #region Pattern2_1
+        SpriteRenderer sprite2_2 = pattern2_2.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color2_2 = sprite2_2.color;
+        color2_2.a = 0;
+        sprite2_2.color = color2_2;
+        #endregion
+        pattern2_2.SetActive(true);
         float startTime = Time.time; // 시작 시간 저장
-        while (Time.time - startTime < 1) // 1초간 rotation.z 값 변경
+        while (Time.time - startTime < 1)
         {
-            float backX = 2.5f;
-            float upY = 2f;
-            float RotateZ = 4.5f;
-            Sword.transform.position += new Vector3(+backX * Time.deltaTime, -upY * Time.deltaTime, 0);
-            Sword.transform.Rotate(0, 0, RotateZ * Time.deltaTime);
+            float alpha = (Time.time - startTime) / 1f;
+            color2_2.a = alpha;
+            sprite2_2.color = color2_2;
+
             yield return null;
         }
 
-        startTime = Time.time; // 시작 시간 재설정
-        while (Time.time - startTime < 2.0f) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
-        {
-            if (Sword.transform.position.y < 25f)
-            {
-                float frontX = 30f;
-                float upY = 150f;
-                float RotateZ = 80;
-                Sword.transform.position += new Vector3(-frontX * Time.deltaTime, upY * Time.deltaTime, 0);
-                Sword.transform.Rotate(0, 0, -RotateZ * 4 * Time.deltaTime);
-            }
+        startTime = Time.time;
 
+        while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
+        {
+              float RotateZ = 90f;
+            pattern2_2.transform.Rotate(0, 0, -RotateZ * 4 * Time.deltaTime);
 
             yield return null;
         }
-        Sword.SetActive(false);
+        startTime = Time.time;
+        while(Time.time - startTime < ptn2_delayTime)
+        {
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            color2_2.a = 1 - alpha;
+            sprite2_2.color = color2_2;
+
+            yield return null;
+        }
+
+        pattern2_2.SetActive(false);
         nextPtn1State = false;
         isPattern = false;
     }
@@ -299,7 +339,7 @@ public class Stage1_Boss : MonoBehaviour
         isOverlab = true;
         Sword.transform.position = new Vector3(-10f, 20f, 0);
         Sword.transform.rotation = Quaternion.Euler(0, 0, 140f);
-    } // 오버랩용 함수 
+    } // 오버랩용 함수 수정필요함 
     #region Scp 1_2 Overlab
     IEnumerator overlab_Scp1_2_1()
     {
@@ -2543,145 +2583,13 @@ public class Stage1_Boss : MonoBehaviour
     void Update()
     {
         PlayerPos = Player.transform.position;
+        bossPos = this.transform.position;
          if(PlayerController.atkState) // 공격상태이면
         {
             // 체력 감소하는로직
         }
 
-        if (!isPattern && !isOverlab)
-        {
-            randomPattern = Random.Range(1, 11);
-            switch (randomPattern)
-            {
-                case 1: // pattern1
-                    Scp1_1();
-                    break;
-                case 2:
-                    Scp1_2();
-                    randomOverlab = Random.Range(1, 9);
-                    switch (randomOverlab)
-                    {
-                        case 1:
-                            overlab_Scp1_3();
-                            break;
-                        case 2:
-                            overlab_Scp1_5();
-                            break;
-                        case 3:
-                            overlab_Scp1_7();
-                            break;
-                        case 4:
-                            overlab_Scp1_8_1();
-                            break;
-                        default:
 
-                            break;
-                    }
-                    break;
-                case 3:
-                    Scp1_3();
-                    randomOverlab = Random.Range(1, 9);
-                    switch (randomOverlab)
-                    {
-                        case 1:
-                            overlab_Scp1_2();
-                            break;
-                        case 2:
-                            overlab_Scp1_5();
-                            break;
-                        case 3:
-                            overlab_Scp1_7();
-                            break;
-                        case 4:
-                            overlab_Scp1_8_1();
-                            break;
-                        default:
-                            break;
-                    }
-
-                    break;
-                case 4:
-                    Scp1_4();
-                    break;
-                case 5:
-                    Scp1_5();
-                    randomOverlab = Random.Range(1, 9);
-                    switch (randomOverlab)
-                    {
-                        case 1:
-                            overlab_Scp1_3();
-                            break;
-                        case 2:
-                            overlab_Scp1_2();
-                            break;
-                        case 3:
-                            overlab_Scp1_7();
-                            break;
-                        case 4:
-                            overlab_Scp1_8_1();
-                            break;
-                        default:
-                            break;
-                    }
-
-                    break;
-                case 6:
-                    Scp1_6();
-                    break;
-                case 7:
-                    Scp1_7();
-                    randomOverlab = Random.Range(1, 9);
-                    switch (randomOverlab)
-                    {
-                        case 1:
-                            overlab_Scp1_3();
-                            break;
-                        case 2:
-                            overlab_Scp1_5();
-                            break;
-                        case 3:
-                            overlab_Scp1_2();
-                            break;
-                        case 4:
-                            overlab_Scp1_8_1();
-                            break;
-                        default:
-                            break;
-                    }
-
-                    break;
-                case 8:
-                    Scp1_8();
-                    break;
-                case 9:
-                    Scp1_8_1();
-                    randomOverlab = Random.Range(1, 9);
-                    switch (randomOverlab)
-                    {
-                        case 1:
-                            overlab_Scp1_3();
-                            break;
-                        case 2:
-                            overlab_Scp1_5();
-                            break;
-                        case 3:
-                            overlab_Scp1_7();
-                            break;
-                        case 4:
-                            overlab_Scp1_2();
-                            break;
-                        default:
-                            break;
-                    }
-
-                    break;
-                case 10:
-                    Scp1_9();
-                    break;
-
-
-            }
-        }
 
     }
 }
