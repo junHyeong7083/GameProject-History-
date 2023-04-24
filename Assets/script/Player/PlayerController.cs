@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public int Hp = 4;
     bool isHit = false;
     float hitCoolTime = 2f;
+    float hitTimer = 0f;
     //-------------------사용할 컴포넌트-------------------
     EdgeCollider2D lineCollider; // 라인렌더러시 사용할 콜라이더
     Rigidbody2D lineRigid;
@@ -56,7 +57,7 @@ public class PlayerController : MonoBehaviour
         Hp--;
     }
 
-
+ 
 
 
     void Update()
@@ -182,6 +183,7 @@ public class PlayerController : MonoBehaviour
             atkState = false;
         }
 
+        #region Hp Image Change
         if (Hp == 3)
         {
             topHp.SetActive(false);
@@ -198,24 +200,21 @@ public class PlayerController : MonoBehaviour
         {
             leftHp.SetActive(false);
         }
-
-
-
-
-        if (hitCoolTime <= 3)
+        #endregion
+        if (isHit)
         {
-            hitCoolTime += Time.deltaTime;
-        }
-        
-        
-        
-        if(isHit)
-        {
-            if(hitCoolTime >= 2)
+            if(hitTimer >= hitCoolTime)
             {
                 DecreaseHp();
-                hitCoolTime = 0;
+                hitTimer = 0;
             }
+        }
+        if(hitTimer <= 0)
+        {
+            hitCoolTime += Time.deltaTime;
+            if (hitTimer > 5)
+                hitTimer = 5;
+
         }
 
     }

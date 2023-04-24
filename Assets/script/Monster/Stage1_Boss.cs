@@ -20,8 +20,8 @@ public class Stage1_Boss : MonoBehaviour
 
     // ----------------- Pattern2 -----------------
     bool nextPtn1State = false;
-    float ptn2_playTime = 0.45f;
-    float ptn2_delayTime = 1.55f;
+    float ptn2_playTime = 0.35f;
+    float ptn2_delayTime = 1.45f;
     public GameObject Sword;
     GameObject pattern2_1;
     GameObject pattern2_2;
@@ -59,6 +59,7 @@ public class Stage1_Boss : MonoBehaviour
     GameObject pattern5_5;
     GameObject target_5;
     #endregion
+    float bulletSpeed = 400f;
     // ----------------- Pattern6 -----------------
     public GameObject Sword2;
     #region Pattern6
@@ -136,6 +137,8 @@ public class Stage1_Boss : MonoBehaviour
     GameObject overlab_arrow8_2;
     GameObject overlab_arrow8_3;
     #endregion
+    float ptn9_playTime = 0.3f;
+    float ptn9_delayTime = 1.7f;
     // ----------------- bool -----------------
     bool isOverlab = false;
     bool isPattern = false;
@@ -254,8 +257,8 @@ public class Stage1_Boss : MonoBehaviour
         while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
         {
 
-            float RotateZ = 90f;
-            pattern2_1.transform.Rotate(0, 0, -RotateZ *  4 * Time.deltaTime);
+            float RotateZ = 90;
+            pattern2_1.transform.Rotate(0, 0, -RotateZ * 1.5f*  4 * Time.deltaTime);
             yield return null;
         }
         startTime = Time.time;
@@ -263,19 +266,6 @@ public class Stage1_Boss : MonoBehaviour
         {
             yield return null;
         }
-        startTime = Time.time;
-        while (Time.time - startTime < 1)
-        {
-            float alpha = (Time.time - startTime) / 1f;
-            color2_1.a = 1 - alpha;
-            sprite2_1.color = color2_1;
-
-            yield return null;
-        }
-
-
-
-        pattern2_1.SetActive(false);
         nextPtn1State = true;
         if(nextPtn1State)
             StartCoroutine(Scp1_2_2());
@@ -293,24 +283,32 @@ public class Stage1_Boss : MonoBehaviour
         UnityEngine.Color color2_2 = sprite2_2.color;
         color2_2.a = 0;
         sprite2_2.color = color2_2;
+
+        SpriteRenderer sprite2_1 = pattern2_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color2_1 = sprite2_1.color;
+        color2_1.a = 0;
+        sprite2_1.color = color2_1;
         #endregion
         pattern2_2.SetActive(true);
         float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 1)
         {
             float alpha = (Time.time - startTime) / 1f;
+            color2_1.a = 1 - alpha;
+            sprite2_1.color = color2_1;
+
             color2_2.a = alpha;
             sprite2_2.color = color2_2;
 
             yield return null;
         }
-
+        Destroy(pattern2_1);
         startTime = Time.time;
 
         while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
         {
               float RotateZ = 90f;
-            pattern2_2.transform.Rotate(0, 0, -RotateZ * 4 * Time.deltaTime);
+            pattern2_2.transform.Rotate(0, 0, -RotateZ* 1.5f* 4 * Time.deltaTime);
 
             yield return null;
         }
@@ -328,8 +326,7 @@ public class Stage1_Boss : MonoBehaviour
 
             yield return null;
         }
-
-        pattern2_2.SetActive(false);
+        Destroy(pattern2_2);
         nextPtn1State = false;
         isPattern = false;
     }
@@ -347,79 +344,119 @@ public class Stage1_Boss : MonoBehaviour
         overlab_pattern2_2 = Instantiate(Sword.gameObject);
         overlab_pattern2_1.SetActive(true);
 
-        overlab_pattern2_1.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
-        overlab_pattern2_2.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        overlab_pattern2_1.transform.localScale = new Vector3(2, 2, 2);
+        overlab_pattern2_1.transform.position = new Vector3(-25, 0, 0);
+        overlab_pattern2_1.transform.rotation = Quaternion.Euler(0, 0, 180);
 
+        SpriteRenderer sprite2_1 = overlab_pattern2_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color2_1 = sprite2_1.color;
+        color2_1.a = 0;
+        sprite2_1.color = color2_1;
+
+
+        overlab_pattern2_1.SetActive(true);
         float startTime = Time.time; // 시작 시간 저장
-        while (Time.time - startTime < 1) // 1초간 rotation.z 값 변경
+        while (Time.time - startTime < 1)
         {
-            float backX = 2.5f;
-            float upY = 2f;
-            float RotateZ = 4.5f;
-            overlab_pattern2_1.transform.position += new Vector3(-backX * Time.deltaTime, upY * Time.deltaTime, 0);
-            overlab_pattern2_1.transform.Rotate(0, 0, RotateZ * Time.deltaTime);
-            yield return null;
-        }
-
-        startTime = Time.time; // 시작 시간 재설정
-        while (Time.time - startTime < 2.0f) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
-        {
-            if (overlab_pattern2_1.transform.position.y > -12)
-            {
-                float frontX = 30f;
-                float downY = 130f;
-                float RotateZ = 90f;
-                overlab_pattern2_1.transform.position += new Vector3(frontX * Time.deltaTime, -downY * Time.deltaTime, 0);
-                overlab_pattern2_1.transform.Rotate(0, 0, -RotateZ * 4 * Time.deltaTime);
-            }
-
+            float alpha = (Time.time - startTime) / 1f;
+            color2_1.a = alpha;
+            sprite2_1.color = color2_1;
 
             yield return null;
         }
-        overlab_pattern2_1.SetActive(false);
-        nextPtn1State = true;
-        if (nextPtn1State)
+        startTime = Time.time;
+
+        while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
         {
-            overlab_pattern2_2.transform.position = new Vector3(4, -25f, 0);
-            overlab_pattern2_2.transform.rotation = Quaternion.Euler(0, 0, 320f);
-            StartCoroutine(overlab_Scp1_2_2());
+
+            float RotateZ = 90;
+            overlab_pattern2_1.transform.Rotate(0, 0, -RotateZ * 1.5f * 4 * Time.deltaTime);
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < ptn2_delayTime)
+        {
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            color2_1.a = 1 - alpha;
+            sprite2_1.color = color2_1;
+
+            yield return null;
         }
     }
     IEnumerator overlab_Scp1_2_2()
     {
+        #region overlab_pattern2_2 Pos Setting
+        overlab_pattern2_2.transform.localScale = new Vector3(2, 2, 2);
+        overlab_pattern2_2.transform.position = new Vector3(25, 0, 0);
+        overlab_pattern2_2.transform.rotation = Quaternion.Euler(0, 0, 360f);
+        #endregion
+        #region overlab_pattern2_2
+        SpriteRenderer sprite2_2 = overlab_pattern2_2.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color2_2 = sprite2_2.color;
+        color2_2.a = 0;
+        sprite2_2.color = color2_2;
+
+        SpriteRenderer sprite2_1 = overlab_pattern2_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color2_1 = sprite2_1.color;
+        color2_1.a = 0;
+        sprite2_1.color = color2_1;
+        #endregion
         overlab_pattern2_2.SetActive(true);
         float startTime = Time.time; // 시작 시간 저장
-        while (Time.time - startTime < 1) // 1초간 rotation.z 값 변경
+        while (Time.time - startTime < 1)
         {
-            float backX = 2.5f;
-            float upY = 2f;
-            float RotateZ = 4.5f;
-            overlab_pattern2_2.transform.position += new Vector3(+backX * Time.deltaTime, -upY * Time.deltaTime, 0);
-            overlab_pattern2_2.transform.Rotate(0, 0, RotateZ * Time.deltaTime);
-            yield return null;
-        }
+            float alpha = (Time.time - startTime) / 1f;
+            color2_1.a = 1 - alpha;
+            sprite2_1.color = color2_1;
 
-        startTime = Time.time; // 시작 시간 재설정
-        while (Time.time - startTime < 2.0f) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
-        {
-            if (overlab_pattern2_2.transform.position.y < 25f)
-            {
-                float frontX = 30f;
-                float upY = 150f;
-                float RotateZ = 80;
-                overlab_pattern2_2.transform.position += new Vector3(-frontX * Time.deltaTime, upY * Time.deltaTime, 0);
-                overlab_pattern2_2.transform.Rotate(0, 0, -RotateZ * 4 * Time.deltaTime);
-            }
-
+            color2_2.a = alpha;
+            sprite2_2.color = color2_2;
 
             yield return null;
         }
-        overlab_pattern2_2.SetActive(false);
+        Destroy(overlab_pattern2_1);
+
+        startTime = Time.time;
+
+        while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
+        {
+            float RotateZ = 90f;
+            overlab_pattern2_2.transform.Rotate(0, 0, -RotateZ * 1.5f * 4 * Time.deltaTime);
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < ptn2_delayTime)
+        {
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            color2_2.a = 1 - alpha;
+            sprite2_2.color = color2_2;
+
+            yield return null;
+        }
+
+        Destroy(overlab_pattern2_2);
         nextPtn1State = false;
-        isOverlab = false;
+        isPattern = false;
     }
     #endregion
     public void Scp1_3()
+    {
+        isPattern = true;
+        StartCoroutine(Scp1_3_1());
+    } // 투명도 처리 필요
+    #region Scp 1_3 패턴로직
+    IEnumerator Scp1_3_1()
     {
         #region 복제
         pattern3_1 = Instantiate(Kunai.gameObject);
@@ -427,11 +464,28 @@ public class Stage1_Boss : MonoBehaviour
         pattern3_3 = Instantiate(Kunai.gameObject);
         #endregion
 
+        #region SpriteRenderer
+        SpriteRenderer sprite3_1 = pattern3_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite3_2 = pattern3_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite3_3 = pattern3_3.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color3_1 = sprite3_1.color;
+        UnityEngine.Color color3_2 = sprite3_2.color;
+        UnityEngine.Color color3_3 = sprite3_3.color;
+
+        color3_1.a = 0;
+        color3_2.a = 0;
+        color3_3.a = 0;
+
+        sprite3_1.color = color3_1;
+        sprite3_2.color = color3_2;
+        sprite3_3.color = color3_3;
+        #endregion
         #region Pattern3 Setting Pos
         float posX = 8f;
         float posY = 10f;
 
-        pattern3_1.transform.position = new Vector3(PlayerPos.x  - posX, PlayerPos.y - posY, 0);
+        pattern3_1.transform.position = new Vector3(PlayerPos.x - posX, PlayerPos.y - posY, 0);
         pattern3_1.transform.eulerAngles = new Vector3(0, 0, 220);
 
         pattern3_2.transform.position = new Vector3(PlayerPos.x, PlayerPos.y - posY - 3f, 0);
@@ -440,12 +494,6 @@ public class Stage1_Boss : MonoBehaviour
         pattern3_3.transform.position = new Vector3(PlayerPos.x + posX, PlayerPos.y - posY, 0);
         pattern3_3.transform.eulerAngles = new Vector3(0, 0, 320);
         #endregion
-        isPattern = true;
-        StartCoroutine(Scp1_3_1());
-    } // 투명도 처리 필요
-    #region Scp 1_3 패턴로직
-    IEnumerator Scp1_3_1()
-    {
         pattern3_1.SetActive(true);
         pattern3_2.SetActive(true);
         pattern3_3.SetActive(true);
@@ -455,27 +503,41 @@ public class Stage1_Boss : MonoBehaviour
         Vector3 dir3 = (PlayerPos - pattern3_3.transform.position).normalized;
 
         float startTime = Time.time; // 시작 시간 저장
+        while(Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            color3_1.a = alpha;
+            color3_2.a = alpha;
+            color3_3.a = alpha;
+
+            sprite3_1.color = color3_1;
+            sprite3_2.color = color3_2;
+            sprite3_3.color = color3_3;
+
+            yield return null;
+        }
+        startTime = Time.time;      
         while (Time.time - startTime < 2) // 1초간 rotation.z 값 변경
         {
-            float backPos = 1f;
-
+            float backPos = 1.2f;
             pattern3_1.transform.position += new Vector3(-backPos * Time.deltaTime, -backPos * Time.deltaTime, 0);
             pattern3_2.transform.position += new Vector3(0, -backPos * Time.deltaTime, 0);
             pattern3_3.transform.position += new Vector3(backPos * Time.deltaTime, -backPos * Time.deltaTime, 0);
-
 
             yield return null;
         }
         startTime = Time.time;
         while (Time.time - startTime < 2) // 1초간 rotation.z 값 변경
         {
-            float speed = 100f;
+            float speed = 150f;
             pattern3_1.transform.position += new Vector3(speed * dir1.x * Time.deltaTime, speed * dir1.y * Time.deltaTime, 0);
             pattern3_2.transform.position += new Vector3(speed * dir2.x * Time.deltaTime, speed * dir2.y * Time.deltaTime, 0);
             pattern3_3.transform.position += new Vector3(speed * dir3.x * Time.deltaTime, speed * dir3.y * Time.deltaTime, 0);
 
             yield return null;
         }
+
+        // 알파값 지울필요없음
 
         Destroy(pattern3_1);
         Destroy(pattern3_2);
@@ -521,15 +583,45 @@ public class Stage1_Boss : MonoBehaviour
         overlab_pattern3_1.SetActive(true);
         overlab_pattern3_2.SetActive(true);
         overlab_pattern3_3.SetActive(true);
+        #region SpriteRenderer
+        SpriteRenderer sprite3_1 = overlab_pattern3_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite3_2 = overlab_pattern3_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite3_3 = overlab_pattern3_3.GetComponent<SpriteRenderer>();
 
+        UnityEngine.Color color3_1 = sprite3_1.color;
+        UnityEngine.Color color3_2 = sprite3_2.color;
+        UnityEngine.Color color3_3 = sprite3_3.color;
+
+        color3_1.a = 0;
+        color3_2.a = 0;
+        color3_3.a = 0;
+
+        sprite3_1.color = color3_1;
+        sprite3_2.color = color3_2;
+        sprite3_3.color = color3_3;
+        #endregion
         Vector3 dir1 = (PlayerPos - overlab_pattern3_1.transform.position).normalized;
         Vector3 dir2 = (PlayerPos - overlab_pattern3_2.transform.position).normalized;
         Vector3 dir3 = (PlayerPos - overlab_pattern3_3.transform.position).normalized;
 
         float startTime = Time.time; // 시작 시간 저장
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            color3_1.a = alpha;
+            color3_2.a = alpha;
+            color3_3.a = alpha;
+
+            sprite3_1.color = color3_1;
+            sprite3_2.color = color3_2;
+            sprite3_3.color = color3_3;
+
+            yield return null;
+        }
+        startTime = Time.time;
         while (Time.time - startTime < 2) // 1초간 rotation.z 값 변경
         {
-            float backPos = 1f;
+            float backPos = 1.2f;
 
             overlab_pattern3_1.transform.position += new Vector3(-backPos * Time.deltaTime,-backPos * Time.deltaTime, 0);
             overlab_pattern3_2.transform.position += new Vector3(0,-backPos * Time.deltaTime, 0);
@@ -541,7 +633,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time;
         while (Time.time - startTime < 2) // 1초간 rotation.z 값 변경
         {
-            float speed = 100f;
+            float speed = 150f;
             overlab_pattern3_1.transform.position += new Vector3(speed * dir1.x * Time.deltaTime, speed * dir1.y * Time.deltaTime, 0);
             overlab_pattern3_2.transform.position += new Vector3(speed * dir2.x * Time.deltaTime, speed * dir2.y * Time.deltaTime, 0);
             overlab_pattern3_3.transform.position += new Vector3(speed * dir3.x * Time.deltaTime, speed * dir3.y * Time.deltaTime, 0);
@@ -569,21 +661,21 @@ public class Stage1_Boss : MonoBehaviour
             if(cnt == 8) 
             {
                 pattern4_1 = Instantiate(Sword.gameObject);
-                pattern4_1.transform.position = new Vector3(-35f, 48f, 0);
+                pattern4_1.transform.position = new Vector3(-70f, 48f, 0);
                 pattern4_1.transform.eulerAngles = new Vector3(0, 0, 90);
                 StartCoroutine(Scp1_4_1());
             } // 왼
             if(cnt == 7)
             {
                 pattern4_2 = Instantiate(Sword.gameObject);
-                pattern4_2.transform.position = new Vector3(40, 35, 0);
+                pattern4_2.transform.position = new Vector3(70f, 35, 0);
                 pattern4_2.transform.eulerAngles = new Vector3(180, 0, 270);
                 StartCoroutine(Scp1_4_2());
             } // 오
             if(cnt == 6)
             {
                 pattern4_3 = Instantiate(Sword.gameObject);
-                pattern4_3.transform.position = new Vector3(-35f, 22, 0);
+                pattern4_3.transform.position = new Vector3(-70f, 22, 0);
                 pattern4_3.transform.eulerAngles = new Vector3(0, 0, 90);
                 StartCoroutine(Scp1_4_3());
 
@@ -591,35 +683,35 @@ public class Stage1_Boss : MonoBehaviour
             if(cnt == 5)
             {
                 pattern4_4 = Instantiate(Sword.gameObject);
-                pattern4_4.transform.position = new Vector3(40, 9, 0);
+                pattern4_4.transform.position = new Vector3(70f, 9, 0);
                 pattern4_4.transform.eulerAngles = new Vector3(180, 0, 270);
                 StartCoroutine(Scp1_4_4());
             } // 오
             if(cnt == 4)
             {
                 pattern4_5 = Instantiate(Sword.gameObject);
-                pattern4_5.transform.position = new Vector3(-35f, -4, 0);
+                pattern4_5.transform.position = new Vector3(-70f, -4, 0);
                 pattern4_5.transform.eulerAngles = new Vector3(0, 0, 90);
                 StartCoroutine(Scp1_4_5());
             } // 왼
             if(cnt == 3)
             {
                 pattern4_6 = Instantiate(Sword.gameObject);
-                pattern4_6.transform.position = new Vector3(40, -17, 0);
+                pattern4_6.transform.position = new Vector3(70f, -17, 0);
                 pattern4_6.transform.eulerAngles = new Vector3(180, 0, 270);
                 StartCoroutine(Scp1_4_6());
             } // 오
             if(cnt == 2)
             {
                 pattern4_7 = Instantiate(Sword.gameObject);
-                pattern4_7.transform.position = new Vector3(-35f, -30, 0);
+                pattern4_7.transform.position = new Vector3(-70f, -30, 0);
                 pattern4_7.transform.eulerAngles = new Vector3(0, 0, 90);
                 StartCoroutine(Scp1_4_7());
             } // 왼
             if(cnt == 1)
             {
                 pattern4_8 = Instantiate(Sword.gameObject);
-                pattern4_8.transform.position = new Vector3(40, -43, 0);
+                pattern4_8.transform.position = new Vector3(70f, -43, 0);
                 pattern4_8.transform.eulerAngles = new Vector3(180, 0, 270);
                 StartCoroutine(Scp1_4_8());
             } // 오
@@ -632,7 +724,22 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_4_1()
     {
         pattern4_1.SetActive(true);
+
+        SpriteRenderer sprite4_1 = pattern4_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color4_1 = sprite4_1.color;
+        color4_1.a = 0;
+        sprite4_1.color = color4_1;
+
         float startTime = Time.time; // 시작 시간 저장
+        while(Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            color4_1.a = alpha;
+            sprite4_1.color = color4_1;
+
+            yield return null;
+        }
+        startTime = Time.time;
         while (Time.time - startTime < 4) 
         {
             float speed = 2f;
@@ -644,7 +751,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3) 
         {
-            if(pattern4_1.transform.position.x < -30)
+            if(pattern4_1.transform.position.x < -40)
             {
                 float speed = 200f;
                 pattern4_1.transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
@@ -652,13 +759,37 @@ public class Stage1_Boss : MonoBehaviour
 
             yield return null;
         }
-       Destroy(pattern4_1);
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            float alpha = (Time.time - startTime) / 0.3f;
+            color4_1.a = 1- alpha;
+            sprite4_1.color = color4_1;
+
+            yield return null;
+        }
+        Destroy(pattern4_1);
        StopCoroutine(Scp1_4_1());
     }
     IEnumerator Scp1_4_2()
     {
         pattern4_2.SetActive(true);
+
+        SpriteRenderer sprite4_2 = pattern4_2.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color4_2 = sprite4_2.color;
+        color4_2.a = 0;
+        sprite4_2.color = color4_2;
+
         float startTime = Time.time; // 시작 시간 저장
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            color4_2.a = alpha;
+            sprite4_2.color = color4_2;
+
+            yield return null;
+        }
+        startTime = Time.time;
         while (Time.time - startTime < 4)
         {
             float speed = 2f;
@@ -669,11 +800,20 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_2.transform.position.x > 30)
+            if (pattern4_2.transform.position.x > 40)
             {
                 float speed = 200f;
                 pattern4_2.transform.position += new Vector3(-speed * Time.deltaTime, 0, 0);
             }
+
+            yield return null;
+        }
+        startTime = Time.time; // 시작 시간 저장
+        while (Time.time - startTime < 0.3f)
+        {
+            float alpha = (Time.time - startTime) / 0.3f;
+            color4_2.a = 1 - alpha;
+            sprite4_2.color = color4_2;
 
             yield return null;
         }
@@ -684,7 +824,22 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_4_3()
     {
         pattern4_3.SetActive(true);
+
+        SpriteRenderer sprite4_3 = pattern4_3.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color4_3 = sprite4_3.color;
+        color4_3.a = 0;
+        sprite4_3.color = color4_3;
+
         float startTime = Time.time; // 시작 시간 저장
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            color4_3.a = alpha;
+            sprite4_3.color = color4_3;
+
+            yield return null;
+        }
+        startTime = Time.time;
         while (Time.time - startTime < 4)
         {
             float speed = 2f;
@@ -696,11 +851,20 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_3.transform.position.x < -30)
+            if (pattern4_3.transform.position.x < -40)
             {
                 float speed = 200f;
                 pattern4_3.transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
             }
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            float alpha = (Time.time - startTime) / 0.3f;
+            color4_3.a = 1 - alpha;
+            sprite4_3.color = color4_3;
 
             yield return null;
         }
@@ -710,7 +874,21 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_4_4()
     {
         pattern4_4.SetActive(true);
+        SpriteRenderer sprite4_4 = pattern4_4.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color4_4 = sprite4_4.color;
+        color4_4.a = 0;
+        sprite4_4.color = color4_4;
+
         float startTime = Time.time; // 시작 시간 저장
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            color4_4.a = alpha;
+            sprite4_4.color = color4_4;
+
+            yield return null;
+        }
+        startTime = Time.time;
         while (Time.time - startTime < 4)
         {
             float speed = 2f;
@@ -721,11 +899,20 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_4.transform.position.x > 30)
+            if (pattern4_4.transform.position.x > 40)
             {
                 float speed = 200f;
                 pattern4_4.transform.position += new Vector3(-speed * Time.deltaTime, 0, 0);
             }
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            float alpha = (Time.time - startTime) / 0.3f;
+            color4_4.a = 1 - alpha;
+            sprite4_4.color = color4_4;
 
             yield return null;
         }
@@ -735,7 +922,21 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_4_5()
     {
         pattern4_5.SetActive(true);
+        SpriteRenderer sprite4_5 = pattern4_5.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color4_5 = sprite4_5.color;
+        color4_5.a = 0;
+        sprite4_5.color = color4_5;
+
         float startTime = Time.time; // 시작 시간 저장
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            color4_5.a = alpha;
+            sprite4_5.color = color4_5;
+
+            yield return null;
+        }
+        startTime = Time.time;
         while (Time.time - startTime < 4)
         {
             float speed = 2f;
@@ -747,11 +948,20 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_5.transform.position.x < -30)
+            if (pattern4_5.transform.position.x < -40)
             {
                 float speed = 200f;
                 pattern4_5.transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
             }
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            float alpha = (Time.time - startTime) / 0.3f;
+            color4_5.a =1 - alpha;
+            sprite4_5.color = color4_5;
 
             yield return null;
         }
@@ -761,7 +971,21 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_4_6()
     {
         pattern4_6.SetActive(true);
+        SpriteRenderer sprite4_6 = pattern4_6.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color4_6 = sprite4_6.color;
+        color4_6.a = 0;
+        sprite4_6.color = color4_6;
+
         float startTime = Time.time; // 시작 시간 저장
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            color4_6.a = alpha;
+            sprite4_6.color = color4_6;
+
+            yield return null;
+        }
+        startTime = Time.time;
         while (Time.time - startTime < 4)
         {
             float speed = 2f;
@@ -772,11 +996,20 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_6.transform.position.x > 30)
+            if (pattern4_6.transform.position.x > 40)
             {
                 float speed = 200f;
                 pattern4_6.transform.position += new Vector3(-speed * Time.deltaTime, 0, 0);
             }
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            float alpha = (Time.time - startTime) / 0.3f;
+            color4_6.a = 1 - alpha;
+            sprite4_6.color = color4_6;
 
             yield return null;
         }
@@ -787,7 +1020,21 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_4_7()
     {
         pattern4_7.SetActive(true);
+        SpriteRenderer sprite4_7 = pattern4_7.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color4_7 = sprite4_7.color;
+        color4_7.a = 0;
+        sprite4_7.color = color4_7;
+
         float startTime = Time.time; // 시작 시간 저장
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            color4_7.a = alpha;
+            sprite4_7.color = color4_7;
+
+            yield return null;
+        }
+        startTime = Time.time;
         while (Time.time - startTime < 4)
         {
             float speed = 2f;
@@ -799,7 +1046,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_7.transform.position.x < -30)
+            if (pattern4_7.transform.position.x < -40)
             {
                 float speed = 200f;
                 pattern4_7.transform.position += new Vector3(speed * Time.deltaTime, 0, 0);
@@ -807,13 +1054,37 @@ public class Stage1_Boss : MonoBehaviour
 
             yield return null;
         }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            float alpha = (Time.time - startTime) / 0.3f;
+            color4_7.a =1 -  alpha;
+            sprite4_7.color = color4_7;
+
+            yield return null;
+        }
+
         Destroy(pattern4_7);
         StopCoroutine(Scp1_4_7());
     }
     IEnumerator Scp1_4_8()
     {
         pattern4_8.SetActive(true);
+        SpriteRenderer sprite4_8 = pattern4_8.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color4_8 = sprite4_8.color;
+        color4_8.a = 0;
+        sprite4_8.color = color4_8;
+
         float startTime = Time.time; // 시작 시간 저장
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            color4_8.a = alpha;
+            sprite4_8.color = color4_8;
+
+            yield return null;
+        }
+        startTime = Time.time;
         while (Time.time - startTime < 4)
         {
             float speed = 2f;
@@ -824,11 +1095,20 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
-            if (pattern4_8.transform.position.x > 30)
+            if (pattern4_8.transform.position.x > 40)
             {
                 float speed = 200f;
                 pattern4_8.transform.position += new Vector3(-speed * Time.deltaTime, 0, 0);
             }
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            float alpha = (Time.time - startTime) / 0.3f;
+            color4_8.a = 1 - alpha;
+            sprite4_8.color = color4_8;
 
             yield return null;
         }
@@ -850,7 +1130,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 5)
             {
                 pattern5_1 = Instantiate(Gun.gameObject);
-                pattern5_1.transform.position = new Vector3(-35, 44f, 0);
+                pattern5_1.transform.position = new Vector3(-37f, 44f, 0);
                 pattern5_1.transform.eulerAngles = new Vector3(0, 0, 0);
 
                 target_1 = Instantiate(Target.gameObject);
@@ -859,7 +1139,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 4)
             {
                 pattern5_2 = Instantiate(Gun.gameObject);
-                pattern5_2.transform.position = new Vector3(35f, 24f, 0);
+                pattern5_2.transform.position = new Vector3(37f, 24f, 0);
                 pattern5_2.transform.eulerAngles = new Vector3(0, 0, 0);
                 target_2 = Instantiate(Target.gameObject);
                 StartCoroutine(Scp1_5_2());
@@ -867,7 +1147,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 3)
             {
                 pattern5_3 = Instantiate(Gun.gameObject);
-                pattern5_3.transform.position = new Vector3(-35f, 4f, 0);
+                pattern5_3.transform.position = new Vector3(-37f, 4f, 0);
                 pattern5_3.transform.eulerAngles = new Vector3(0, 0 - 0);
                 target_3 = Instantiate(Target.gameObject);
                 StartCoroutine(Scp1_5_3());
@@ -875,7 +1155,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 2)
             {
                 pattern5_4 = Instantiate(Gun.gameObject);
-                pattern5_4.transform.position = new Vector3(35f, -24f, 0);
+                pattern5_4.transform.position = new Vector3(37f, -24f, 0);
                 pattern5_4.transform.eulerAngles = new Vector3(0, 0, 0);
                 target_4 = Instantiate(Target.gameObject);
                 StartCoroutine(Scp1_5_4());
@@ -883,7 +1163,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 1)
             {
                 pattern5_5 = Instantiate(Gun.gameObject);
-                pattern5_5.transform.position = new Vector3(-35f, -44f, 0);
+                pattern5_5.transform.position = new Vector3(-37f, -44f, 0);
                 pattern5_5.transform.eulerAngles = new Vector3(0, 0 - 40f);
                 target_5 = Instantiate(Target.gameObject);
                 StartCoroutine(Scp1_5_5());
@@ -896,9 +1176,34 @@ public class Stage1_Boss : MonoBehaviour
     {
         pattern5_1.SetActive(true);
         target_1.SetActive(true);
+
+        SpriteRenderer ptn_sprite_1 = pattern5_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer tgt_sprite_1 = target_1.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color ptn_color = ptn_sprite_1.color;
+        UnityEngine.Color tgt_color = tgt_sprite_1.color;
+
+        ptn_color.a = 0f;
+        tgt_color.a = 0f;
+
+        ptn_sprite_1.color = ptn_color;
+        tgt_sprite_1.color = tgt_color;
+
+
+
         float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
+            if(Time.time - startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1;
+                ptn_color.a = alpha;
+                tgt_color.a = alpha;
+
+                ptn_sprite_1.color = ptn_color;
+                tgt_sprite_1.color = tgt_color;
+            }
+
             Vector3 direction = PlayerPos - pattern5_1.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             pattern5_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
@@ -915,7 +1220,6 @@ public class Stage1_Boss : MonoBehaviour
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_1.transform.rotation;
-        float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_1.transform.position;
         StartCoroutine(CameraShaking(0.1f, 0.5f));
 
@@ -924,6 +1228,16 @@ public class Stage1_Boss : MonoBehaviour
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
             yield return null;
         }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            ptn_color.a =1 - alpha;
+
+            ptn_sprite_1.color = ptn_color;
+            yield return null;
+        }
+
         Destroy(pattern5_1);
         Destroy(bullet);
         StopCoroutine(Scp1_5_1());
@@ -932,13 +1246,35 @@ public class Stage1_Boss : MonoBehaviour
     {
         pattern5_2.SetActive(true);
         target_2.SetActive(true);
-        float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer ptn_sprite_2 = pattern5_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer tgt_sprite_2 = target_2.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color ptn_color = ptn_sprite_2.color;
+        UnityEngine.Color tgt_color = tgt_sprite_2.color;
+
+        ptn_color.a = 0f;
+        tgt_color.a = 0f;
+
+        ptn_sprite_2.color = ptn_color;
+        tgt_sprite_2.color = tgt_color;
+
 
         SpriteRenderer before_Sprite = target_1.GetComponent<SpriteRenderer>();
         UnityEngine.Color before_Color = before_Sprite.color;
         before_Color.a = 0;
+        float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
+            if (Time.time - startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1;
+                ptn_color.a = alpha;
+                tgt_color.a = alpha;
+
+                ptn_sprite_2.color = ptn_color;
+                tgt_sprite_2.color = tgt_color;
+            }
             Vector3 direction = PlayerPos - pattern5_2.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             pattern5_2.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
@@ -955,12 +1291,22 @@ public class Stage1_Boss : MonoBehaviour
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_2.transform.rotation;
-        float bulletSpeed = 300f;
+
         Vector3 dir = PlayerPos - pattern5_2.transform.position;
         StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
         {
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            ptn_color.a =1- alpha;
+
+            ptn_sprite_2.color = ptn_color;
+
             yield return null;
         }
         Destroy(pattern5_2);
@@ -971,14 +1317,35 @@ public class Stage1_Boss : MonoBehaviour
     {
         pattern5_3.SetActive(true);
         target_3.SetActive(true);
-        float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer ptn_sprite_3 = pattern5_3.GetComponent<SpriteRenderer>();
+        SpriteRenderer tgt_sprite_3 = target_3.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color ptn_color = ptn_sprite_3.color;
+        UnityEngine.Color tgt_color = tgt_sprite_3.color;
+
+        ptn_color.a = 0f;
+        tgt_color.a = 0f;
+
+        ptn_sprite_3.color = ptn_color;
+        tgt_sprite_3.color = tgt_color;
 
         SpriteRenderer before_Sprite = target_2.GetComponent<SpriteRenderer>();
         UnityEngine.Color before_Color = before_Sprite.color;
         before_Color.a = 0;
 
+        float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
+            if (Time.time - startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1;
+                ptn_color.a = alpha;
+                tgt_color.a = alpha;
+
+                ptn_sprite_3.color = ptn_color;
+                tgt_sprite_3.color = tgt_color;
+            }
             Vector3 direction = PlayerPos - pattern5_3.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             pattern5_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
@@ -996,12 +1363,21 @@ public class Stage1_Boss : MonoBehaviour
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_3.transform.rotation;
-        float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_3.transform.position;
         StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
         {
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            ptn_color.a = 1 - alpha;
+
+            ptn_sprite_3.color = ptn_color;
+
             yield return null;
         }
         Destroy(pattern5_3);
@@ -1012,14 +1388,36 @@ public class Stage1_Boss : MonoBehaviour
     {
         pattern5_4.SetActive(true);
         target_4.SetActive(true);
-        float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer ptn_sprite_4 = pattern5_4.GetComponent<SpriteRenderer>();
+        SpriteRenderer tgt_sprite_4 = target_4.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color ptn_color = ptn_sprite_4.color;
+        UnityEngine.Color tgt_color = tgt_sprite_4.color;
+
+        ptn_color.a = 0f;
+        tgt_color.a = 0f;
+
+        ptn_sprite_4.color = ptn_color;
+        tgt_sprite_4.color = tgt_color;
+
 
         SpriteRenderer before_Sprite = target_3.GetComponent<SpriteRenderer>();
         UnityEngine.Color before_Color = before_Sprite.color;
         before_Color.a = 0;
 
+        float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
+            if (Time.time - startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1;
+                ptn_color.a = alpha;
+                tgt_color.a = alpha;
+
+                ptn_sprite_4.color = ptn_color;
+                tgt_sprite_4.color = tgt_color;
+            }
             Vector3 direction = PlayerPos - pattern5_4.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             pattern5_4.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
@@ -1036,12 +1434,21 @@ public class Stage1_Boss : MonoBehaviour
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_4.transform.rotation;
-        float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_4.transform.position;
         StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
         {
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            ptn_color.a = 1 - alpha;
+
+            ptn_sprite_4.color = ptn_color;
 
             yield return null;
         }
@@ -1053,14 +1460,36 @@ public class Stage1_Boss : MonoBehaviour
     {
         pattern5_5.SetActive(true);
         target_5.SetActive(true);
-        float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer ptn_sprite_5 = pattern5_5.GetComponent<SpriteRenderer>();
+        SpriteRenderer tgt_sprite_5 = target_5.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color ptn_color = ptn_sprite_5.color;
+        UnityEngine.Color tgt_color = tgt_sprite_5.color;
+
+        ptn_color.a = 0f;
+        tgt_color.a = 0f;
+
+        ptn_sprite_5.color = ptn_color;
+        tgt_sprite_5.color = tgt_color;
 
         SpriteRenderer before_Sprite = target_4.GetComponent<SpriteRenderer>();
         UnityEngine.Color before_Color = before_Sprite.color;
         before_Color.a = 0;
 
+
+        float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
+            if (Time.time - startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1f;
+                ptn_color.a = alpha;
+                tgt_color.a = alpha;
+
+                ptn_sprite_5.color = ptn_color;
+                tgt_sprite_5.color = tgt_color;
+            }
             Vector3 direction = PlayerPos - pattern5_5.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             pattern5_5.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
@@ -1080,7 +1509,6 @@ public class Stage1_Boss : MonoBehaviour
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_5.transform.rotation;
-        float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - pattern5_5.transform.position;
         StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
@@ -1094,9 +1522,21 @@ public class Stage1_Boss : MonoBehaviour
             } // 조준점 삭제
 
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
-            Destroy(target_5);
             yield return null;
         }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            ptn_color.a = 1- alpha;
+            tgt_color.a = 1 - alpha;
+
+            ptn_sprite_5.color = ptn_color;
+            tgt_sprite_5.color = tgt_color;
+
+            yield return null;
+        }
+        Destroy(target_5);
         Destroy(pattern5_5);
         Destroy(bullet);
         isPattern = false;
@@ -1116,7 +1556,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 5)
             {
                 overlab_pattern5_1 = Instantiate(Gun.gameObject);
-                overlab_pattern5_1.transform.position = new Vector3(-35, 44f, 0);
+                overlab_pattern5_1.transform.position = new Vector3(-37f, 44f, 0);
                 overlab_pattern5_1.transform.eulerAngles = new Vector3(0, 0, 0);
 
                 overlab_target1 = Instantiate(Target.gameObject);
@@ -1125,7 +1565,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 4)
             {
                 overlab_pattern5_2 = Instantiate(Gun.gameObject);
-                overlab_pattern5_2.transform.position = new Vector3(35f, 24f, 0);
+                overlab_pattern5_2.transform.position = new Vector3(37f, 24f, 0);
                 overlab_pattern5_2.transform.eulerAngles = new Vector3(0, 0, 0);
                 overlab_target2 = Instantiate(Target.gameObject);
                 StartCoroutine(overlab_Scp1_5_2());
@@ -1133,7 +1573,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 3)
             {
                 overlab_pattern5_3 = Instantiate(Gun.gameObject);
-                overlab_pattern5_3.transform.position = new Vector3(-35f, 4f, 0);
+                overlab_pattern5_3.transform.position = new Vector3(-37f, 4f, 0);
                 overlab_pattern5_3.transform.eulerAngles = new Vector3(0, 0 - 0);
                 overlab_target3 = Instantiate(Target.gameObject);
                 StartCoroutine(overlab_Scp1_5_3());
@@ -1141,7 +1581,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 2)
             {
                 overlab_pattern5_4 = Instantiate(Gun.gameObject);
-                overlab_pattern5_4.transform.position = new Vector3(35f, -24f, 0);
+                overlab_pattern5_4.transform.position = new Vector3(37f, -24f, 0);
                 overlab_pattern5_4.transform.eulerAngles = new Vector3(0, 0, 0);
                 overlab_target4 = Instantiate(Target.gameObject);
                 StartCoroutine(overlab_Scp1_5_4());
@@ -1149,7 +1589,7 @@ public class Stage1_Boss : MonoBehaviour
             if (cnt == 1)
             {
                 overlab_pattern5_5 = Instantiate(Gun.gameObject);
-                overlab_pattern5_5.transform.position = new Vector3(-35f, -44f, 0);
+                overlab_pattern5_5.transform.position = new Vector3(-37f, -44f, 0);
                 overlab_pattern5_5.transform.eulerAngles = new Vector3(0, 0 - 40f);
                 overlab_target5 = Instantiate(Target.gameObject);
                 StartCoroutine(overlab_Scp1_5_5());
@@ -1162,9 +1602,31 @@ public class Stage1_Boss : MonoBehaviour
     {
         overlab_pattern5_1.SetActive(true);
         overlab_target1.SetActive(true);
+        SpriteRenderer ptn_sprite_1 = overlab_pattern5_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer tgt_sprite_1 = overlab_target1.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color ptn_color = ptn_sprite_1.color;
+        UnityEngine.Color tgt_color = tgt_sprite_1.color;
+
+        ptn_color.a = 0f;
+        tgt_color.a = 0f;
+
+        ptn_sprite_1.color = ptn_color;
+        tgt_sprite_1.color = tgt_color;
+
+
         float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
+            if (Time.time - startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1;
+                ptn_color.a = alpha;
+                tgt_color.a = alpha;
+
+                ptn_sprite_1.color = ptn_color;
+                tgt_sprite_1.color = tgt_color;
+            }
             Vector3 direction = PlayerPos - overlab_pattern5_1.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             overlab_pattern5_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
@@ -1181,7 +1643,6 @@ public class Stage1_Boss : MonoBehaviour
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_1.transform.rotation;
-        float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - overlab_pattern5_1.transform.position;
         StartCoroutine(CameraShaking(0.1f, 0.5f));
 
@@ -1190,6 +1651,16 @@ public class Stage1_Boss : MonoBehaviour
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
             yield return null;
         }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            ptn_color.a = 1 - alpha;
+
+            ptn_sprite_1.color = ptn_color;
+            yield return null;
+        }
+
         Destroy(overlab_pattern5_1);
         Destroy(bullet);
         StopCoroutine(overlab_Scp1_5_1());
@@ -1198,13 +1669,36 @@ public class Stage1_Boss : MonoBehaviour
     {
         overlab_pattern5_2.SetActive(true);
         overlab_target2.SetActive(true);
-        float startTime = Time.time; // 시작 시간 저장
+        SpriteRenderer ptn_sprite_2 = overlab_pattern5_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer tgt_sprite_2 = overlab_target2.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color ptn_color = ptn_sprite_2.color;
+        UnityEngine.Color tgt_color = tgt_sprite_2.color;
+
+        ptn_color.a = 0f;
+        tgt_color.a = 0f;
+
+        ptn_sprite_2.color = ptn_color;
+        tgt_sprite_2.color = tgt_color;
+
+
 
         SpriteRenderer before_Sprite = overlab_target1.GetComponent<SpriteRenderer>();
         UnityEngine.Color before_Color = before_Sprite.color;
         before_Color.a = 0;
+
+        float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
+            if (Time.time - startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1;
+                ptn_color.a = alpha;
+                tgt_color.a = alpha;
+
+                ptn_sprite_2.color = ptn_color;
+                tgt_sprite_2.color = tgt_color;
+            }
             Vector3 direction = PlayerPos - overlab_pattern5_2.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             overlab_pattern5_2.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
@@ -1221,12 +1715,21 @@ public class Stage1_Boss : MonoBehaviour
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_2.transform.rotation;
-        float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - overlab_pattern5_2.transform.position;
         StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
         {
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            ptn_color.a = 1 - alpha;
+
+            ptn_sprite_2.color = ptn_color;
             yield return null;
         }
         Destroy(overlab_pattern5_2);
@@ -1237,14 +1740,35 @@ public class Stage1_Boss : MonoBehaviour
     {
         overlab_pattern5_3.SetActive(true);
         overlab_target3.SetActive(true);
-        float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer ptn_sprite_3 = overlab_pattern5_3.GetComponent<SpriteRenderer>();
+        SpriteRenderer tgt_sprite_3 = overlab_target3.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color ptn_color = ptn_sprite_3.color;
+        UnityEngine.Color tgt_color = tgt_sprite_3.color;
+
+        ptn_color.a = 0f;
+        tgt_color.a = 0f;
+
+        ptn_sprite_3.color = ptn_color;
+        tgt_sprite_3.color = tgt_color;
 
         SpriteRenderer before_Sprite = overlab_target2.GetComponent<SpriteRenderer>();
         UnityEngine.Color before_Color = before_Sprite.color;
         before_Color.a = 0;
 
+        float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
+            if (Time.time - startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1;
+                ptn_color.a = alpha;
+                tgt_color.a = alpha;
+
+                ptn_sprite_3.color = ptn_color;
+                tgt_sprite_3.color = tgt_color;
+            }
             Vector3 direction = PlayerPos - overlab_pattern5_3.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             overlab_pattern5_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
@@ -1262,12 +1786,20 @@ public class Stage1_Boss : MonoBehaviour
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_3.transform.rotation;
-        float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - overlab_pattern5_3.transform.position;
         StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
         {
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            ptn_color.a = 1 - alpha;
+
+            ptn_sprite_3.color = ptn_color;
             yield return null;
         }
         Destroy(overlab_pattern5_3);
@@ -1278,14 +1810,35 @@ public class Stage1_Boss : MonoBehaviour
     {
         overlab_pattern5_4.SetActive(true);
         overlab_target4.SetActive(true);
-        float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer ptn_sprite_4 = overlab_pattern5_4.GetComponent<SpriteRenderer>();
+        SpriteRenderer tgt_sprite_4 = overlab_target4.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color ptn_color = ptn_sprite_4.color;
+        UnityEngine.Color tgt_color = tgt_sprite_4.color;
+
+        ptn_color.a = 0f;
+        tgt_color.a = 0f;
+
+        ptn_sprite_4.color = ptn_color;
+        tgt_sprite_4.color = tgt_color;
 
         SpriteRenderer before_Sprite = overlab_target3.GetComponent<SpriteRenderer>();
         UnityEngine.Color before_Color = before_Sprite.color;
         before_Color.a = 0;
 
+        float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
+            if (Time.time - startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1;
+                ptn_color.a = alpha;
+                tgt_color.a = alpha;
+
+                ptn_sprite_4.color = ptn_color;
+                tgt_sprite_4.color = tgt_color;
+            }
             Vector3 direction = PlayerPos - overlab_pattern5_4.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             overlab_pattern5_4.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
@@ -1302,13 +1855,21 @@ public class Stage1_Boss : MonoBehaviour
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_4.transform.rotation;
-        float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - overlab_pattern5_4.transform.position;
         StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
         {
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
 
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            ptn_color.a = 1 - alpha;
+
+            ptn_sprite_4.color = ptn_color;
             yield return null;
         }
         Destroy(overlab_pattern5_4);
@@ -1319,14 +1880,35 @@ public class Stage1_Boss : MonoBehaviour
     {
         overlab_pattern5_5.SetActive(true);
         overlab_target5.SetActive(true);
-        float startTime = Time.time; // 시작 시간 저장
+
+        SpriteRenderer ptn_sprite_5 = overlab_pattern5_5.GetComponent<SpriteRenderer>();
+        SpriteRenderer tgt_sprite_5 = overlab_target5.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color ptn_color = ptn_sprite_5.color;
+        UnityEngine.Color tgt_color = tgt_sprite_5.color;
+
+        ptn_color.a = 0f;
+        tgt_color.a = 0f;
+
+        ptn_sprite_5.color = ptn_color;
+        tgt_sprite_5.color = tgt_color;
 
         SpriteRenderer before_Sprite = overlab_target4.GetComponent<SpriteRenderer>();
         UnityEngine.Color before_Color = before_Sprite.color;
         before_Color.a = 0;
 
+        float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
+            if (Time.time - startTime < 1)
+            {
+                float alpha = (Time.time - startTime) / 1;
+                ptn_color.a = alpha;
+                tgt_color.a = alpha;
+
+                ptn_sprite_5.color = ptn_color;
+                tgt_sprite_5.color = tgt_color;
+            }
             Vector3 direction = PlayerPos - overlab_pattern5_5.transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
             overlab_pattern5_5.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 90); // 총구가 바라보는 방향으로 회전
@@ -1346,7 +1928,6 @@ public class Stage1_Boss : MonoBehaviour
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_5.transform.rotation;
-        float bulletSpeed = 300f;
         Vector3 dir = PlayerPos - overlab_pattern5_5.transform.position;
         StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 2)
@@ -1360,9 +1941,20 @@ public class Stage1_Boss : MonoBehaviour
             } // 조준점 삭제
 
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
-            Destroy(overlab_target5);
             yield return null;
         }
+        while (Time.time - startTime < 0.5)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            ptn_color.a = 1 - alpha;
+            tgt_color.a = 1 - alpha;
+
+            ptn_sprite_5.color = ptn_color;
+            tgt_sprite_5.color = tgt_color;
+
+            yield return null;
+        }
+        Destroy(target_5);
         Destroy(overlab_pattern5_5);
         Destroy(bullet);
         isOverlab = false;
@@ -1413,7 +2005,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time;
         Vector3 dir = Vector3.zero;
         float RotateSpeed = 50;
-        float MoveSpeed = 60f;
+        float MoveSpeed = 90f;
         while (Time.time - startTime<2) // 첫번째 애니메이션
         {
             if(Time.time - startTime < 1)
@@ -1589,7 +2181,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time;
         while(Time.time - startTime <2)
         {
-            float totalSpeed = 200f;
+            float totalSpeed = 300f;
             float speed1 = totalSpeed;
             float speed2 = totalSpeed;
             float speed3 = totalSpeed;
@@ -2024,7 +2616,6 @@ public class Stage1_Boss : MonoBehaviour
     {
         isPattern = true;
         StartCoroutine(Scp1_8_Pattern());
-        Scp1_8_1();
     }
     #region Scp 1_8 패턴로직
     IEnumerator Scp1_8_Pattern()
@@ -2102,21 +2693,21 @@ public class Stage1_Boss : MonoBehaviour
         while(Time.time - startTime < 3)
         {
             
-            if(Time.time - startTime > 0.7f && bowCnt == 1)
+            if(Time.time - startTime > 0.75f && bowCnt == 1)
             {
                 arrow1.transform.position += new Vector3(0, -2f, 0); // 활 위치 변경
                 arrow2.transform.position += new Vector3(-1.75f, -1.75f, 0);
                 arrow3.transform.position += new Vector3(1.75f, -1.75f, 0);
                 bowCnt++;
             }
-            if (Time.time - startTime > 1.4f   && bowCnt == 2)
+            if (Time.time - startTime > 1.5f   && bowCnt == 2)
             {
                 arrow1.transform.position += new Vector3(0, -2f, 0); // 활 위치 변경
                 arrow2.transform.position += new Vector3(-1.75f, -1.75f, 0);
                 arrow3.transform.position += new Vector3(1.75f, -1.75f, 0);
                 bowCnt++;
             }
-            if (Time.time - startTime > 2.1f && bowCnt == 3)
+            if (Time.time - startTime > 2.25f && bowCnt == 3)
             {
                 arrow1.transform.position += new Vector3(0, -2f, 0); // 활 위치 변경
                 arrow2.transform.position += new Vector3(-1.75f, -1.75f, 0);
@@ -2150,10 +2741,9 @@ public class Stage1_Boss : MonoBehaviour
         Vector3 arrow1Dir = (Vector3.zero - arrow1.transform.position).normalized;
         Vector3 arrow2Dir = (Vector3.zero - arrow2.transform.position).normalized;
         Vector3 arrow3Dir = (Vector3.zero - arrow3.transform.position).normalized;
-        float bowSpeed = 150f;
+        float bowSpeed = 250f;
         while (Time.time - startTime < 2)
         {
-            //    bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
             arrow1.GetComponent<Rigidbody2D>().velocity = arrow1Dir * bowSpeed;
             arrow2.GetComponent<Rigidbody2D>().velocity = arrow2Dir * bowSpeed;
             arrow3.GetComponent<Rigidbody2D>().velocity = arrow3Dir * bowSpeed;
@@ -2171,6 +2761,13 @@ public class Stage1_Boss : MonoBehaviour
 
             yield return null;
         }
+        Destroy(pattern8_1);
+        Destroy(pattern8_2);
+        Destroy(pattern8_3);
+        Destroy(arrow1);
+        Destroy(arrow2);
+        Destroy(arrow3);
+        Scp1_8_1();
     }
     #endregion
     public void Scp1_8_1()
@@ -2193,9 +2790,9 @@ public class Stage1_Boss : MonoBehaviour
         arrow8_2 = Instantiate(arrow.gameObject);
         arrow8_3 = Instantiate(arrow.gameObject);
 
-        arrow8_1.transform.position = new Vector3(-10, 67, 0);
+        arrow8_1.transform.position = new Vector3(-6, 67, 0);
         arrow8_2.transform.position = new Vector3(0, 67, 0);
-        arrow8_3.transform.position = new Vector3(10, 67, 0);
+        arrow8_3.transform.position = new Vector3(6, 67, 0);
 
         arrow8_1.SetActive(true);
         arrow8_2.SetActive(true);
@@ -2228,58 +2825,15 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-        Vector3 targetPosition = new Vector3(target8_1.transform.position.x, target8_1.transform.position.y + 8f, target8_1.transform.position.z);
-
+        Vector3 direction = (PlayerPos - arrow8_1.transform.position).normalized;
 
         while (Time.time - startTime < 3)
         {
-  
-            float Distance1 = Vector3.Distance(arrow8_1.transform.position, target8_1.transform.position);
-            float Distance2 = Vector3.Distance(arrow8_2.transform.position, target8_1.transform.position);
-            float Distance3 = Vector3.Distance(arrow8_3.transform.position, target8_1.transform.position);
-            float Speed = 4f;
-       
-            if (Distance1 <= 1f)
-            {
-                Debug.Log("1");
-                arrow8_1.transform.position = targetPosition;
-                arrow8_1.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            }
-            else if(Distance1 > 1f)
-            {
-                if (Time.time - startTime > 0.15f)
-                {
-                    arrow8_1.GetComponent<Rigidbody2D>().velocity = (targetPosition - arrow8_1.transform.position).normalized * (Distance1 / 2f) * Speed;
-                }
-            }
+            float speed = 250f; // 화살표의 이동 속도
 
-            if (Distance2 <= 1f)
-            {
-                Debug.Log("2");
-                arrow8_2.transform.position = targetPosition;
-                arrow8_2.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            }
-            else if (Distance2 > 1f)
-            {
-                if (Time.time - startTime > 0.3f)
-                {
-                    arrow8_2.GetComponent<Rigidbody2D>().velocity = (targetPosition - arrow8_2.transform.position).normalized * (Distance2 / 2f) * Speed;
-                }
-            }
-
-            if (Distance3 <= 1f)
-            {
-                Debug.Log("3");
-                arrow8_3.transform.position = targetPosition;
-                arrow8_3.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            }
-            else if(Distance3 > 1f)
-            {
-                if (Time.time - startTime > 0.45f)
-                {
-                    arrow8_3.GetComponent<Rigidbody2D>().velocity = (targetPosition - arrow8_3.transform.position).normalized * (Distance3 / 2f) * Speed;
-                }
-            }
+            arrow8_1.transform.position += direction * speed * Time.deltaTime;
+            arrow8_2.transform.position += direction * speed * Time.deltaTime;
+            arrow8_3.transform.position += direction * speed * Time.deltaTime;
 
 
             yield return null;
@@ -2378,58 +2932,15 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-        Vector3 targetPosition = new Vector3(overlab_target8_1.transform.position.x, overlab_target8_1.transform.position.y + 8f, overlab_target8_1.transform.position.z);
-
+        Vector3 direction = (PlayerPos - arrow8_1.transform.position).normalized;
 
         while (Time.time - startTime < 3)
         {
+            float speed = 250f; // 화살표의 이동 속도
 
-            float Distance1 = Vector3.Distance(overlab_arrow8_1.transform.position, overlab_target8_1.transform.position);
-            float Distance2 = Vector3.Distance(overlab_arrow8_2.transform.position, overlab_target8_1.transform.position);
-            float Distance3 = Vector3.Distance(overlab_arrow8_3.transform.position, overlab_target8_1.transform.position);
-            float Speed = 4f;
-
-            if (Distance1 <= 1f)
-            {
-                Debug.Log("1");
-                overlab_arrow8_1.transform.position = targetPosition;
-                overlab_arrow8_1.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            }
-            else if (Distance1 > 1f)
-            {
-                if (Time.time - startTime > 0.15f)
-                {
-                    overlab_arrow8_1.GetComponent<Rigidbody2D>().velocity = (targetPosition - overlab_arrow8_1.transform.position).normalized * (Distance1 / 2f) * Speed;
-                }
-            }
-
-            if (Distance2 <= 1f)
-            {
-                Debug.Log("2");
-                overlab_arrow8_2.transform.position = targetPosition;
-                overlab_arrow8_2.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            }
-            else if (Distance2 > 1f)
-            {
-                if (Time.time - startTime > 0.3f)
-                {
-                    overlab_arrow8_2.GetComponent<Rigidbody2D>().velocity = (targetPosition - overlab_arrow8_2.transform.position).normalized * (Distance2 / 2f) * Speed;
-                }
-            }
-
-            if (Distance3 <= 1f)
-            {
-                Debug.Log("3");
-                overlab_arrow8_3.transform.position = targetPosition;
-                overlab_arrow8_3.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            }
-            else if (Distance3 > 1f)
-            {
-                if (Time.time - startTime > 0.45f)
-                {
-                    overlab_arrow8_3.GetComponent<Rigidbody2D>().velocity = (targetPosition - overlab_arrow8_3.transform.position).normalized * (Distance3 / 2f) * Speed;
-                }
-            }
+            overlab_arrow8_1.transform.position += direction * speed * Time.deltaTime;
+            overlab_arrow8_2.transform.position += direction * speed * Time.deltaTime;
+            overlab_arrow8_3.transform.position += direction * speed * Time.deltaTime;
 
 
             yield return null;
@@ -2524,42 +3035,34 @@ public class Stage1_Boss : MonoBehaviour
         }
 
         startTime = Time.time;
-        while(Time.time - startTime < 1)
+        while(Time.time - startTime < ptn9_playTime)
         {
-            float Speed = 250f;
+            float Speed = 350f;
             if(randomValue == 1)
             {
-                float X1 = 35f;
-                float Y1 = 1f;
-                if (pattern9_1.transform.eulerAngles.z < 0)
-                {
-                    Debug.Log("1");
-                    Speed = 0f;
-                    X1 = 0f;
-                    Y1 = 0f;
-                }
+                float X1 = 100f;
+                float Y1 = 4f;
                 pattern9_1.transform.position += new Vector3(-X1 * Time.deltaTime, -Y1 * Time.deltaTime, 0);
-                pattern9_1.transform.eulerAngles += new Vector3(0,0,-Speed*Time.deltaTime);
+                pattern9_1.transform.eulerAngles += new Vector3(0,0,-Speed*1.7f*Time.deltaTime);
              } // 위쪽검
            else if (randomValue == 2)
             {
-                float X2 = 35f;
-                float Y2 = 1f;
-                if (pattern9_2.transform.eulerAngles.z < -35 )
-                {
-                    Debug.Log("2");
-                    Speed = 0f;
-                    X2= 0f;
-                    Y2 = 0f;
-                }
+                float X2 = 100f;
+                float Y2 = 4f;
+               
                 pattern9_2.transform.position += new Vector3(X2 * Time.deltaTime, 0, 0);
-                pattern9_2.transform.eulerAngles += new Vector3(0, Y2*Time.deltaTime, -Speed*Time.deltaTime);
+                pattern9_2.transform.eulerAngles += new Vector3(0, Y2*Time.deltaTime, -Speed*1.7f*Time.deltaTime);
             }
            else if(randomValue == 3)
             {
                 // 패턴 x
                 //continue;
             }
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time - startTime < ptn9_delayTime)
+        {
             yield return null;
         }
         startTime = Time.time;

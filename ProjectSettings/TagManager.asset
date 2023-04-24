@@ -6,6 +6,11 @@ TagManager:
   tags:
   - AtkLine
   - Boss
+  - Stage1_Sword
+  - Stage1_Kunai
+  - Stage1_Bullet
+  - Stage1_Arrow
+  - Stage1_SpinSword
   layers:
   - Default
   - TransparentFX
