@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     //-------------------기본설정-------------------
     [Header("PlayerSet")]
     public GameObject Player;
+    public GameObject Player_Body;
     public GameObject Line;
     public float speed;
     //-------------------이동관련-------------------
@@ -38,18 +39,19 @@ public class PlayerController : MonoBehaviour
     EdgeCollider2D lineCollider; // 라인렌더러시 사용할 콜라이더
     Rigidbody2D lineRigid;
 
-
     //---------------------bool--------------------------
     bool isAtk = false; // 공격중일때는 움직임x
     bool isRender = false;
     bool isRay = false;
     bool isTouch = false;
-
+    static bool isDie = false;
     //---------------------Els--------------------------
     void Start()
     {
         lineCollider = Line.GetComponent<EdgeCollider2D>();
         lineRigid = Line.GetComponent<Rigidbody2D>();
+        lineRenderer.startWidth = 3f;
+        lineRenderer.endWidth = 3f;
     }
 
     public void DecreaseHp()
@@ -57,7 +59,35 @@ public class PlayerController : MonoBehaviour
         Hp--;
     }
 
- 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Stage1_Sword")
+        {
+            Debug.Log("칼");
+            isHit = true;
+        }
+
+        if (collision.gameObject.tag == "Stage1_Kunai")
+        {
+            Debug.Log("쿠나이");
+            isHit = true;
+        }
+        if (collision.gameObject.tag == "Stage1_Bullet")
+        {
+            Debug.Log("총");
+            isHit = true;
+        }
+        if (collision.gameObject.tag == "Stage1_Arrow")
+        {
+            Debug.Log("활");
+            isHit = true;
+        }
+        if (collision.gameObject.tag == "Stage1_SpinSword")
+        {
+            Debug.Log("회전칼");
+            isHit = true;
+        }
+    }
 
 
     void Update()
@@ -105,6 +135,7 @@ public class PlayerController : MonoBehaviour
                 if (isAtk)
                 {
                     AtkRange = Camera.main.ScreenToWorldPoint(touch2.position);
+
                     AtkRange.z = 0f;
                     // atktxt.text = "atkx : " + AtkRange.x + "atky : " + AtkRange.y; 테스트
 
@@ -114,7 +145,7 @@ public class PlayerController : MonoBehaviour
                     if (isRender)
                     {
                         // 중심점 옮기기
-                        float r = (Player.transform.localScale.x / 2) + 0.47f; // 반지름뒤 숫자를 수정하면됨
+                        float r = (Player.transform.localScale.x / 2) + 5f; // 반지름뒤 숫자를 수정하면됨
                         Vector3 center = Player.transform.position; // 중점
 
                         float theta = Mathf.Atan2(AtkRange.y - center.y, AtkRange.x - center.x);
@@ -156,7 +187,8 @@ public class PlayerController : MonoBehaviour
             if (isRender && isTouch) // 그렸던 라인을 지우는 과정
             {
                 isTouch = false;
-               Vector3 touchWorldPosition = Camera.main.ScreenToWorldPoint(lastPosition);
+                Vector3 touchWorldPosition = Camera.main.ScreenToWorldPoint(lastPosition);
+
                 Player.transform.position = new Vector2(touchWorldPosition.x, touchWorldPosition.y);
                 isRender = false;
                 lineRenderer.enabled = false;
@@ -199,24 +231,30 @@ public class PlayerController : MonoBehaviour
         if (Hp == 0)
         {
             leftHp.SetActive(false);
+            Player_Body.SetActive(false);
+            isDie = true;
         }
         #endregion
+        #region Player Hit
         if (isHit)
         {
+            isHit = false;
             if(hitTimer >= hitCoolTime)
             {
-                DecreaseHp();
+                Debug.Log(Hp);
+                Hp--;
                 hitTimer = 0;
             }
         }
-        if(hitTimer <= 0)
+        if(!isHit)
         {
-            hitCoolTime += Time.deltaTime;
+            hitTimer += Time.deltaTime;
             if (hitTimer > 5)
                 hitTimer = 5;
-
         }
+        #endregion
 
     }
+
 
 }

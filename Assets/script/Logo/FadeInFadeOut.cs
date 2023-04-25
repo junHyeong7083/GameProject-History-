@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -14,7 +15,6 @@ public class FadeInFadeOut : MonoBehaviour
     [SerializeField]
     private Image image;
     private FadeState fadeState;
-
     public Image Logo;
     bool isLogo = false;
     public Image Title;
@@ -50,10 +50,15 @@ public class FadeInFadeOut : MonoBehaviour
     {
         while(true)
         {
-              yield return StartCoroutine(Fade(0, 1)); // fade out
-              yield return StartCoroutine(Fade(1, 0)); // fade in
+            if(cnt <= 2)
+            {
+                yield return StartCoroutine(Fade(0, 1)); // fade out
+                yield return StartCoroutine(Fade(1, 0)); // fade in
+            }
+            if(cnt == 3)
+                yield return StartCoroutine(Fade(0, 1));
 
-            if(fadeState == FadeState.FadeInOut && cnt == 2)
+            if (fadeState == FadeState.FadeInOut && cnt == 4)
             {
                 NextScene = true;
                 break;
@@ -77,7 +82,7 @@ public class FadeInFadeOut : MonoBehaviour
             image.color = color;
 
             if(cnt == 1)
-            {
+            { 
                 Color color1 = Logo.color;
                 color1.a = Mathf.Lerp(start, end, percent);
                 Logo.color = color1;
@@ -97,9 +102,9 @@ public class FadeInFadeOut : MonoBehaviour
 
     private void Update()
     {
-        if(!NextScene)
+        if(NextScene)
         {
-            // 씬매니저로 다음씬넘겨버리기
+            SceneManager.LoadScene("TitleScene");
         }
     }
 }

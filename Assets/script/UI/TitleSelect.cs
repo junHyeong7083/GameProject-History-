@@ -5,38 +5,32 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class TitleSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class TitleSelect : MonoBehaviour
 {
-    [Header("-------JoyStickRect-------")]
-    [SerializeField]
-    private RectTransform rectBackground;
-    [SerializeField]
-    private RectTransform rectJoystick;
-
+    public RectTransform rectBackground;
+    public RectTransform rectJoystick;
     public Image JoystickImage;
-    [Header("-------Select Stage-------")]
+
     public Image SelectPanel;
     public Image Stage1_image;
     public Image Stage2_image;
     public Image Stage3_image;
 
-    [Header("-------SelectEffect-------")]
     public Image select_1;
     public Image select_2;
     public Image select_3;
     public Image select_4;
 
+    private float radius;
+    private Vector2 value;
+    private bool touch = false;
 
-    int SelectIcon;
-    private float radius; // Background밖을 joystick가 못나가도록 background의 반지름을 저장할 변수
-    Vector2 value;
-    bool touch = false;
+    private int SelectIcon;
 
     void Start()
     {
         radius = rectBackground.rect.width / 2;
         SelectPanel.gameObject.SetActive(false);
-
 
         Color image1_color = select_1.color;
         Color image2_color = select_2.color;
@@ -52,60 +46,47 @@ public class TitleSelect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         select_3.color = image3_color;
         select_4.color = image4_color;
     }
-
-
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        touch = true;
-        // Time.timeScale = 0.3f;
-        value = eventData.position - (Vector2)rectBackground.position;
-
-        value = Vector2.ClampMagnitude(value, radius);
-        //( 1, 4 ) value의 값  ( 1 -4 = -3 )------------(1+4 = 5) 사이의 값
-
-        rectJoystick.localPosition = value;
-
-
-        value = value.normalized;
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-    }
-
-    public void OnPointerUp(PointerEventData eventData) // 손뗏을떄
-    {
-        rectJoystick.localPosition = new Vector3(0, 0, 0);
-
-        // 지정한 범위안에 숫자따라 행동하게 
-        switch (SelectIcon)
-        {
-            case 1: 
-                SelectPanel.gameObject.SetActive(true);
-                break;
-            case 2:          
-                break;
-            case 3:
-              
-                break;
-            case 4:
-             
-                break;
-            default:
-                break;
-        }
-
-    }
     public void stage1_change()
     {
-        SceneManager.LoadScene("Stage1");
+        SceneManager.LoadScene(1);
     }
-    // Update is called once per frame
+
     void Update()
     {
-;       if (touch)
+        if (Input.touchCount > 0)
         {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved)
+            {
+                this.touch = true;
+
+                value = touch.position - (Vector2)rectBackground.position;
+                value = Vector2.ClampMagnitude(value, radius);
+                rectJoystick.localPosition = value;
+                value = value.normalized;
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                this.touch = false;
+
+                rectJoystick.localPosition = Vector3.zero;
+
+                switch (SelectIcon)
+                {
+                    case 1:
+                        SelectPanel.gameObject.SetActive(true);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    default:
+                        break;
+                }
+            }
             #region SelectEffect 요소 세팅
             Color image1_color = select_1.color;
             Color image2_color = select_2.color;

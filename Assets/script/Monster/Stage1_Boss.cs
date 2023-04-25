@@ -20,6 +20,7 @@ public class Stage1_Boss : MonoBehaviour
 
     // ----------------- Pattern2 -----------------
     bool nextPtn1State = false;
+    bool nextPtn2State = false;
     float ptn2_playTime = 0.35f;
     float ptn2_delayTime = 1.45f;
     public GameObject Sword;
@@ -144,6 +145,11 @@ public class Stage1_Boss : MonoBehaviour
     bool isPattern = false;
     int randomPattern;
     int randomOverlab;
+    // ----------------- HP -----------------
+    public Text currentHp_Text;
+    float currentHp = 2000f;
+
+
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -228,6 +234,7 @@ public class Stage1_Boss : MonoBehaviour
     {
         pattern2_1 = Instantiate(Sword.gameObject);
         pattern2_2 = Instantiate(Sword.gameObject);
+
         #region Pattern2_1 Pos Setting
         pattern2_1.transform.localScale = new Vector3(2, 2, 2);
         pattern2_1.transform.position = new Vector3(-25, 0, 0);
@@ -336,6 +343,7 @@ public class Stage1_Boss : MonoBehaviour
         isOverlab = true;
         Sword.transform.position = new Vector3(-10f, 20f, 0);
         Sword.transform.rotation = Quaternion.Euler(0, 0, 140f);
+        StartCoroutine(overlab_Scp1_2_1());
     } // 오버랩용 함수 수정필요함 
     #region Scp 1_2 Overlab
     IEnumerator overlab_Scp1_2_1()
@@ -387,6 +395,9 @@ public class Stage1_Boss : MonoBehaviour
 
             yield return null;
         }
+        nextPtn2State = true;
+        if (nextPtn2State)
+            StartCoroutine(overlab_Scp1_2_2());
     }
     IEnumerator overlab_Scp1_2_2()
     {
@@ -446,8 +457,8 @@ public class Stage1_Boss : MonoBehaviour
         }
 
         Destroy(overlab_pattern2_2);
-        nextPtn1State = false;
-        isPattern = false;
+        nextPtn2State = false;
+        isOverlab = false;
     }
     #endregion
     public void Scp1_3()
@@ -574,7 +585,6 @@ public class Stage1_Boss : MonoBehaviour
 
 
         #endregion
-        isPattern = true;
         StartCoroutine(overlab_Scp1_3_1());
     }
     #region overlab_Scp 1_3 패턴로직
@@ -1954,7 +1964,7 @@ public class Stage1_Boss : MonoBehaviour
 
             yield return null;
         }
-        Destroy(target_5);
+        Destroy(overlab_target5);
         Destroy(overlab_pattern5_5);
         Destroy(bullet);
         isOverlab = false;
@@ -2196,7 +2206,6 @@ public class Stage1_Boss : MonoBehaviour
                 pattern7_1.transform.position += new Vector3(0, speed1 * Time.deltaTime, 0);
                 if (pattern7_1.transform.position.y >= 50)
                 {
-                    speed1 = 0;
                     pattern7_1.transform.position = new Vector3(-28, 50, 0);
                 }
             }
@@ -2205,7 +2214,6 @@ public class Stage1_Boss : MonoBehaviour
                 pattern7_2.transform.position += new Vector3(0, speed2 * Time.deltaTime, 0);
                 if (pattern7_2.transform.position.y >= 50)
                 {
-                    speed2 = 0;
                     pattern7_2.transform.position = new Vector3(-21, 50, 0);
                 }
             }
@@ -2214,7 +2222,6 @@ public class Stage1_Boss : MonoBehaviour
                 pattern7_3.transform.position += new Vector3(0, speed3 * Time.deltaTime, 0);
                 if (pattern7_3.transform.position.y >= 50)
                 {
-                    speed3 = 0;
                     pattern7_3.transform.position = new Vector3(-14, 50, 0);
                 }
             }
@@ -2223,7 +2230,6 @@ public class Stage1_Boss : MonoBehaviour
                 pattern7_4.transform.position += new Vector3(0, speed4 * Time.deltaTime, 0);
                 if (pattern7_4.transform.position.y >= 50)
                 {
-                    speed4 = 0;
                     pattern7_4.transform.position = new Vector3(-7, 50, 0);
                 }
             }
@@ -2232,7 +2238,7 @@ public class Stage1_Boss : MonoBehaviour
                 pattern7_5.transform.position += new Vector3(0, speed5 * Time.deltaTime, 0);
                 if (pattern7_5.transform.position.y >= 50)
                 {
-                    speed5 = 0;
+
                     pattern7_5.transform.position = new Vector3(0, 50, 0);
                 }
             }
@@ -2241,7 +2247,6 @@ public class Stage1_Boss : MonoBehaviour
                 pattern7_6.transform.position += new Vector3(0, speed6 * Time.deltaTime, 0);
                 if (pattern7_6.transform.position.y >= 50)
                 {
-                    speed6 = 0;
                     pattern7_6.transform.position = new Vector3(7, 50, 0);
                 }
             }
@@ -2250,7 +2255,6 @@ public class Stage1_Boss : MonoBehaviour
                 pattern7_7.transform.position += new Vector3(0, speed7 * Time.deltaTime, 0);
                 if (pattern7_7.transform.position.y >= 50)
                 {
-                    speed7 = 0;
                     pattern7_7.transform.position = new Vector3(14, 50, 0);
                 }
             }
@@ -2259,7 +2263,6 @@ public class Stage1_Boss : MonoBehaviour
                 pattern7_8.transform.position += new Vector3(0, speed8 * Time.deltaTime, 0);
                 if (pattern7_8.transform.position.y >= 50)
                 {
-                    speed8 = 0;
                     pattern7_8.transform.position = new Vector3(21, 50, 0);
                 }
             }
@@ -2268,7 +2271,6 @@ public class Stage1_Boss : MonoBehaviour
                 pattern7_9.transform.position += new Vector3(0, speed9 * Time.deltaTime, 0);
                 if (pattern7_9.transform.position.y >= 50)
                 {
-                    speed9 = 0;
                     pattern7_9.transform.position = new Vector3(28, 50, 0);
                 }
             }
@@ -2932,7 +2934,7 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-        Vector3 direction = (PlayerPos - arrow8_1.transform.position).normalized;
+        Vector3 direction = (PlayerPos - overlab_arrow8_1.transform.position).normalized;
 
         while (Time.time - startTime < 3)
         {
@@ -3089,10 +3091,148 @@ public class Stage1_Boss : MonoBehaviour
         bossPos = this.transform.position;
          if(PlayerController.atkState) // 공격상태이면
         {
-            // 체력 감소하는로직
+            currentHp -= Time.deltaTime * 50f;
+        }
+        currentHp_Text.text = currentHp.ToString();
+        if(currentHp <= 0)
+        {
+            Time.timeScale = 0f;
         }
 
+        if (!isPattern && !isOverlab)
+        {
+            randomPattern = Random.Range(1, 11);
+            switch (randomPattern)
+            {
+                case 1: // pattern1
+                    Scp1_1();
+                    break;
+                case 2:
+                    Scp1_2();
+                    randomOverlab = Random.Range(1, 9);
+                    switch (randomOverlab)
+                    {
+                        case 1:
+                            overlab_Scp1_3();
+                            break;
+                        case 2:
+                            overlab_Scp1_5();
+                            break;
+                        case 3:
+                            overlab_Scp1_7();
+                            break;
+                        case 4:
+                            overlab_Scp1_8_1();
+                            break;
+                        default:
 
+                            break;
+                    }
+                    break;
+                case 3:
+                    Scp1_3();
+                    randomOverlab = Random.Range(1, 9);
+                    switch (randomOverlab)
+                    {
+                        case 1:
+                            overlab_Scp1_2();
+                            break;
+                        case 2:
+                            overlab_Scp1_5();
+                            break;
+                        case 3:
+                            overlab_Scp1_7();
+                            break;
+                        case 4:
+                            overlab_Scp1_8_1();
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+                case 4:
+                    Scp1_4();
+                    break;
+                case 5:
+                    Scp1_5();
+                    randomOverlab = Random.Range(1, 9);
+                    switch (randomOverlab)
+                    {
+                        case 1:
+                            overlab_Scp1_3();
+                            break;
+                        case 2:
+                            overlab_Scp1_2();
+                            break;
+                        case 3:
+                            overlab_Scp1_7();
+                            break;
+                        case 4:
+                            overlab_Scp1_8_1();
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+                case 6:
+                    Scp1_6();
+                    break;
+                case 7:
+                    Scp1_7();
+                    randomOverlab = Random.Range(1, 9);
+                    switch (randomOverlab)
+                    {
+                        case 1:
+                            overlab_Scp1_3();
+                            break;
+                        case 2:
+                            overlab_Scp1_5();
+                            break;
+                        case 3:
+                            overlab_Scp1_2();
+                            break;
+                        case 4:
+                            overlab_Scp1_8_1();
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+                case 8:
+                    Scp1_8();
+                    break;
+                case 9:
+                    Scp1_8_1();
+                    randomOverlab = Random.Range(1, 9);
+                    switch (randomOverlab)
+                    {
+                        case 1:
+                            overlab_Scp1_3();
+                            break;
+                        case 2:
+                            overlab_Scp1_5();
+                            break;
+                        case 3:
+                            overlab_Scp1_7();
+                            break;
+                        case 4:
+                            overlab_Scp1_2();
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+                case 10:
+                    Scp1_9();
+                    break;
+
+
+            }
+        }
 
     }
 }

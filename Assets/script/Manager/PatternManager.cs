@@ -51,6 +51,6 @@ public class PatternManager : MonoBehaviour
         }
 
         // 패턴 생성
-        Instantiate(patternDic[name]);
+         Instantiate(patternDic[name]);
     }
 }
