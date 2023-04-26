@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Stage1.unity
     guid: 719f5e3581759954a8ea5765bca65769
+  - enabled: 0
+    path: Assets/Scenes/ReLoadScene.unity
+    guid: ad40c3d14799ff3418eae24d905aa219
   m_configObjects: {}

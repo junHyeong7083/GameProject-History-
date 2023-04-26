@@ -15,15 +15,7 @@ public class UIManager : MonoBehaviour
     }
     public void ReStartGame()
     {
-        GameObject[] gameObjects = FindObjectsOfType<GameObject>();
-
-        // 검색된 모든 게임 오브젝트를 삭제합니다.
-        foreach (GameObject gameObject in gameObjects)
-        {
-            Destroy(gameObject);
-        }
         SceneManager.LoadScene(1);
-
     }
     public void GoTitleMenu()
     {

@@ -23,11 +23,9 @@ public class Stage1_Boss : MonoBehaviour
     bool nextPtn2State = false;
     float ptn2_playTime = 0.35f;
     float ptn2_delayTime = 1.45f;
-    public GameObject Sword;
     GameObject pattern2_1;
     GameObject pattern2_2;
     // ----------------- Pattern3 -----------------
-    public GameObject Kunai;
     #region Pattern3
     GameObject pattern3_1;
     GameObject pattern3_2;
@@ -45,9 +43,6 @@ public class Stage1_Boss : MonoBehaviour
     GameObject pattern4_8;
     #endregion
     // ----------------- Pattern5 -----------------
-    public GameObject Gun;
-    public GameObject Target;
-    public GameObject Bullet;
     #region Pattern5
     GameObject pattern5_1;
     GameObject target_1;
@@ -62,7 +57,6 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
     float bulletSpeed = 400f;
     // ----------------- Pattern6 -----------------
-    public GameObject Sword2;
     #region Pattern6
     GameObject pattern6_1;
     GameObject pattern6_2;
@@ -81,8 +75,6 @@ public class Stage1_Boss : MonoBehaviour
     GameObject pattern7_9;
     #endregion
     // ----------------- Pattern8 -----------------
-    public GameObject Bow;
-    public GameObject arrow;
     #region Pattern8
     GameObject pattern8_1;
     GameObject pattern8_2;
@@ -149,6 +141,9 @@ public class Stage1_Boss : MonoBehaviour
     public Text currentHp_Text;
     float currentHp = 2000f;
 
+    private void Awake()
+    {
+    }
 
     void Start()
     {
@@ -232,8 +227,11 @@ public class Stage1_Boss : MonoBehaviour
     #region Scp1_2 패턴로직
     IEnumerator Scp1_2_1()
     {
-        pattern2_1 = Instantiate(Sword.gameObject);
-        pattern2_2 = Instantiate(Sword.gameObject);
+        // pattern2_1 = Instantiate(Sword.gameObject);
+        // pattern2_2 = Instantiate(Sword.gameObject);
+
+        pattern2_1 = PatternManager.Instance.StartPattern("Stage1_Sword");
+        pattern2_2 = PatternManager.Instance.StartPattern("Stage1_Sword");
 
         #region Pattern2_1 Pos Setting
         pattern2_1.transform.localScale = new Vector3(2, 2, 2);
@@ -341,15 +339,13 @@ public class Stage1_Boss : MonoBehaviour
     void overlab_Scp1_2() 
     {
         isOverlab = true;
-        Sword.transform.position = new Vector3(-10f, 20f, 0);
-        Sword.transform.rotation = Quaternion.Euler(0, 0, 140f);
         StartCoroutine(overlab_Scp1_2_1());
     } // 오버랩용 함수 수정필요함 
     #region Scp 1_2 Overlab
     IEnumerator overlab_Scp1_2_1()
     {
-        overlab_pattern2_1 = Instantiate(Sword.gameObject);
-        overlab_pattern2_2 = Instantiate(Sword.gameObject);
+        overlab_pattern2_1 = PatternManager.Instance.StartPattern("Stage1_Sword");
+        overlab_pattern2_2 = PatternManager.Instance.StartPattern("Stage1_Sword");
         overlab_pattern2_1.SetActive(true);
 
         overlab_pattern2_1.transform.localScale = new Vector3(2, 2, 2);
@@ -470,9 +466,9 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_3_1()
     {
         #region 복제
-        pattern3_1 = Instantiate(Kunai.gameObject);
-        pattern3_2 = Instantiate(Kunai.gameObject);
-        pattern3_3 = Instantiate(Kunai.gameObject);
+        pattern3_1 = PatternManager.Instance.StartPattern("Stage1_Kunai");
+        pattern3_2 = PatternManager.Instance.StartPattern("Stage1_Kunai");
+        pattern3_3 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         #endregion
 
         #region SpriteRenderer
@@ -560,9 +556,15 @@ public class Stage1_Boss : MonoBehaviour
     void overlab_Scp1_3()
     {
         isOverlab = true;
-        overlab_pattern3_1 = Instantiate(Kunai.gameObject);
-        overlab_pattern3_2 = Instantiate(Kunai.gameObject);
-        overlab_pattern3_3 = Instantiate(Kunai.gameObject);
+   
+        StartCoroutine(overlab_Scp1_3_1());
+    }
+    #region overlab_Scp 1_3 패턴로직
+    IEnumerator overlab_Scp1_3_1()
+    {
+        overlab_pattern3_1 = PatternManager.Instance.StartPattern("Stage1_Kunai");
+        overlab_pattern3_2 = PatternManager.Instance.StartPattern("Stage1_Kunai");
+        overlab_pattern3_3 = PatternManager.Instance.StartPattern("Stage1_Kunai");
 
         #region Pattern3 Setting Pos
         float posX = 8f;
@@ -580,16 +582,8 @@ public class Stage1_Boss : MonoBehaviour
         overlab_pattern3_1.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
         overlab_pattern3_2.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
         overlab_pattern3_3.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
-
-
-
-
         #endregion
-        StartCoroutine(overlab_Scp1_3_1());
-    }
-    #region overlab_Scp 1_3 패턴로직
-    IEnumerator overlab_Scp1_3_1()
-    {
+
         overlab_pattern3_1.SetActive(true);
         overlab_pattern3_2.SetActive(true);
         overlab_pattern3_3.SetActive(true);
@@ -670,21 +664,21 @@ public class Stage1_Boss : MonoBehaviour
         {
             if(cnt == 8) 
             {
-                pattern4_1 = Instantiate(Sword.gameObject);
+                pattern4_1 = PatternManager.Instance.StartPattern("Stage1_Sword");
                 pattern4_1.transform.position = new Vector3(-70f, 48f, 0);
                 pattern4_1.transform.eulerAngles = new Vector3(0, 0, 90);
                 StartCoroutine(Scp1_4_1());
             } // 왼
             if(cnt == 7)
             {
-                pattern4_2 = Instantiate(Sword.gameObject);
+                pattern4_2 = PatternManager.Instance.StartPattern("Stage1_Sword");
                 pattern4_2.transform.position = new Vector3(70f, 35, 0);
                 pattern4_2.transform.eulerAngles = new Vector3(180, 0, 270);
                 StartCoroutine(Scp1_4_2());
             } // 오
             if(cnt == 6)
             {
-                pattern4_3 = Instantiate(Sword.gameObject);
+                pattern4_3 = PatternManager.Instance.StartPattern("Stage1_Sword");
                 pattern4_3.transform.position = new Vector3(-70f, 22, 0);
                 pattern4_3.transform.eulerAngles = new Vector3(0, 0, 90);
                 StartCoroutine(Scp1_4_3());
@@ -692,35 +686,35 @@ public class Stage1_Boss : MonoBehaviour
             } // 왼
             if(cnt == 5)
             {
-                pattern4_4 = Instantiate(Sword.gameObject);
+                pattern4_4 = PatternManager.Instance.StartPattern("Stage1_Sword");
                 pattern4_4.transform.position = new Vector3(70f, 9, 0);
                 pattern4_4.transform.eulerAngles = new Vector3(180, 0, 270);
                 StartCoroutine(Scp1_4_4());
             } // 오
             if(cnt == 4)
             {
-                pattern4_5 = Instantiate(Sword.gameObject);
+                pattern4_5 = PatternManager.Instance.StartPattern("Stage1_Sword");
                 pattern4_5.transform.position = new Vector3(-70f, -4, 0);
                 pattern4_5.transform.eulerAngles = new Vector3(0, 0, 90);
                 StartCoroutine(Scp1_4_5());
             } // 왼
             if(cnt == 3)
             {
-                pattern4_6 = Instantiate(Sword.gameObject);
+                pattern4_6 = PatternManager.Instance.StartPattern("Stage1_Sword");
                 pattern4_6.transform.position = new Vector3(70f, -17, 0);
                 pattern4_6.transform.eulerAngles = new Vector3(180, 0, 270);
                 StartCoroutine(Scp1_4_6());
             } // 오
             if(cnt == 2)
             {
-                pattern4_7 = Instantiate(Sword.gameObject);
+                pattern4_7 = PatternManager.Instance.StartPattern("Stage1_Sword");
                 pattern4_7.transform.position = new Vector3(-70f, -30, 0);
                 pattern4_7.transform.eulerAngles = new Vector3(0, 0, 90);
                 StartCoroutine(Scp1_4_7());
             } // 왼
             if(cnt == 1)
             {
-                pattern4_8 = Instantiate(Sword.gameObject);
+                pattern4_8 = PatternManager.Instance.StartPattern("Stage1_Sword");
                 pattern4_8.transform.position = new Vector3(70f, -43, 0);
                 pattern4_8.transform.eulerAngles = new Vector3(180, 0, 270);
                 StartCoroutine(Scp1_4_8());
@@ -1139,43 +1133,43 @@ public class Stage1_Boss : MonoBehaviour
         {
             if (cnt == 5)
             {
-                pattern5_1 = Instantiate(Gun.gameObject);
+                pattern5_1 = PatternManager.Instance.StartPattern("Stage1_Gun");
                 pattern5_1.transform.position = new Vector3(-37f, 44f, 0);
                 pattern5_1.transform.eulerAngles = new Vector3(0, 0, 0);
 
-                target_1 = Instantiate(Target.gameObject);
+                target_1 = PatternManager.Instance.StartPattern("Stage1_GunAim");
                 StartCoroutine(Scp1_5_1());
             }
             if (cnt == 4)
             {
-                pattern5_2 = Instantiate(Gun.gameObject);
+                pattern5_2 = PatternManager.Instance.StartPattern("Stage1_Gun");
                 pattern5_2.transform.position = new Vector3(37f, 24f, 0);
                 pattern5_2.transform.eulerAngles = new Vector3(0, 0, 0);
-                target_2 = Instantiate(Target.gameObject);
+                target_2 = PatternManager.Instance.StartPattern("Stage1_GunAim");
                 StartCoroutine(Scp1_5_2());
             }
             if (cnt == 3)
             {
-                pattern5_3 = Instantiate(Gun.gameObject);
+                pattern5_3 = PatternManager.Instance.StartPattern("Stage1_Gun");
                 pattern5_3.transform.position = new Vector3(-37f, 4f, 0);
                 pattern5_3.transform.eulerAngles = new Vector3(0, 0 - 0);
-                target_3 = Instantiate(Target.gameObject);
+                target_3 = PatternManager.Instance.StartPattern("Stage1_GunAim");
                 StartCoroutine(Scp1_5_3());
             }
             if (cnt == 2)
             {
-                pattern5_4 = Instantiate(Gun.gameObject);
+                pattern5_4 = PatternManager.Instance.StartPattern("Stage1_Gun");
                 pattern5_4.transform.position = new Vector3(37f, -24f, 0);
                 pattern5_4.transform.eulerAngles = new Vector3(0, 0, 0);
-                target_4 = Instantiate(Target.gameObject);
+                target_4 = PatternManager.Instance.StartPattern("Stage1_GunAim");
                 StartCoroutine(Scp1_5_4());
             }
             if (cnt == 1)
             {
-                pattern5_5 = Instantiate(Gun.gameObject);
+                pattern5_5 = PatternManager.Instance.StartPattern("Stage1_Gun");
                 pattern5_5.transform.position = new Vector3(-37f, -44f, 0);
                 pattern5_5.transform.eulerAngles = new Vector3(0, 0 - 40f);
-                target_5 = Instantiate(Target.gameObject);
+                target_5 = PatternManager.Instance.StartPattern("Stage1_GunAim");
                 StartCoroutine(Scp1_5_5());
             }
             yield return new WaitForSeconds(0.5f);
@@ -1226,7 +1220,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time;
 
         Transform bulletPosTransform = pattern5_1.transform.Find("BulletPos");
-        GameObject bullet = Instantiate(Bullet.gameObject);
+        GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_1.transform.rotation;
@@ -1297,7 +1291,7 @@ public class Stage1_Boss : MonoBehaviour
         }
         startTime = Time.time;
         Transform bulletPosTransform = pattern5_2.transform.Find("BulletPos");
-        GameObject bullet = Instantiate(Bullet.gameObject);
+        GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_2.transform.rotation;
@@ -1369,7 +1363,7 @@ public class Stage1_Boss : MonoBehaviour
         Transform bulletPosTransform = pattern5_3.transform.Find("BulletPos");
         startTime = Time.time;
 
-        GameObject bullet = Instantiate(Bullet.gameObject);
+        GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_3.transform.rotation;
@@ -1440,7 +1434,7 @@ public class Stage1_Boss : MonoBehaviour
         }
         Transform bulletPosTransform = pattern5_4.transform.Find("BulletPos");
         startTime = Time.time;
-        GameObject bullet = Instantiate(Bullet.gameObject);
+        GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_4.transform.rotation;
@@ -1515,7 +1509,7 @@ public class Stage1_Boss : MonoBehaviour
         }
         startTime = Time.time;
         Transform bulletPosTransform = pattern5_5.transform.Find("BulletPos");
-        GameObject bullet = Instantiate(Bullet.gameObject);
+        GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_5.transform.rotation;
@@ -1565,43 +1559,43 @@ public class Stage1_Boss : MonoBehaviour
         {
             if (cnt == 5)
             {
-                overlab_pattern5_1 = Instantiate(Gun.gameObject);
+                overlab_pattern5_1 = PatternManager.Instance.StartPattern("Stage1_Gun");
                 overlab_pattern5_1.transform.position = new Vector3(-37f, 44f, 0);
                 overlab_pattern5_1.transform.eulerAngles = new Vector3(0, 0, 0);
 
-                overlab_target1 = Instantiate(Target.gameObject);
+                overlab_target1 = PatternManager.Instance.StartPattern("Stage1_GunAim");
                 StartCoroutine(overlab_Scp1_5_1());
             }
             if (cnt == 4)
             {
-                overlab_pattern5_2 = Instantiate(Gun.gameObject);
+                overlab_pattern5_2 = PatternManager.Instance.StartPattern("Stage1_Gun");
                 overlab_pattern5_2.transform.position = new Vector3(37f, 24f, 0);
                 overlab_pattern5_2.transform.eulerAngles = new Vector3(0, 0, 0);
-                overlab_target2 = Instantiate(Target.gameObject);
+                overlab_target2 = PatternManager.Instance.StartPattern("Stage1_GunAim");
                 StartCoroutine(overlab_Scp1_5_2());
             }
             if (cnt == 3)
             {
-                overlab_pattern5_3 = Instantiate(Gun.gameObject);
+                overlab_pattern5_3 = PatternManager.Instance.StartPattern("Stage1_Gun");
                 overlab_pattern5_3.transform.position = new Vector3(-37f, 4f, 0);
                 overlab_pattern5_3.transform.eulerAngles = new Vector3(0, 0 - 0);
-                overlab_target3 = Instantiate(Target.gameObject);
+                overlab_target3 = PatternManager.Instance.StartPattern("Stage1_GunAim");
                 StartCoroutine(overlab_Scp1_5_3());
             }
             if (cnt == 2)
             {
-                overlab_pattern5_4 = Instantiate(Gun.gameObject);
+                overlab_pattern5_4 = PatternManager.Instance.StartPattern("Stage1_Gun");
                 overlab_pattern5_4.transform.position = new Vector3(37f, -24f, 0);
                 overlab_pattern5_4.transform.eulerAngles = new Vector3(0, 0, 0);
-                overlab_target4 = Instantiate(Target.gameObject);
+                overlab_target4 = PatternManager.Instance.StartPattern("Stage1_GunAim");
                 StartCoroutine(overlab_Scp1_5_4());
             }
             if (cnt == 1)
             {
-                overlab_pattern5_5 = Instantiate(Gun.gameObject);
+                overlab_pattern5_5 = PatternManager.Instance.StartPattern("Stage1_Gun");
                 overlab_pattern5_5.transform.position = new Vector3(-37f, -44f, 0);
                 overlab_pattern5_5.transform.eulerAngles = new Vector3(0, 0 - 40f);
-                overlab_target5 = Instantiate(Target.gameObject);
+                overlab_target5 = PatternManager.Instance.StartPattern("Stage1_GunAim");
                 StartCoroutine(overlab_Scp1_5_5());
             }
             yield return new WaitForSeconds(0.5f);
@@ -1649,7 +1643,7 @@ public class Stage1_Boss : MonoBehaviour
         startTime = Time.time;
 
         Transform bulletPosTransform = overlab_pattern5_1.transform.Find("BulletPos");
-        GameObject bullet = Instantiate(Bullet.gameObject);
+        GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_1.transform.rotation;
@@ -1721,7 +1715,7 @@ public class Stage1_Boss : MonoBehaviour
         }
         startTime = Time.time;
         Transform bulletPosTransform = overlab_pattern5_2.transform.Find("BulletPos");
-        GameObject bullet = Instantiate(Bullet.gameObject);
+        GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_2.transform.rotation;
@@ -1792,7 +1786,7 @@ public class Stage1_Boss : MonoBehaviour
         Transform bulletPosTransform = overlab_pattern5_3.transform.Find("BulletPos");
         startTime = Time.time;
 
-        GameObject bullet = Instantiate(Bullet.gameObject);
+        GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_3.transform.rotation;
@@ -1861,7 +1855,7 @@ public class Stage1_Boss : MonoBehaviour
         }
         Transform bulletPosTransform = overlab_pattern5_4.transform.Find("BulletPos");
         startTime = Time.time;
-        GameObject bullet = Instantiate(Bullet.gameObject);
+        GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_4.transform.rotation;
@@ -1934,7 +1928,7 @@ public class Stage1_Boss : MonoBehaviour
         }
         startTime = Time.time;
         Transform bulletPosTransform = overlab_pattern5_5.transform.Find("BulletPos");
-        GameObject bullet = Instantiate(Bullet.gameObject);
+        GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_5.transform.rotation;
@@ -1980,7 +1974,7 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_6_1()
     {
         #region Pattern6_1 오브젝트 생성및 기본설정
-        pattern6_1 = Instantiate(Sword2.gameObject);
+        pattern6_1 = PatternManager.Instance.StartPattern("Stage1_Sword1");
         pattern6_1.transform.position = new Vector3(-15, 20, 0);
         pattern6_1.transform.eulerAngles = new Vector3(0, 180, 180);
         SpriteRenderer spritePattern6_1 = pattern6_1.GetComponent<SpriteRenderer>();
@@ -1991,7 +1985,7 @@ public class Stage1_Boss : MonoBehaviour
         pattern6_1.SetActive(true);
 
         #region Pattern6_2 오브젝트 생성및 기본설정
-        pattern6_2 = Instantiate(Sword2.gameObject);
+        pattern6_2 = PatternManager.Instance.StartPattern("Stage1_Sword1");
         pattern6_2.transform.position = new Vector3(15, 20, 0);
         pattern6_2.transform.eulerAngles = new Vector3(0, 0, 180);
         SpriteRenderer spritePattern6_2 = pattern6_2.GetComponent<SpriteRenderer>();
@@ -2073,7 +2067,7 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_7_1()
     {
         #region 초기세팅
-        pattern7_1 = Instantiate(Kunai.gameObject);
+        pattern7_1 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         pattern7_1.transform.position = new Vector3(-28, -40, 0);
         pattern7_1.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_1.SetActive(true);
@@ -2082,7 +2076,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_1.a = 0f;
         spritePattern7_1.color = colorPattern7_1;
 
-        pattern7_2 = Instantiate(Kunai.gameObject);
+        pattern7_2 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         pattern7_2.transform.position = new Vector3(-21, -40, 0);
         pattern7_2.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_2.SetActive(true);
@@ -2091,7 +2085,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_2.a = 0f;
         spritePattern7_2.color = colorPattern7_2;
 
-        pattern7_3 = Instantiate(Kunai.gameObject);
+        pattern7_3 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         pattern7_3.transform.position = new Vector3(-14, -40, 0);
         pattern7_3.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_3.SetActive(true);
@@ -2101,7 +2095,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_3.color = colorPattern7_3;
 
 
-        pattern7_4 = Instantiate(Kunai.gameObject);
+        pattern7_4 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         pattern7_4.transform.position = new Vector3(-7, -40, 0);
         pattern7_4.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_4.SetActive(true);
@@ -2110,7 +2104,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_4.a = 0f;
         spritePattern7_4.color = colorPattern7_4;
 
-        pattern7_5 = Instantiate(Kunai.gameObject);
+        pattern7_5 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         pattern7_5.transform.position = new Vector3(0, -40, 0);
         pattern7_5.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_5.SetActive(true);
@@ -2119,7 +2113,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_5.a = 0f;
         spritePattern7_5.color = colorPattern7_5;
 
-        pattern7_6 = Instantiate(Kunai.gameObject);
+        pattern7_6 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         pattern7_6.transform.position = new Vector3(7, -40, 0);
         pattern7_6.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_6.SetActive(true);
@@ -2128,7 +2122,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_6.a = 0f;
         spritePattern7_6.color = colorPattern7_6;
 
-        pattern7_7 = Instantiate(Kunai.gameObject);
+        pattern7_7 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         pattern7_7.transform.position = new Vector3(14, -40, 0);
         pattern7_7.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_7.SetActive(true);
@@ -2137,7 +2131,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_7.a = 0f;
         spritePattern7_7.color = colorPattern7_7;
 
-        pattern7_8 = Instantiate(Kunai.gameObject);
+        pattern7_8 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         pattern7_8.transform.position = new Vector3(21, -40, 0);
         pattern7_8.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_8.SetActive(true);
@@ -2146,7 +2140,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_8.a = 0f;
         spritePattern7_8.color = colorPattern7_8;
 
-        pattern7_9 = Instantiate(Kunai.gameObject);
+        pattern7_9 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         pattern7_9.transform.position = new Vector3(28, -40, 0);
         pattern7_9.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_9.SetActive(true);
@@ -2338,7 +2332,7 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator overlab_Scp1_7_1()
     {
         #region 초기세팅
-        overlab_pattern7_1 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_1 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         overlab_pattern7_1.transform.position = new Vector3(-28, -40, 0);
         overlab_pattern7_1.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_1.SetActive(true);
@@ -2347,7 +2341,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_1.a = 0f;
         spritePattern7_1.color = colorPattern7_1;
 
-        overlab_pattern7_2 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_2 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         overlab_pattern7_2.transform.position = new Vector3(-21, -40, 0);
         overlab_pattern7_2.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_2.SetActive(true);
@@ -2356,7 +2350,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_2.a = 0f;
         spritePattern7_2.color = colorPattern7_2;
 
-        overlab_pattern7_3 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_3 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         overlab_pattern7_3.transform.position = new Vector3(-14, -40, 0);
         overlab_pattern7_3.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_3.SetActive(true);
@@ -2366,7 +2360,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_3.color = colorPattern7_3;
 
 
-        overlab_pattern7_4 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_4 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         overlab_pattern7_4.transform.position = new Vector3(-7, -40, 0);
         overlab_pattern7_4.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_4.SetActive(true);
@@ -2375,7 +2369,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_4.a = 0f;
         spritePattern7_4.color = colorPattern7_4;
 
-        overlab_pattern7_5 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_5 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         overlab_pattern7_5.transform.position = new Vector3(0, -40, 0);
         overlab_pattern7_5.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_5.SetActive(true);
@@ -2384,7 +2378,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_5.a = 0f;
         spritePattern7_5.color = colorPattern7_5;
 
-        overlab_pattern7_6 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_6 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         overlab_pattern7_6.transform.position = new Vector3(7, -40, 0);
         overlab_pattern7_6.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_6.SetActive(true);
@@ -2393,7 +2387,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_6.a = 0f;
         spritePattern7_6.color = colorPattern7_6;
 
-        overlab_pattern7_7 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_7 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         overlab_pattern7_7.transform.position = new Vector3(14, -40, 0);
         overlab_pattern7_7.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_7.SetActive(true);
@@ -2402,7 +2396,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_7.a = 0f;
         spritePattern7_7.color = colorPattern7_7;
 
-        overlab_pattern7_8 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_8 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         overlab_pattern7_8.transform.position = new Vector3(21, -40, 0);
         overlab_pattern7_8.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_8.SetActive(true);
@@ -2411,7 +2405,7 @@ public class Stage1_Boss : MonoBehaviour
         colorPattern7_8.a = 0f;
         spritePattern7_8.color = colorPattern7_8;
 
-        overlab_pattern7_9 = Instantiate(Kunai.gameObject);
+        overlab_pattern7_9 = PatternManager.Instance.StartPattern("Stage1_Kunai");
         overlab_pattern7_9.transform.position = new Vector3(28, -40, 0);
         overlab_pattern7_9.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_9.SetActive(true);
@@ -2623,9 +2617,9 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_8_Pattern()
     {
         #region 초기세팅 위치, 각도, 투명도0
-        pattern8_1 = Instantiate(Bow.gameObject);
-        pattern8_2 = Instantiate(Bow.gameObject);
-        pattern8_3 = Instantiate(Bow.gameObject);
+        pattern8_1 = PatternManager.Instance.StartPattern("Stage1_Bow");
+        pattern8_2 = PatternManager.Instance.StartPattern("Stage1_Bow");
+        pattern8_3 = PatternManager.Instance.StartPattern("Stage1_Bow");
 
         pattern8_1.SetActive(true);
         pattern8_2.SetActive(true);
@@ -2656,9 +2650,9 @@ public class Stage1_Boss : MonoBehaviour
         pattern2_sprite.color = pattern2_color;
         pattern3_sprite.color = pattern3_color;
 
-        arrow1 = Instantiate(arrow.gameObject);
-        arrow2 = Instantiate(arrow.gameObject);
-        arrow3 = Instantiate(arrow.gameObject);
+        arrow1 = PatternManager.Instance.StartPattern("Stage1_Arrow");
+        arrow2 = PatternManager.Instance.StartPattern("Stage1_Arrow");
+        arrow3 = PatternManager.Instance.StartPattern("Stage1_Arrow");
 
         arrow1.SetActive(true);
         arrow2.SetActive(true);
@@ -2780,7 +2774,7 @@ public class Stage1_Boss : MonoBehaviour
     #region Scp1_8_1 패턴로직
     IEnumerator Scp1_8_1_Pattern()
     {
-        target8_1 = Instantiate(Target.gameObject);
+        target8_1 = PatternManager.Instance.StartPattern("Stage1_GunAim");
         target8_1.SetActive(true);
         SpriteRenderer target_sprite = target8_1.GetComponent<SpriteRenderer>();
         UnityEngine.Color target_color = target_sprite.color;
@@ -2788,9 +2782,9 @@ public class Stage1_Boss : MonoBehaviour
         target_sprite.color = target_color;
         float startTime = Time.time;
 
-        arrow8_1 = Instantiate(arrow.gameObject);
-        arrow8_2 = Instantiate(arrow.gameObject);
-        arrow8_3 = Instantiate(arrow.gameObject);
+        arrow8_1 = PatternManager.Instance.StartPattern("Stage1_Arrow");
+        arrow8_2 = PatternManager.Instance.StartPattern("Stage1_Arrow");
+        arrow8_3 = PatternManager.Instance.StartPattern("Stage1_Arrow");
 
         arrow8_1.transform.position = new Vector3(-6, 67, 0);
         arrow8_2.transform.position = new Vector3(0, 67, 0);
@@ -2887,7 +2881,7 @@ public class Stage1_Boss : MonoBehaviour
     #region overlab_Scp1_8_1 패턴로직
     IEnumerator overlab_Scp1_8_1_Pattern()
     {
-        overlab_target8_1 = Instantiate(Target.gameObject);
+        overlab_target8_1 = PatternManager.Instance.StartPattern("Stage1_GunAim");
         overlab_target8_1.SetActive(true);
         SpriteRenderer target_sprite = overlab_target8_1.GetComponent<SpriteRenderer>();
         UnityEngine.Color target_color = target_sprite.color;
@@ -2895,9 +2889,9 @@ public class Stage1_Boss : MonoBehaviour
         target_sprite.color = target_color;
         float startTime = Time.time;
 
-        overlab_arrow8_1 = Instantiate(arrow.gameObject);
-        overlab_arrow8_2 = Instantiate(arrow.gameObject);
-        overlab_arrow8_3 = Instantiate(arrow.gameObject);
+        overlab_arrow8_1 = PatternManager.Instance.StartPattern("Stage1_Arrow");
+        overlab_arrow8_2 = PatternManager.Instance.StartPattern("Stage1_Arrow");
+        overlab_arrow8_3 = PatternManager.Instance.StartPattern("Stage1_Arrow");
 
         overlab_arrow8_1.transform.position = new Vector3(-10, 67, 0);
         overlab_arrow8_2.transform.position = new Vector3(0, 67, 0);
@@ -2996,8 +2990,8 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_9_Pattern()
     {
         #region 초기 세팅
-        pattern9_1 = Instantiate(Sword2.gameObject);
-        pattern9_2 = Instantiate(Sword2.gameObject);
+        pattern9_1 = PatternManager.Instance.StartPattern("Stage1_Sword1");
+        pattern9_2 = PatternManager.Instance.StartPattern("Stage1_Sword1");
 
         pattern9_1.transform.position = new Vector3(20, 10, 0);
         pattern9_1.transform.eulerAngles = new Vector3(0, 0, 270);
@@ -3098,7 +3092,6 @@ public class Stage1_Boss : MonoBehaviour
         {
             Time.timeScale = 0f;
         }
-
         if (!isPattern && !isOverlab)
         {
             randomPattern = Random.Range(1, 11);

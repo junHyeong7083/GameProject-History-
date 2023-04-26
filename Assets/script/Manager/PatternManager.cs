@@ -41,16 +41,16 @@ public class PatternManager : MonoBehaviour
         }
     }
 
-    public void StartPattern(string name)
+    public GameObject StartPattern(string name)
     {
         // 오류 방지
         if (patternDic.ContainsKey(name) == false)
         {
             Debug.Log(name + " is not Contained atternDic");
-            return;
+            return null;
         }
 
         // 패턴 생성
-         Instantiate(patternDic[name]);
+         return Instantiate(patternDic[name]);
     }
 }
