@@ -6,7 +6,8 @@ using UnityEngine;
 using UnityEngine.SubsystemsImplementation;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
-
+using Spine.Unity;
+using Unity.VisualScripting;
 
 public class Stage1_Boss : MonoBehaviour
 {
@@ -17,14 +18,28 @@ public class Stage1_Boss : MonoBehaviour
     Vector3 bossPos;
     Camera cam;
     Vector3 cameraOriginalPos;
+    // -------------- Spine Animation --------------
+    public SkeletonAnimation skeletonAnimation;
+    public AnimationReferenceAsset[] AnimClip;
 
-    // ----------------- Pattern2 -----------------
+    public enum AnimState
+    {
+        samurai_anima_attack, samurai_anima_katana_rolling, samurai_anima_stand, samurai_anima_test, samurai_anima_TEST2
+    }
+
+    // 현재 애니메이션 처리가 무엇인지 대한 변수
+     AnimState _AnimState;
+
+    string CurrentAnimation; // 현재 어떤 애니메이션이 재생되고 있는지에 대한 변수
+                             // ----------------- Pattern2 -----------------
+    #region Pattern2
     bool nextPtn1State = false;
     bool nextPtn2State = false;
     float ptn2_playTime = 0.35f;
     float ptn2_delayTime = 1.45f;
     GameObject pattern2_1;
     GameObject pattern2_2;
+    #endregion
     // ----------------- Pattern3 -----------------
     #region Pattern3
     GameObject pattern3_1;
@@ -181,6 +196,40 @@ public class Stage1_Boss : MonoBehaviour
 
     } // 오브젝트 쉐이킹
 
+    void _AsyncAnimation(AnimationReferenceAsset animClip, bool loop, float timeScalse)
+    {
+        if (animClip.name.Equals(CurrentAnimation))
+            return;
+
+        // 해당 애니메이션으로 변경한다.
+        skeletonAnimation.state.SetAnimation(0, animClip, loop).TimeScale = timeScalse;
+
+        // 현재 재생되고 있는 애니메이션 값을 변경
+        CurrentAnimation = animClip.name;
+    }
+
+    private void SetCurrentAnimation(AnimState _state)
+    {
+        switch(_state)
+        {
+            case AnimState.samurai_anima_attack:
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_attack], false, 1f);
+                break;
+            case AnimState.samurai_anima_stand:
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_stand], false, 1f);
+                break;
+            case AnimState.samurai_anima_katana_rolling:
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_katana_rolling], false, 1f);
+                break;
+            case AnimState.samurai_anima_test:
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_test], false, 1f);
+                break;
+            case AnimState.samurai_anima_TEST2:
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_TEST2], false, 1f);
+                break;
+        }
+    }
+
     public void Scp1_1()  
     {
         isPattern = true;
@@ -198,15 +247,15 @@ public class Stage1_Boss : MonoBehaviour
             }
             if(Time.time - startTime > 1)
             {
-                // 애니메이션 실행
-                Debug.Log("anim");
+                // 애니메이션 실행장소
+                SetCurrentAnimation(AnimState.samurai_anima_attack);
             }
             yield return null;
         }
         Vector3 targetPos = PlayerPos ;
         startTime = Time.time;
         float duration = 0.7f; // 이동에 걸리는 시간
-        while (Time.time - startTime < 2)
+        while (Time.time - startTime < 1.5)
         {
             float t = (Time.time - startTime) / duration;
             rigidbody2D.MovePosition(Vector3.Lerp(bossPos, targetPos, t));
@@ -3092,140 +3141,6 @@ public class Stage1_Boss : MonoBehaviour
         {
             Time.timeScale = 0f;
         }
-        if (!isPattern && !isOverlab)
-        {
-            randomPattern = Random.Range(1, 11);
-            switch (randomPattern)
-            {
-                case 1: // pattern1
-                    Scp1_1();
-                    break;
-                case 2:
-                    Scp1_2();
-                    randomOverlab = Random.Range(1, 9);
-                    switch (randomOverlab)
-                    {
-                        case 1:
-                            overlab_Scp1_3();
-                            break;
-                        case 2:
-                            overlab_Scp1_5();
-                            break;
-                        case 3:
-                            overlab_Scp1_7();
-                            break;
-                        case 4:
-                            overlab_Scp1_8_1();
-                            break;
-                        default:
-
-                            break;
-                    }
-                    break;
-                case 3:
-                    Scp1_3();
-                    randomOverlab = Random.Range(1, 9);
-                    switch (randomOverlab)
-                    {
-                        case 1:
-                            overlab_Scp1_2();
-                            break;
-                        case 2:
-                            overlab_Scp1_5();
-                            break;
-                        case 3:
-                            overlab_Scp1_7();
-                            break;
-                        case 4:
-                            overlab_Scp1_8_1();
-                            break;
-                        default:
-                            break;
-                    }
-
-                    break;
-                case 4:
-                    Scp1_4();
-                    break;
-                case 5:
-                    Scp1_5();
-                    randomOverlab = Random.Range(1, 9);
-                    switch (randomOverlab)
-                    {
-                        case 1:
-                            overlab_Scp1_3();
-                            break;
-                        case 2:
-                            overlab_Scp1_2();
-                            break;
-                        case 3:
-                            overlab_Scp1_7();
-                            break;
-                        case 4:
-                            overlab_Scp1_8_1();
-                            break;
-                        default:
-                            break;
-                    }
-
-                    break;
-                case 6:
-                    Scp1_6();
-                    break;
-                case 7:
-                    Scp1_7();
-                    randomOverlab = Random.Range(1, 9);
-                    switch (randomOverlab)
-                    {
-                        case 1:
-                            overlab_Scp1_3();
-                            break;
-                        case 2:
-                            overlab_Scp1_5();
-                            break;
-                        case 3:
-                            overlab_Scp1_2();
-                            break;
-                        case 4:
-                            overlab_Scp1_8_1();
-                            break;
-                        default:
-                            break;
-                    }
-
-                    break;
-                case 8:
-                    Scp1_8();
-                    break;
-                case 9:
-                    Scp1_8_1();
-                    randomOverlab = Random.Range(1, 9);
-                    switch (randomOverlab)
-                    {
-                        case 1:
-                            overlab_Scp1_3();
-                            break;
-                        case 2:
-                            overlab_Scp1_5();
-                            break;
-                        case 3:
-                            overlab_Scp1_7();
-                            break;
-                        case 4:
-                            overlab_Scp1_2();
-                            break;
-                        default:
-                            break;
-                    }
-
-                    break;
-                case 10:
-                    Scp1_9();
-                    break;
-
-
-            }
-        }
-
+   
     }
 }
