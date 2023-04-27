@@ -202,8 +202,7 @@ public class Stage1_Boss : MonoBehaviour
             return;
 
         // 해당 애니메이션으로 변경한다.
-        skeletonAnimation.state.SetAnimation(0, animClip, loop).TimeScale = timeScalse;
-
+         skeletonAnimation.state.SetAnimation(0, animClip, loop).TimeScale = timeScalse;
         // 현재 재생되고 있는 애니메이션 값을 변경
         CurrentAnimation = animClip.name;
     }
@@ -213,7 +212,7 @@ public class Stage1_Boss : MonoBehaviour
         switch(_state)
         {
             case AnimState.samurai_anima_attack:
-                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_attack], false, 1f);
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_attack], false, 0.7f);
                 break;
             case AnimState.samurai_anima_stand:
                 _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_stand], false, 1f);
@@ -222,7 +221,7 @@ public class Stage1_Boss : MonoBehaviour
                 _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_katana_rolling], false, 1f);
                 break;
             case AnimState.samurai_anima_test:
-                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_test], false, 1f);
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_test], false, 3f);
                 break;
             case AnimState.samurai_anima_TEST2:
                 _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_TEST2], false, 1f);
@@ -241,24 +240,27 @@ public class Stage1_Boss : MonoBehaviour
         float startTime = Time.time;
         while (Time.time - startTime < 2)
         {
-            if(Time.time - startTime < 1)
-            {
-                StartCoroutine(BossShaking(0.3f, 0.07f));
-            }
-            if(Time.time - startTime > 1)
-            {
+        //    if(Time.time - startTime < 1)
+        //    {
+        //        StartCoroutine(BossShaking(0.3f, 0.07f));
+        //    }
+          //  if(Time.time - startTime > 1)
+          //  {
                 // 애니메이션 실행장소
                 SetCurrentAnimation(AnimState.samurai_anima_attack);
-            }
+           // }
             yield return null;
         }
         Vector3 targetPos = PlayerPos ;
         startTime = Time.time;
         float duration = 0.7f; // 이동에 걸리는 시간
-        while (Time.time - startTime < 1.5)
+        while (Time.time - startTime < 2)
         {
+            SetCurrentAnimation(AnimState.samurai_anima_test);
             float t = (Time.time - startTime) / duration;
             rigidbody2D.MovePosition(Vector3.Lerp(bossPos, targetPos, t));
+
+         //   if(Time.time - startTime < 1.5) { }  원위치로 돌아오는 애니메이션 들어갈 자리
             yield return null;
         }
 
@@ -2061,7 +2063,8 @@ public class Stage1_Boss : MonoBehaviour
         float MoveSpeed = 90f;
         while (Time.time - startTime<2) // 첫번째 애니메이션
         {
-            if(Time.time - startTime < 1)
+            SetCurrentAnimation(AnimState.samurai_anima_TEST2);
+            if (Time.time - startTime < 1)
             {
                  dir = (PlayerPos - pattern6_1.transform.position).normalized;
             }
