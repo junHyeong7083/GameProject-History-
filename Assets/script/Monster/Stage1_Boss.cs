@@ -18,20 +18,20 @@ public class Stage1_Boss : MonoBehaviour
     Vector3 bossPos;
     Camera cam;
     Vector3 cameraOriginalPos;
-    // -------------- Spine Animation --------------
+    string CurrentAnimation; // 현재 어떤 애니메이션이 재생되고 있는지에 대한 변수
+     // -------------- Spine Animation --------------
+    #region Spine
     public SkeletonAnimation skeletonAnimation;
     public AnimationReferenceAsset[] AnimClip;
-
     public enum AnimState
     {
-        samurai_anima_attack, samurai_anima_katana_rolling, samurai_anima_stand, samurai_anima_test, samurai_anima_TEST2
+        samurai_anima_attack, samurai_anima_katana_rolling, samurai_anima_stand, samurai_anima_test, samurai_anima_TEST2, none
     }
 
     // 현재 애니메이션 처리가 무엇인지 대한 변수
-     AnimState _AnimState;
-
-    string CurrentAnimation; // 현재 어떤 애니메이션이 재생되고 있는지에 대한 변수
-                             // ----------------- Pattern2 -----------------
+    AnimState _AnimState;
+    #endregion
+    // ----------------- Pattern2 -----------------
     #region Pattern2
     bool nextPtn1State = false;
     bool nextPtn2State = false;
@@ -69,6 +69,12 @@ public class Stage1_Boss : MonoBehaviour
     GameObject target_4;
     GameObject pattern5_5;
     GameObject target_5;
+
+    ParticleSystem shoot1;
+    ParticleSystem shoot2;
+    ParticleSystem shoot3;
+    ParticleSystem shoot4;
+    ParticleSystem shoot5;
     #endregion
     float bulletSpeed = 400f;
     // ----------------- Pattern6 -----------------
@@ -147,14 +153,15 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
     float ptn9_playTime = 0.3f;
     float ptn9_delayTime = 1.7f;
+    // ----------------- HP -----------------
+    public Text currentHp_Text;
+    float currentHp = 2000f;
+    ParticleSystem hitEffect;
     // ----------------- bool -----------------
     bool isOverlab = false;
     bool isPattern = false;
     int randomPattern;
     int randomOverlab;
-    // ----------------- HP -----------------
-    public Text currentHp_Text;
-    float currentHp = 2000f;
 
     private void Awake()
     {
@@ -167,6 +174,12 @@ public class Stage1_Boss : MonoBehaviour
 
         cam = Camera.main;
         cameraOriginalPos = cam.transform.position;
+
+        #region HitEffect Setting
+        hitEffect = ParticleManager.Instance.StartParticle("VFX_hit");
+        hitEffect.gameObject.SetActive(false);
+        #endregion
+
     }
 
     IEnumerator CameraShaking(float duration, float magnitude)
@@ -202,9 +215,13 @@ public class Stage1_Boss : MonoBehaviour
             return;
 
         // 해당 애니메이션으로 변경한다.
-         skeletonAnimation.state.SetAnimation(0, animClip, loop).TimeScale = timeScalse;
+        skeletonAnimation.state.SetAnimation(0, animClip, loop).TimeScale = timeScalse;
+
+        // 애니메이션이 끝나면 원래 상태로 돌아간다.
+       // skeletonAnimation.AnimationState.Complete += delegate { SetCurrentAnimation(AnimState.none); };
         // 현재 재생되고 있는 애니메이션 값을 변경
         CurrentAnimation = animClip.name;
+
     }
 
     private void SetCurrentAnimation(AnimState _state)
@@ -226,6 +243,11 @@ public class Stage1_Boss : MonoBehaviour
             case AnimState.samurai_anima_TEST2:
                 _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_TEST2], false, 1f);
                 break;
+            case AnimState.none:
+                skeletonAnimation.state.ClearTrack(0);
+                CurrentAnimation = null;
+                break;
+
         }
     }
 
@@ -240,15 +262,9 @@ public class Stage1_Boss : MonoBehaviour
         float startTime = Time.time;
         while (Time.time - startTime < 2)
         {
-        //    if(Time.time - startTime < 1)
-        //    {
-        //        StartCoroutine(BossShaking(0.3f, 0.07f));
-        //    }
-          //  if(Time.time - startTime > 1)
-          //  {
                 // 애니메이션 실행장소
-                SetCurrentAnimation(AnimState.samurai_anima_attack);
-           // }
+             SetCurrentAnimation(AnimState.samurai_anima_attack);
+
             yield return null;
         }
         Vector3 targetPos = PlayerPos ;
@@ -266,6 +282,7 @@ public class Stage1_Boss : MonoBehaviour
 
         isPattern = false;
     }
+
 
     #endregion
 
@@ -1268,18 +1285,34 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
 
-        startTime = Time.time;
-
         Transform bulletPosTransform = pattern5_1.transform.Find("BulletPos");
         GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_1.transform.rotation;
         Vector3 dir = PlayerPos - pattern5_1.transform.position;
-        StartCoroutine(CameraShaking(0.1f, 0.5f));
 
+        shoot1 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot1.transform.position = bulletPosTransform.transform.position;
+        shoot1.transform.localScale = new Vector3(15, 15, 15);
+        shoot1.transform.rotation = pattern5_1.transform.rotation;
+        var main = shoot1.main;
+        main.startRotationZ = 0f;
+        startTime = Time.time;
+        while(Time.time - startTime < 1f)
+        {
+            yield return null;
+        }
+
+
+        StartCoroutine(CameraShaking(0.1f, 0.5f));
+        startTime = Time.time;
         while (Time.time - startTime < 2)
         {
+            if(Time.time - startTime > 1.0)
+            {
+                if (shoot1 != null) Destroy(shoot1.gameObject);
+            }
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
             yield return null;
         }
@@ -1340,17 +1373,35 @@ public class Stage1_Boss : MonoBehaviour
 
             yield return null;
         }
-        startTime = Time.time;
+
         Transform bulletPosTransform = pattern5_2.transform.Find("BulletPos");
         GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_2.transform.rotation;
-
         Vector3 dir = PlayerPos - pattern5_2.transform.position;
+
+        shoot2 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot2.transform.position = bulletPosTransform.transform.position;
+        shoot2.transform.localScale = new Vector3(15, 15, 15);
+        shoot2.transform.rotation = pattern5_2.transform.rotation;
+        var main = shoot2.main;
+        main.startRotationZ = 0f;
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            yield return null;
+        }
+
+
         StartCoroutine(CameraShaking(0.1f, 0.5f));
+        startTime = Time.time;
         while (Time.time - startTime < 2)
         {
+            if (Time.time - startTime > 1.0)
+            {
+                if (shoot2 != null) Destroy(shoot2.gameObject);
+            }
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
             yield return null;
         }
@@ -1412,16 +1463,33 @@ public class Stage1_Boss : MonoBehaviour
         }
 
         Transform bulletPosTransform = pattern5_3.transform.Find("BulletPos");
-        startTime = Time.time;
-
         GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_3.transform.rotation;
         Vector3 dir = PlayerPos - pattern5_3.transform.position;
+
+        shoot3 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot3.transform.position = bulletPosTransform.transform.position;
+        shoot3.transform.localScale = new Vector3(15, 15, 15);
+        shoot3.transform.rotation = pattern5_3.transform.rotation;
+        var main = shoot3.main;
+        main.startRotationZ = 0f;
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            yield return null;
+        }
+
         StartCoroutine(CameraShaking(0.1f, 0.5f));
+        startTime = Time.time;
         while (Time.time - startTime < 2)
         {
+            if (Time.time - startTime > 1.0)
+            {
+                if (shoot3 != null) Destroy(shoot3.gameObject);
+            }
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
             yield return null;
         }
@@ -1484,17 +1552,34 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         Transform bulletPosTransform = pattern5_4.transform.Find("BulletPos");
-        startTime = Time.time;
         GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_4.transform.rotation;
         Vector3 dir = PlayerPos - pattern5_4.transform.position;
+
+        shoot4 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot4.transform.position = bulletPosTransform.transform.position;
+        shoot4.transform.localScale = new Vector3(15, 15, 15);
+        shoot4.transform.rotation = pattern5_4.transform.rotation;
+        var main = shoot4.main;
+        main.startRotationZ = 0f;
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            yield return null;
+        }
+
+
         StartCoroutine(CameraShaking(0.1f, 0.5f));
+        startTime = Time.time;
         while (Time.time - startTime < 2)
         {
+            if (Time.time - startTime > 1.0)
+            {
+                if (shoot4 != null) Destroy(shoot4.gameObject);
+            }
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
-
             yield return null;
         }
         startTime = Time.time;
@@ -1558,17 +1643,35 @@ public class Stage1_Boss : MonoBehaviour
             }
             yield return null;
         }
-        startTime = Time.time;
         Transform bulletPosTransform = pattern5_5.transform.Find("BulletPos");
         GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_5.transform.rotation;
         Vector3 dir = PlayerPos - pattern5_5.transform.position;
+
+        shoot5 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot5.transform.position = bulletPosTransform.transform.position;
+        shoot5.transform.localScale = new Vector3(15, 15, 15);
+        shoot5.transform.rotation = pattern5_5.transform.rotation;
+        var main = shoot5.main;
+        main.startRotationZ = 0f;
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            yield return null;
+        }
+
+
         StartCoroutine(CameraShaking(0.1f, 0.5f));
+        startTime = Time.time;
         while (Time.time - startTime < 2)
         {
-            if (Time.time - startTime < 1.5f)
+            if (Time.time - startTime > 1.0)
+            {
+                if (shoot5 != null) Destroy(shoot5.gameObject);
+            }
+            if (Time.time - startTime < 0.5f)
             {
                 Destroy(target_1);
                 Destroy(target_2);
@@ -3135,10 +3238,20 @@ public class Stage1_Boss : MonoBehaviour
     {
         PlayerPos = Player.transform.position;
         bossPos = this.transform.position;
-         if(PlayerController.atkState) // 공격상태이면
+
+        #region Boss Hit
+        if (PlayerController.atkState) // 공격상태이면
         {
+            //  hitEffect.transform.position = bossPos;
+            hitEffect.gameObject.SetActive(true);
             currentHp -= Time.deltaTime * 50f;
         }
+         else if(!PlayerController.atkState)
+        {
+            hitEffect.gameObject.SetActive(false);
+        }
+        #endregion
+
         currentHp_Text.text = currentHp.ToString();
         if(currentHp <= 0)
         {

@@ -206,14 +206,26 @@ public class PlayerController : MonoBehaviour
             return default(Touch);
         } // 터치 순서따라 finger id값 저장            
 
-        if (isRay) // 몬스터가 피격중일때
+      //  if (isRay) // 몬스터가 피격중일때
+      //  {
+      //      atkState = true;
+      //  }
+      //  if (!isRay) 
+      //  {
+      //      atkState = false;
+      //  }
+        
+        if(Input.GetKeyDown(KeyCode.A))
         {
+            Debug.Log("atkState - TRUE");
             atkState = true;
         }
-        if (!isRay) 
+        if (Input.GetKeyDown(KeyCode.S))
         {
+            Debug.Log("atkState - FALSE");
             atkState = false;
         }
+
 
         #region Hp Image Change
         if (Hp == 3)
