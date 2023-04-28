@@ -35,10 +35,12 @@ public class PlayerController : MonoBehaviour
     bool isHit = false;
     float hitCoolTime = 2f;
     float hitTimer = 0f;
+    float shaderOffset = 1f;
     //-------------------사용할 컴포넌트-------------------
     EdgeCollider2D lineCollider; // 라인렌더러시 사용할 콜라이더
     Rigidbody2D lineRigid;
-
+   public SpriteRenderer spriteRenderer;
+   public Material material;
     //---------------------bool--------------------------
     bool isAtk = false; // 공격중일때는 움직임x
     bool isRender = false;
@@ -48,6 +50,7 @@ public class PlayerController : MonoBehaviour
     //---------------------Els--------------------------
     void Start()
     {
+        material.SetFloat("_Fade", 1f);
         lineCollider = Line.GetComponent<EdgeCollider2D>();
         lineRigid = Line.GetComponent<Rigidbody2D>();
         lineRenderer.startWidth = 3f;
@@ -240,11 +243,19 @@ public class PlayerController : MonoBehaviour
         {
             bottomHp.SetActive(false);
         }
-        if (Hp == 0)
+        if (Hp <= 0)
         {
             leftHp.SetActive(false);
-            Player_Body.SetActive(false);
+            material.SetFloat("_Fade", shaderOffset);
+           // Player_Body.SetActive(false);
             isDie = true;
+            shaderOffset -= Time.deltaTime;
+
+            if(shaderOffset <= 0)
+            {
+                shaderOffset = 0;
+                Player_Body.SetActive(false);
+            }
         }
         #endregion
         #region Player Hit

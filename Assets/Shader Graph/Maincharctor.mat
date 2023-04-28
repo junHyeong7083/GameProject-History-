@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: efb8aa41bcf3c2b4bad33c03a32a8824, type: 3}
+        m_Texture: {fileID: 2800000, guid: a99baa94b31561d4d9507938071d5229, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PlayerDrone:
@@ -43,7 +43,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Fade: 1
-    - _Scale: 3.87
+    - _Scale: 5
     - _fade: 1
     m_Colors:
     - _Color: {r: 3.577002, g: 2.474796, b: 2.4465344, a: 0}
