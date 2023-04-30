@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
     //---------------------Els--------------------------
     void Start()
     {
+        Time.timeScale = 1f;
+
         material.SetFloat("_Fade", 1f);
         lineCollider = Line.GetComponent<EdgeCollider2D>();
         lineRigid = Line.GetComponent<Rigidbody2D>();
@@ -249,10 +251,11 @@ public class PlayerController : MonoBehaviour
             material.SetFloat("_Fade", shaderOffset);
            // Player_Body.SetActive(false);
             isDie = true;
-            shaderOffset -= Time.deltaTime;
+            shaderOffset -= Time.deltaTime * 1.5f;
 
             if(shaderOffset <= 0)
             {
+                Time.timeScale = 0f;
                 shaderOffset = 0;
                 Player_Body.SetActive(false);
             }

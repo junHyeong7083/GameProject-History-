@@ -135,6 +135,12 @@ public class Stage1_Boss : MonoBehaviour
     GameObject overlab_target4;
     GameObject overlab_pattern5_5;
     GameObject overlab_target5;
+
+    ParticleSystem overlab_shoot1;
+    ParticleSystem overlab_shoot2;
+    ParticleSystem overlab_shoot3;
+    ParticleSystem overlab_shoot4;
+    ParticleSystem overlab_shoot5;
     // ----------------- PatternOverlab_7 -----------------
     GameObject overlab_pattern7_1;
     GameObject overlab_pattern7_2;
@@ -1700,7 +1706,7 @@ public class Stage1_Boss : MonoBehaviour
         isPattern = false;
     }
     #endregion
-    void overlab_Scp1_5()
+    public void overlab_Scp1_5()
     {
         isOverlab = true;
         StartCoroutine(overlab_Scp1_5_total());
@@ -1793,19 +1799,33 @@ public class Stage1_Boss : MonoBehaviour
             overlab_target1.transform.localScale += new Vector3(0.5f * Time.deltaTime, 0.5f * Time.deltaTime, 0);
             yield return null;
         }
-
-        startTime = Time.time;
-
         Transform bulletPosTransform = overlab_pattern5_1.transform.Find("BulletPos");
         GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_1.transform.rotation;
         Vector3 dir = PlayerPos - overlab_pattern5_1.transform.position;
+
+        overlab_shoot1 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        overlab_shoot1.transform.position = bulletPosTransform.transform.position;
+        overlab_shoot1.transform.localScale = new Vector3(15, 15, 15);
+        overlab_shoot1.transform.rotation = overlab_pattern5_1.transform.rotation;
+        var main = overlab_shoot1.main;
+        main.startRotationZ = 0f;
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            yield return null;
+        }
         StartCoroutine(CameraShaking(0.1f, 0.5f));
 
+        startTime = Time.time;
         while (Time.time - startTime < 2)
         {
+            if (Time.time - startTime > 1.0)
+            {
+                if (overlab_shoot1 != null) Destroy(overlab_shoot1.gameObject);
+            }
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
             yield return null;
         }
@@ -1867,16 +1887,34 @@ public class Stage1_Boss : MonoBehaviour
 
             yield return null;
         }
-        startTime = Time.time;
         Transform bulletPosTransform = overlab_pattern5_2.transform.Find("BulletPos");
         GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_2.transform.rotation;
         Vector3 dir = PlayerPos - overlab_pattern5_2.transform.position;
+
+
+        overlab_shoot2 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        overlab_shoot2.transform.position = bulletPosTransform.transform.position;
+        overlab_shoot2.transform.localScale = new Vector3(15, 15, 15);
+        overlab_shoot2.transform.rotation = overlab_pattern5_2.transform.rotation;
+        var main = overlab_shoot2.main;
+        main.startRotationZ = 0f;
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            yield return null;
+        }
+
         StartCoroutine(CameraShaking(0.1f, 0.5f));
+        startTime = Time.time;
         while (Time.time - startTime < 2)
         {
+            if (Time.time - startTime > 1.0)
+            {
+                if (overlab_shoot2 != null) Destroy(overlab_shoot2.gameObject);
+            }
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
             yield return null;
         }
@@ -1938,16 +1976,31 @@ public class Stage1_Boss : MonoBehaviour
         }
 
         Transform bulletPosTransform = overlab_pattern5_3.transform.Find("BulletPos");
-        startTime = Time.time;
-
         GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_3.transform.rotation;
         Vector3 dir = PlayerPos - overlab_pattern5_3.transform.position;
+
+        overlab_shoot3 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        overlab_shoot3.transform.position = bulletPosTransform.transform.position;
+        overlab_shoot3.transform.localScale = new Vector3(15, 15, 15);
+        overlab_shoot3.transform.rotation = overlab_pattern5_3.transform.rotation;
+        var main = overlab_shoot3.main;
+        main.startRotationZ = 0f;
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            yield return null;
+        }
         StartCoroutine(CameraShaking(0.1f, 0.5f));
+        startTime = Time.time;
         while (Time.time - startTime < 2)
         {
+            if (Time.time - startTime > 1.0)
+            {
+                if (overlab_shoot3 != null) Destroy(overlab_shoot3.gameObject);
+            }
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
             yield return null;
         }
@@ -2008,17 +2061,34 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         Transform bulletPosTransform = overlab_pattern5_4.transform.Find("BulletPos");
-        startTime = Time.time;
         GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_4.transform.rotation;
         Vector3 dir = PlayerPos - overlab_pattern5_4.transform.position;
+
+       overlab_shoot4 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        overlab_shoot4.transform.position = bulletPosTransform.transform.position;
+        overlab_shoot4.transform.localScale = new Vector3(15, 15, 15);
+        overlab_shoot4.transform.rotation = overlab_pattern5_4.transform.rotation;
+        var main = overlab_shoot4.main;
+        main.startRotationZ = 0f;
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            yield return null;
+        }
+
+
         StartCoroutine(CameraShaking(0.1f, 0.5f));
+        startTime = Time.time;
         while (Time.time - startTime < 2)
         {
+            if (Time.time - startTime > 1.0)
+            {
+                if (overlab_shoot4 != null) Destroy(overlab_shoot4.gameObject);
+            }
             bullet.GetComponent<Rigidbody2D>().velocity = dir.normalized * bulletSpeed;
-
             yield return null;
         }
         startTime = Time.time;
@@ -2080,16 +2150,32 @@ public class Stage1_Boss : MonoBehaviour
             }
             yield return null;
         }
-        startTime = Time.time;
         Transform bulletPosTransform = overlab_pattern5_5.transform.Find("BulletPos");
         GameObject bullet = PatternManager.Instance.StartPattern("Stage1_Bullet");
         bullet.SetActive(true);
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = overlab_pattern5_5.transform.rotation;
         Vector3 dir = PlayerPos - overlab_pattern5_5.transform.position;
+
+        overlab_shoot5 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        overlab_shoot5.transform.position = bulletPosTransform.transform.position;
+        overlab_shoot5.transform.localScale = new Vector3(15, 15, 15);
+        overlab_shoot5.transform.rotation = overlab_pattern5_5.transform.rotation;
+        var main = overlab_shoot5.main;
+        main.startRotationZ = 0f;
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            yield return null;
+        }
         StartCoroutine(CameraShaking(0.1f, 0.5f));
+        startTime = Time.time;
         while (Time.time - startTime < 2)
         {
+            if (Time.time - startTime > 1.0)
+            {
+                if (overlab_shoot5 != null) Destroy(overlab_shoot5.gameObject);
+            }
             if (Time.time - startTime < 1.5f)
             {
                 Destroy(overlab_target1);

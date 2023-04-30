@@ -906,6 +906,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1654827943}
+    - target: {fileID: 968796040601261116, guid: f5c58d5ac412b0e48bbd109bd42e1373, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: overlab_Scp1_5
+      objectReference: {fileID: 0}
     - target: {fileID: 968796040751517764, guid: f5c58d5ac412b0e48bbd109bd42e1373, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 693
