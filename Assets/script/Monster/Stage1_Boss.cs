@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 using Spine.Unity;
 using Unity.VisualScripting;
+using Spine;
 
 public class Stage1_Boss : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class Stage1_Boss : MonoBehaviour
     #region Spine
     public SkeletonAnimation skeletonAnimation;
     public AnimationReferenceAsset[] AnimClip;
+ //   TrackEntry[] tracks;
 
     // 현재 애니메이션 처리가 무엇인지 대한 변수
     AnimState _AnimState;
@@ -165,7 +167,7 @@ public class Stage1_Boss : MonoBehaviour
     bool isPattern = false;
     int randomPattern;
     int randomOverlab;
-
+    bool isBossDie = false;
     public GameObject ClearPanel;
 
     public void Test()
@@ -179,6 +181,11 @@ public class Stage1_Boss : MonoBehaviour
 
     void Start()
     {
+        skeletonAnimation = GetComponent<SkeletonAnimation>();
+
+        // 모든 애니메이션 컴포넌트 가져오기
+        //tracks = skeletonAnimation.AnimationState.Tracks.Items;
+        bossDieTime = 0f;
         currentHp = 2000f;
 
         ClearPanel.SetActive(false); 
@@ -3374,7 +3381,7 @@ public class Stage1_Boss : MonoBehaviour
     }
     #endregion
 
-
+    float bossDieTime = 0f;
     float delayTime;
     void Update()
     {
@@ -3544,10 +3551,16 @@ public class Stage1_Boss : MonoBehaviour
         currentHp_Text.text = currentHp.ToString();
         if(currentHp <= 0)
         {
+            StopAllCoroutines();
+           // skeletonAnimation.AnimationState.ClearTracks(); // 이전에 재생한 모든 애니메이션 중지
+            SetCurrentAnimation(AnimState.samurai_anima_death_suiside);
             // 사망 애니메이션 넣을자리
-            Destroy(this.gameObject);
-            Time.timeScale = 0f;
-            ClearPanel.SetActive(true);
+            bossDieTime += Time.deltaTime;
+            if(bossDieTime >= 3f)
+            {
+                Time.timeScale = 0f;
+                ClearPanel.SetActive(true);
+            }
             TitleSelect.clearCheck = 1;
             Debug.Log("checkInt" + TitleSelect.clearCheck);
         }
