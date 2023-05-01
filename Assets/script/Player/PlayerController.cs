@@ -96,8 +96,12 @@ public class PlayerController : MonoBehaviour
             Debug.Log("회전칼");
             isHit = true;
         }
+        if (collision.gameObject.tag == "Boss")
+        {
+            Debug.Log("몬스터");
+            isHit = true;
+        }
     }
-
 
     void Update()
     {
@@ -118,7 +122,7 @@ public class PlayerController : MonoBehaviour
                     Vector3 touchPosition = touch1.position;
                     Vector2 newDirection = (touchPosition - previousPosition).normalized;
                     float distance = Vector2.Distance(touchPosition, previousPosition);
-                    float mindistance = 3f; // 이 값이 높아지면 터치민감도 낮아짐
+                    float mindistance = 5f; // 이 값이 높아지면 터치민감도 낮아짐 
                     float smoothFactor = 0.5f; // 입력 방향 보정 계수
                     if (distance > mindistance)
                     {
@@ -270,6 +274,7 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
+        
     }
 
 

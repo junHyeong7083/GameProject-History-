@@ -3086,6 +3086,8 @@ public class Stage_infinity : MonoBehaviour
 
     void Start()
     {
+
+
         Time.timeScale = 1f;
         playerController = Player.GetComponent<PlayerController>();
 
@@ -3125,12 +3127,10 @@ public class Stage_infinity : MonoBehaviour
 
             if (!isPattern && !isOverlab)
             {
-                randomPattern = Random.Range(1, 11);
+                randomPattern = Random.Range(1, 9);
                 switch (randomPattern)
                 {
-                    case 1: // pattern1
-                        break;
-                    case 2:
+                    case 1:
                         Scp1_2();
                         randomOverlab = Random.Range(1, 9);
                         switch (randomOverlab)
@@ -3148,11 +3148,10 @@ public class Stage_infinity : MonoBehaviour
                                 overlab_Scp1_8_1();
                                 break;
                             default:
-
                                 break;
                         }
                         break;
-                    case 3:
+                    case 2:
                         Scp1_3();
                         randomOverlab = Random.Range(1, 9);
                         switch (randomOverlab)
@@ -3172,12 +3171,11 @@ public class Stage_infinity : MonoBehaviour
                             default:
                                 break;
                         }
-
                         break;
-                    case 4:
+                    case 3:
                         Scp1_4();
                         break;
-                    case 5:
+                    case 4:
                         Scp1_5();
                         randomOverlab = Random.Range(1, 9);
                         switch (randomOverlab)
@@ -3199,9 +3197,7 @@ public class Stage_infinity : MonoBehaviour
                         }
 
                         break;
-                    case 6:
-                        break;
-                    case 7:
+                    case 5:
                         Scp1_7();
                         randomOverlab = Random.Range(1, 9);
                         switch (randomOverlab)
@@ -3223,10 +3219,10 @@ public class Stage_infinity : MonoBehaviour
                         }
 
                         break;
-                    case 8:
+                    case 6:
                         Scp1_8();
                         break;
-                    case 9:
+                    case 7:
                         Scp1_8_1();
                         randomOverlab = Random.Range(1, 9);
                         switch (randomOverlab)
@@ -3246,9 +3242,8 @@ public class Stage_infinity : MonoBehaviour
                             default:
                                 break;
                         }
-
                         break;
-                    case 10:
+                    case 8:
                         Scp1_9();
                         break;
 

@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     public static bool isStop = false;
     private void Start()
     {
-        SoundManager.Instance.SetBGMSound(1, 0.5f);
+        SoundManager.Instance.SetBGMSound(1, 0.2f);
         SoundManager.Instance.PlaySound();
         DeathUI.gameObject.SetActive(false);
 
@@ -44,7 +44,7 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("TitleScene");
         Time.timeScale = 1f;
     }
-   
+
 
     private void Update()
     {

@@ -18,15 +18,11 @@ public class Stage1_Boss : MonoBehaviour
     Vector3 bossPos;
     Camera cam;
     Vector3 cameraOriginalPos;
-    string CurrentAnimation; // 현재 어떤 애니메이션이 재생되고 있는지에 대한 변수
+    string CurrentAnimation = ""; // 현재 어떤 애니메이션이 재생되고 있는지에 대한 변수
      // -------------- Spine Animation --------------
     #region Spine
     public SkeletonAnimation skeletonAnimation;
     public AnimationReferenceAsset[] AnimClip;
-    public enum AnimState
-    {
-        samurai_anima_attack, samurai_anima_katana_rolling, samurai_anima_stand, samurai_anima_test, samurai_anima_TEST2, none
-    }
 
     // 현재 애니메이션 처리가 무엇인지 대한 변수
     AnimState _AnimState;
@@ -161,15 +157,21 @@ public class Stage1_Boss : MonoBehaviour
     float ptn9_delayTime = 1.7f;
     // ----------------- HP -----------------
     public Text currentHp_Text;
-    public static float currentHp = 2000f;
+    public static float currentHp;
     ParticleSystem hitEffect;
+
     // ----------------- bool -----------------
     bool isOverlab = false;
     bool isPattern = false;
     int randomPattern;
     int randomOverlab;
 
+    public GameObject ClearPanel;
 
+    public void Test()
+    {
+        currentHp = 0;
+    }
 
     private void Awake()
     {
@@ -177,7 +179,9 @@ public class Stage1_Boss : MonoBehaviour
 
     void Start()
     {
-        
+        currentHp = 2000f;
+
+        ClearPanel.SetActive(false); 
 
         rigidbody2D = GetComponent<Rigidbody2D>();
         playerController = Player.GetComponent<PlayerController>();
@@ -190,6 +194,19 @@ public class Stage1_Boss : MonoBehaviour
         hitEffect.gameObject.SetActive(false);
         #endregion
 
+
+    }
+
+    public enum AnimState
+    {
+        samurai_anima_death_suiside, 
+        samurai_anima_idle, 
+        samurai_anima_katana_roll, 
+        samurai_anima_katana_roll_3, 
+        samurai_anima_pattern_1,
+        samurai_anima_pattern_6_left,
+        samurai_anima_pattern_6_right,
+        samurai_anima_turn_back,
     }
 
     IEnumerator CameraShaking(float duration, float magnitude)
@@ -234,35 +251,44 @@ public class Stage1_Boss : MonoBehaviour
 
     }
 
+
+
     private void SetCurrentAnimation(AnimState _state)
     {
-        switch(_state)
-        {
-            case AnimState.samurai_anima_attack:
-                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_attack], false, 0.7f);
-                break;
-            case AnimState.samurai_anima_stand:
-                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_stand], false, 1f);
-                break;
-            case AnimState.samurai_anima_katana_rolling:
-                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_katana_rolling], false, 1f);
-                break;
-            case AnimState.samurai_anima_test:
-                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_test], false, 3f);
-                break;
-            case AnimState.samurai_anima_TEST2:
-                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_TEST2], false, 1f);
-                break;
-            case AnimState.none:
-                skeletonAnimation.state.ClearTrack(0);
-                CurrentAnimation = null;
-                break;
+        Debug.Log(_state);
 
+        switch (_state)
+        {
+            case AnimState.samurai_anima_death_suiside:
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_death_suiside], false, 1f);
+                break;
+            case AnimState.samurai_anima_idle:
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_idle], true, 0.7f);
+                break;
+            case AnimState.samurai_anima_katana_roll:
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_katana_roll], false, 0.35f);
+                break;
+            case AnimState.samurai_anima_katana_roll_3:
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_katana_roll_3], false, 3f);
+                break;
+            case AnimState.samurai_anima_pattern_1:
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_pattern_1], false, 1.4f);
+                break;
+            case AnimState.samurai_anima_pattern_6_left:
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_pattern_6_left], false, 1.5f);
+                break;
+            case AnimState.samurai_anima_pattern_6_right:
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_pattern_6_right], false, 1.5f);
+                break;
+            case AnimState.samurai_anima_turn_back:
+                _AsyncAnimation(AnimClip[(int)AnimState.samurai_anima_turn_back], false, 1.2f);
+                break;
         }
     }
 
-    public void Scp1_1()  
+    public void Scp1_1()
     {
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
         isPattern = true;
         StartCoroutine(Scp1_1_Pattern());
     }
@@ -273,7 +299,7 @@ public class Stage1_Boss : MonoBehaviour
         while (Time.time - startTime < 2)
         {
                 // 애니메이션 실행장소
-             SetCurrentAnimation(AnimState.samurai_anima_attack);
+             SetCurrentAnimation(AnimState.samurai_anima_katana_roll);
 
             yield return null;
         }
@@ -282,14 +308,19 @@ public class Stage1_Boss : MonoBehaviour
         float duration = 0.7f; // 이동에 걸리는 시간
         while (Time.time - startTime < 2)
         {
-            SetCurrentAnimation(AnimState.samurai_anima_test);
+            SetCurrentAnimation(AnimState.samurai_anima_pattern_1);
             float t = (Time.time - startTime) / duration;
             rigidbody2D.MovePosition(Vector3.Lerp(bossPos, targetPos, t));
 
          //   if(Time.time - startTime < 1.5) { }  원위치로 돌아오는 애니메이션 들어갈 자리
             yield return null;
         }
-
+        startTime = Time.time;
+        while(Time.time - startTime < 1)
+        {
+            SetCurrentAnimation(AnimState.samurai_anima_turn_back);
+            yield return null;
+        }
         isPattern = false;
     }
 
@@ -298,6 +329,7 @@ public class Stage1_Boss : MonoBehaviour
 
     public void Scp1_2()
     {
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
         isPattern = true;
 
         StartCoroutine(Scp1_2_1());
@@ -416,6 +448,7 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
     void overlab_Scp1_2() 
     {
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
         isOverlab = true;
         StartCoroutine(overlab_Scp1_2_1());
     } // 오버랩용 함수 수정필요함 
@@ -537,6 +570,7 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
     public void Scp1_3()
     {
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
         isPattern = true;
         StartCoroutine(Scp1_3_1());
     } // 투명도 처리 필요
@@ -633,6 +667,7 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
     void overlab_Scp1_3()
     {
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
         isOverlab = true;
    
         StartCoroutine(overlab_Scp1_3_1());
@@ -731,6 +766,7 @@ public class Stage1_Boss : MonoBehaviour
     #endregion 
     public void Scp1_4()
     {
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
         isPattern = true;
         StartCoroutine(Scp1_4_Total());
     } // 투명도 처리 필요
@@ -1200,6 +1236,7 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
     public void Scp1_5()
     {
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
         isPattern = true;
         StartCoroutine(Scp1_5_total());
     } // 투명도 처리 필요
@@ -1712,6 +1749,7 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
     public void overlab_Scp1_5()
     {
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
         isOverlab = true;
         StartCoroutine(overlab_Scp1_5_total());
     }
@@ -2210,6 +2248,7 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
     public void Scp1_6()
     {
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
         this.transform.position = new Vector3(0, 7, 0);
         isPattern = true;
         StartCoroutine(Scp1_6_1());
@@ -2242,6 +2281,7 @@ public class Stage1_Boss : MonoBehaviour
         float startTime = Time.time;
         while(Time.time - startTime < 1f) 
         {
+            SetCurrentAnimation(AnimState.samurai_anima_katana_roll);
             float alpha = (Time.time - startTime) / 1f;
             colorPattern6_1.a = alpha;
             spritePattern6_1.color = colorPattern6_1;
@@ -2256,7 +2296,7 @@ public class Stage1_Boss : MonoBehaviour
         float MoveSpeed = 90f;
         while (Time.time - startTime<2) // 첫번째 애니메이션
         {
-            SetCurrentAnimation(AnimState.samurai_anima_TEST2);
+            SetCurrentAnimation(AnimState.samurai_anima_pattern_6_right);
             if (Time.time - startTime < 1)
             {
                  dir = (PlayerPos - pattern6_1.transform.position).normalized;
@@ -2269,16 +2309,20 @@ public class Stage1_Boss : MonoBehaviour
             }
             yield return null;
         }
-
         startTime = Time.time;
         while (Time.time - startTime < 3.0f) // 두번째 애니메이션
         {
+            SetCurrentAnimation(AnimState.samurai_anima_pattern_6_left);
             if (Time.time - startTime < 1)
             {
                 dir = (PlayerPos - pattern6_2.transform.position).normalized;
             }
             pattern6_2.transform.eulerAngles += new Vector3(0, 0, +RotateSpeed * 70 * Time.deltaTime);
             pattern6_1.transform.eulerAngles += new Vector3(0, 0, -RotateSpeed * 70 * Time.deltaTime);
+            if(Time.time - startTime > 1.1f)
+            {
+                SetCurrentAnimation(AnimState.samurai_anima_idle);
+            }
 
             if (1<Time.time - startTime  && Time.time - startTime < 2)
             {
@@ -2286,6 +2330,7 @@ public class Stage1_Boss : MonoBehaviour
             }
             yield return null;
         }
+   
         startTime = Time.time;
         while(Time.time - startTime < 0.5f)
         {
@@ -2305,6 +2350,7 @@ public class Stage1_Boss : MonoBehaviour
     // -20 ., 20
     public void Scp1_7()
     {
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
         isPattern = true;
         StartCoroutine(Scp1_7_1());
     }
@@ -2313,7 +2359,7 @@ public class Stage1_Boss : MonoBehaviour
     {
         #region 초기세팅
         pattern7_1 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        pattern7_1.transform.position = new Vector3(-28, -40, 0);
+        pattern7_1.transform.position = new Vector3(-28, -62, 0);
         pattern7_1.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_1.SetActive(true);
         SpriteRenderer spritePattern7_1 = pattern7_1.GetComponent<SpriteRenderer>();
@@ -2322,7 +2368,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_1.color = colorPattern7_1;
 
         pattern7_2 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        pattern7_2.transform.position = new Vector3(-21, -40, 0);
+        pattern7_2.transform.position = new Vector3(-21, -62, 0);
         pattern7_2.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_2.SetActive(true);
         SpriteRenderer spritePattern7_2 = pattern7_2.GetComponent<SpriteRenderer>();
@@ -2331,7 +2377,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_2.color = colorPattern7_2;
 
         pattern7_3 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        pattern7_3.transform.position = new Vector3(-14, -40, 0);
+        pattern7_3.transform.position = new Vector3(-14, -62, 0);
         pattern7_3.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_3.SetActive(true);
         SpriteRenderer spritePattern7_3 = pattern7_3.GetComponent<SpriteRenderer>();
@@ -2341,7 +2387,7 @@ public class Stage1_Boss : MonoBehaviour
 
 
         pattern7_4 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        pattern7_4.transform.position = new Vector3(-7, -40, 0);
+        pattern7_4.transform.position = new Vector3(-7, -62, 0);
         pattern7_4.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_4.SetActive(true);
         SpriteRenderer spritePattern7_4 = pattern7_4.GetComponent<SpriteRenderer>();
@@ -2350,7 +2396,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_4.color = colorPattern7_4;
 
         pattern7_5 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        pattern7_5.transform.position = new Vector3(0, -40, 0);
+        pattern7_5.transform.position = new Vector3(0, -62, 0);
         pattern7_5.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_5.SetActive(true);
         SpriteRenderer spritePattern7_5 = pattern7_5.GetComponent<SpriteRenderer>();
@@ -2359,7 +2405,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_5.color = colorPattern7_5;
 
         pattern7_6 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        pattern7_6.transform.position = new Vector3(7, -40, 0);
+        pattern7_6.transform.position = new Vector3(7, -62, 0);
         pattern7_6.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_6.SetActive(true);
         SpriteRenderer spritePattern7_6 = pattern7_6.GetComponent<SpriteRenderer>();
@@ -2368,7 +2414,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_6.color = colorPattern7_6;
 
         pattern7_7 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        pattern7_7.transform.position = new Vector3(14, -40, 0);
+        pattern7_7.transform.position = new Vector3(14, -62, 0);
         pattern7_7.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_7.SetActive(true);
         SpriteRenderer spritePattern7_7 = pattern7_7.GetComponent<SpriteRenderer>();
@@ -2377,7 +2423,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_7.color = colorPattern7_7;
 
         pattern7_8 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        pattern7_8.transform.position = new Vector3(21, -40, 0);
+        pattern7_8.transform.position = new Vector3(21, -62, 0);
         pattern7_8.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_8.SetActive(true);
         SpriteRenderer spritePattern7_8 = pattern7_8.GetComponent<SpriteRenderer>();
@@ -2386,7 +2432,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_8.color = colorPattern7_8;
 
         pattern7_9 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        pattern7_9.transform.position = new Vector3(28, -40, 0);
+        pattern7_9.transform.position = new Vector3(28, -62, 0);
         pattern7_9.transform.eulerAngles = new Vector3(0, 0, 270);
         pattern7_9.SetActive(true);
         SpriteRenderer spritePattern7_9 = pattern7_9.GetComponent<SpriteRenderer>();
@@ -2443,74 +2489,74 @@ public class Stage1_Boss : MonoBehaviour
             if (Time.time - startTime > 0.1f)
             {
                 pattern7_1.transform.position += new Vector3(0, speed1 * Time.deltaTime, 0);
-                if (pattern7_1.transform.position.y >= 50)
+                if (pattern7_1.transform.position.y >= 57)
                 {
-                    pattern7_1.transform.position = new Vector3(-28, 50, 0);
+                    pattern7_1.transform.position = new Vector3(-28, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.2f)
             {
                 pattern7_2.transform.position += new Vector3(0, speed2 * Time.deltaTime, 0);
-                if (pattern7_2.transform.position.y >= 50)
+                if (pattern7_2.transform.position.y >= 57)
                 {
-                    pattern7_2.transform.position = new Vector3(-21, 50, 0);
+                    pattern7_2.transform.position = new Vector3(-21, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.3f)
             {
                 pattern7_3.transform.position += new Vector3(0, speed3 * Time.deltaTime, 0);
-                if (pattern7_3.transform.position.y >= 50)
+                if (pattern7_3.transform.position.y >= 57)
                 {
-                    pattern7_3.transform.position = new Vector3(-14, 50, 0);
+                    pattern7_3.transform.position = new Vector3(-14, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.4f)
             {
                 pattern7_4.transform.position += new Vector3(0, speed4 * Time.deltaTime, 0);
-                if (pattern7_4.transform.position.y >= 50)
+                if (pattern7_4.transform.position.y >= 57)
                 {
-                    pattern7_4.transform.position = new Vector3(-7, 50, 0);
+                    pattern7_4.transform.position = new Vector3(-7, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.5f)
             {
                 pattern7_5.transform.position += new Vector3(0, speed5 * Time.deltaTime, 0);
-                if (pattern7_5.transform.position.y >= 50)
+                if (pattern7_5.transform.position.y >= 57)
                 {
 
-                    pattern7_5.transform.position = new Vector3(0, 50, 0);
+                    pattern7_5.transform.position = new Vector3(0, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.6f)
             {
                 pattern7_6.transform.position += new Vector3(0, speed6 * Time.deltaTime, 0);
-                if (pattern7_6.transform.position.y >= 50)
+                if (pattern7_6.transform.position.y >= 57)
                 {
-                    pattern7_6.transform.position = new Vector3(7, 50, 0);
+                    pattern7_6.transform.position = new Vector3(7, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.7f)
             {
                 pattern7_7.transform.position += new Vector3(0, speed7 * Time.deltaTime, 0);
-                if (pattern7_7.transform.position.y >= 50)
+                if (pattern7_7.transform.position.y >= 57)
                 {
-                    pattern7_7.transform.position = new Vector3(14, 50, 0);
+                    pattern7_7.transform.position = new Vector3(14, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.8f)
             {
                 pattern7_8.transform.position += new Vector3(0, speed8 * Time.deltaTime, 0);
-                if (pattern7_8.transform.position.y >= 50)
+                if (pattern7_8.transform.position.y >= 57)
                 {
-                    pattern7_8.transform.position = new Vector3(21, 50, 0);
+                    pattern7_8.transform.position = new Vector3(21, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.9f)
             {
                 pattern7_9.transform.position += new Vector3(0, speed9 * Time.deltaTime, 0);
-                if (pattern7_9.transform.position.y >= 50)
+                if (pattern7_9.transform.position.y >= 57)
                 {
-                    pattern7_9.transform.position = new Vector3(28, 50, 0);
+                    pattern7_9.transform.position = new Vector3(28, 57, 0);
                 }
             }
 
@@ -2569,6 +2615,7 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
     void overlab_Scp1_7()
     {
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
         isOverlab = true;
         StartCoroutine(overlab_Scp1_7_1());
     }
@@ -2577,7 +2624,7 @@ public class Stage1_Boss : MonoBehaviour
     {
         #region 초기세팅
         overlab_pattern7_1 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        overlab_pattern7_1.transform.position = new Vector3(-28, -40, 0);
+        overlab_pattern7_1.transform.position = new Vector3(-28, -62, 0);
         overlab_pattern7_1.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_1.SetActive(true);
         SpriteRenderer spritePattern7_1 = overlab_pattern7_1.GetComponent<SpriteRenderer>();
@@ -2586,7 +2633,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_1.color = colorPattern7_1;
 
         overlab_pattern7_2 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        overlab_pattern7_2.transform.position = new Vector3(-21, -40, 0);
+        overlab_pattern7_2.transform.position = new Vector3(-21, -62, 0);
         overlab_pattern7_2.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_2.SetActive(true);
         SpriteRenderer spritePattern7_2 = overlab_pattern7_2.GetComponent<SpriteRenderer>();
@@ -2595,7 +2642,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_2.color = colorPattern7_2;
 
         overlab_pattern7_3 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        overlab_pattern7_3.transform.position = new Vector3(-14, -40, 0);
+        overlab_pattern7_3.transform.position = new Vector3(-14, -62, 0);
         overlab_pattern7_3.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_3.SetActive(true);
         SpriteRenderer spritePattern7_3 = overlab_pattern7_3.GetComponent<SpriteRenderer>();
@@ -2605,7 +2652,7 @@ public class Stage1_Boss : MonoBehaviour
 
 
         overlab_pattern7_4 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        overlab_pattern7_4.transform.position = new Vector3(-7, -40, 0);
+        overlab_pattern7_4.transform.position = new Vector3(-7, -62, 0);
         overlab_pattern7_4.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_4.SetActive(true);
         SpriteRenderer spritePattern7_4 = overlab_pattern7_4.GetComponent<SpriteRenderer>();
@@ -2614,7 +2661,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_4.color = colorPattern7_4;
 
         overlab_pattern7_5 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        overlab_pattern7_5.transform.position = new Vector3(0, -40, 0);
+        overlab_pattern7_5.transform.position = new Vector3(0, -62, 0);
         overlab_pattern7_5.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_5.SetActive(true);
         SpriteRenderer spritePattern7_5 = overlab_pattern7_5.GetComponent<SpriteRenderer>();
@@ -2623,7 +2670,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_5.color = colorPattern7_5;
 
         overlab_pattern7_6 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        overlab_pattern7_6.transform.position = new Vector3(7, -40, 0);
+        overlab_pattern7_6.transform.position = new Vector3(7, -62, 0);
         overlab_pattern7_6.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_6.SetActive(true);
         SpriteRenderer spritePattern7_6 = overlab_pattern7_6.GetComponent<SpriteRenderer>();
@@ -2632,7 +2679,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_6.color = colorPattern7_6;
 
         overlab_pattern7_7 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        overlab_pattern7_7.transform.position = new Vector3(14, -40, 0);
+        overlab_pattern7_7.transform.position = new Vector3(14, -62, 0);
         overlab_pattern7_7.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_7.SetActive(true);
         SpriteRenderer spritePattern7_7 = overlab_pattern7_7.GetComponent<SpriteRenderer>();
@@ -2641,7 +2688,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_7.color = colorPattern7_7;
 
         overlab_pattern7_8 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        overlab_pattern7_8.transform.position = new Vector3(21, -40, 0);
+        overlab_pattern7_8.transform.position = new Vector3(21, -62, 0);
         overlab_pattern7_8.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_8.SetActive(true);
         SpriteRenderer spritePattern7_8 = overlab_pattern7_8.GetComponent<SpriteRenderer>();
@@ -2650,7 +2697,7 @@ public class Stage1_Boss : MonoBehaviour
         spritePattern7_8.color = colorPattern7_8;
 
         overlab_pattern7_9 = PatternManager.Instance.StartPattern("Stage1_Kunai");
-        overlab_pattern7_9.transform.position = new Vector3(28, -40, 0);
+        overlab_pattern7_9.transform.position = new Vector3(28, -62, 0);
         overlab_pattern7_9.transform.eulerAngles = new Vector3(0, 0, 270);
         overlab_pattern7_9.SetActive(true);
         SpriteRenderer spritePattern7_9 = overlab_pattern7_9.GetComponent<SpriteRenderer>();
@@ -2720,82 +2767,82 @@ public class Stage1_Boss : MonoBehaviour
             if (Time.time - startTime > 0.1f)
             {
                 overlab_pattern7_1.transform.position += new Vector3(0, speed1 * Time.deltaTime, 0);
-                if (overlab_pattern7_1.transform.position.y >= 50)
+                if (overlab_pattern7_1.transform.position.y >= 57)
                 {
                     speed1 = 0;
-                    overlab_pattern7_1.transform.position = new Vector3(-28, 50, 0);
+                    overlab_pattern7_1.transform.position = new Vector3(-28, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.2f)
             {
                 overlab_pattern7_2.transform.position += new Vector3(0, speed2 * Time.deltaTime, 0);
-                if (overlab_pattern7_2.transform.position.y >= 50)
+                if (overlab_pattern7_2.transform.position.y >= 57)
                 {
                     speed2 = 0;
-                    overlab_pattern7_2.transform.position = new Vector3(-21, 50, 0);
+                    overlab_pattern7_2.transform.position = new Vector3(-21, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.3f)
             {
                 overlab_pattern7_3.transform.position += new Vector3(0, speed3 * Time.deltaTime, 0);
-                if (overlab_pattern7_3.transform.position.y >= 50)
+                if (overlab_pattern7_3.transform.position.y >= 57)
                 {
                     speed3 = 0;
-                    overlab_pattern7_3.transform.position = new Vector3(-14, 50, 0);
+                    overlab_pattern7_3.transform.position = new Vector3(-14, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.4f)
             {
                 overlab_pattern7_4.transform.position += new Vector3(0, speed4 * Time.deltaTime, 0);
-                if (overlab_pattern7_4.transform.position.y >= 50)
+                if (overlab_pattern7_4.transform.position.y >= 57)
                 {
                     speed4 = 0;
-                    overlab_pattern7_4.transform.position = new Vector3(-7, 50, 0);
+                    overlab_pattern7_4.transform.position = new Vector3(-7, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.5f)
             {
                 overlab_pattern7_5.transform.position += new Vector3(0, speed5 * Time.deltaTime, 0);
-                if (overlab_pattern7_5.transform.position.y >= 50)
+                if (overlab_pattern7_5.transform.position.y >= 57)
                 {
                     speed5 = 0;
-                    overlab_pattern7_5.transform.position = new Vector3(0, 50, 0);
+                    overlab_pattern7_5.transform.position = new Vector3(0, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.6f)
             {
                 overlab_pattern7_6.transform.position += new Vector3(0, speed6 * Time.deltaTime, 0);
-                if (overlab_pattern7_6.transform.position.y >= 50)
+                if (overlab_pattern7_6.transform.position.y >= 57)
                 {
                     speed6 = 0;
-                    overlab_pattern7_6.transform.position = new Vector3(7, 50, 0);
+                    overlab_pattern7_6.transform.position = new Vector3(7, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.7f)
             {
                 overlab_pattern7_7.transform.position += new Vector3(0, speed7 * Time.deltaTime, 0);
-                if (overlab_pattern7_7.transform.position.y >= 50)
+                if (overlab_pattern7_7.transform.position.y >= 57)
                 {
                     speed7 = 0;
-                    overlab_pattern7_7.transform.position = new Vector3(14, 50, 0);
+                    overlab_pattern7_7.transform.position = new Vector3(14, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.8f)
             {
                 overlab_pattern7_8.transform.position += new Vector3(0, speed8 * Time.deltaTime, 0);
-                if (overlab_pattern7_8.transform.position.y >= 50)
+                if (overlab_pattern7_8.transform.position.y >= 57)
                 {
                     speed8 = 0;
-                    overlab_pattern7_8.transform.position = new Vector3(21, 50, 0);
+                    overlab_pattern7_8.transform.position = new Vector3(21, 57, 0);
                 }
             }
             if (Time.time - startTime > 0.9f)
             {
                 overlab_pattern7_9.transform.position += new Vector3(0, speed9 * Time.deltaTime, 0);
-                if (overlab_pattern7_9.transform.position.y >= 50)
+                if (overlab_pattern7_9.transform.position.y >= 57)
                 {
                     speed9 = 0;
-                    overlab_pattern7_9.transform.position = new Vector3(28, 50, 0);
+                    overlab_pattern7_9.transform.position = new Vector3(28, 57, 0);
                 }
             }
 
@@ -2854,6 +2901,7 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
     public void Scp1_8()
     {
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
         isPattern = true;
         StartCoroutine(Scp1_8_Pattern());
     }
@@ -3119,6 +3167,7 @@ public class Stage1_Boss : MonoBehaviour
     #endregion
     void overlab_Scp1_8_1()
     {
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
         isOverlab = true;
         StartCoroutine(overlab_Scp1_8_1_Pattern());
     }
@@ -3227,7 +3276,8 @@ public class Stage1_Boss : MonoBehaviour
     // Update is called once per frame
     public void Scp1_9()
     {
-        isPattern= true;
+        SetCurrentAnimation(AnimState.samurai_anima_idle);
+        isPattern = true;
         StartCoroutine(Scp1_9_Pattern());
     }
     #region Scp1_9 패턴 로직
@@ -3349,10 +3399,9 @@ public class Stage1_Boss : MonoBehaviour
         else if(delayTime > 2f)
         {
             delayTime = 3f;
-
             if (!isPattern && !isOverlab)
             {
-                randomPattern = Random.Range(1, 11);
+                randomPattern = Random.Range(1, 18);
                 switch (randomPattern)
                 {
                     case 1: // pattern1
@@ -3480,15 +3529,27 @@ public class Stage1_Boss : MonoBehaviour
                     case 10:
                         Scp1_9();
                         break;
-
-
+                    case 11:
+                        Scp1_6();
+                        break;
+                    case 12:
+                        Scp1_6();
+                        break;
+                    default:
+                        Scp1_1();
+                        break;
                 }
             }
         }
         currentHp_Text.text = currentHp.ToString();
         if(currentHp <= 0)
         {
-          //  클리어창
+            // 사망 애니메이션 넣을자리
+            Destroy(this.gameObject);
+            Time.timeScale = 0f;
+            ClearPanel.SetActive(true);
+            TitleSelect.clearCheck = 1;
+            Debug.Log("checkInt" + TitleSelect.clearCheck);
         }
    
     }

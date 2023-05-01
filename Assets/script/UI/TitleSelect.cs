@@ -11,22 +11,32 @@ public class TitleSelect : MonoBehaviour
     public RectTransform rectJoystick;
     public Image JoystickImage;
 
+    [Header("-------Stage-------")]
     public Image SelectPanel;
     public Image Stage1_image;
     public Image Stage2_image;
     public Image Stage3_image;
+
+    public Image Stage1_clear;
+   // public Image Stage2_clear;
+   // public Image Stage3_clear;
 
     public Image select_1;
     public Image select_2;
     public Image select_3;
     public Image select_4;
 
+    [Header("BestScore")]
+    public Text infinityMode;
+    public Text totalStage; // 내가 몇스테이지까지 깼는가?
+
     private float radius;
     private Vector2 value;
-    private bool touch = false;
+    private bool istouch = false;
 
     private int SelectIcon;
 
+    public static int clearCheck = 0;
     void Start()
     {
         radius = rectBackground.rect.width / 2;
@@ -59,7 +69,7 @@ public class TitleSelect : MonoBehaviour
 
             if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved)
             {
-                this.touch = true;
+                istouch = true;
 
                 value = touch.position - (Vector2)rectBackground.position;
                 value = Vector2.ClampMagnitude(value, radius);
@@ -68,16 +78,17 @@ public class TitleSelect : MonoBehaviour
             }
             else if (touch.phase == TouchPhase.Ended)
             {
-                this.touch = false;
+                istouch = false;
 
                 rectJoystick.localPosition = Vector3.zero;
 
                 switch (SelectIcon)
                 {
                     case 1:
-                        SelectPanel.gameObject.SetActive(true);
+                        SelectPanel.gameObject.SetActive(true);      
                         break;
                     case 2:
+                        SceneManager.LoadScene(2);
                         break;
                     case 3:
                         break;
@@ -99,66 +110,93 @@ public class TitleSelect : MonoBehaviour
             select_4.color = image4_color;
             #endregion
             // r - 200 g - 125 b- 100
-
-            if (value.x > -0.75 && value.x < 0.75 && value.y < 1 && value.y > 0)  // 1사분면 d
+            if(istouch)
             {
-                SelectIcon = 1;
+                if (value.x > -0.75 && value.x < 0.75 && value.y < 1 && value.y > 0)  // 1사분면 d
+                {
+                    SelectIcon = 1;
 
-                image1_color.a = 1f;
-                image2_color.a = 1f;
-                image3_color.a = 0.3f;
-                image4_color.a = 0.3f;
+                    image1_color.a = 1f;
+                    image2_color.a = 1f;
+                    image3_color.a = 0.3f;
+                    image4_color.a = 0.3f;
 
-                select_1.color = image1_color;
-                select_2.color = image2_color;
-                select_3.color = image3_color;
-                select_4.color = image4_color;
+                    select_1.color = image1_color;
+                    select_2.color = image2_color;
+                    select_3.color = image3_color;
+                    select_4.color = image4_color;
+                }
+                else if (value.x > 0 && value.x < 1 && value.y > -0.75 && value.y < 0.75) //2사
+                {
+                    SelectIcon = 2;
+
+                    image1_color.a = 0.3f;
+                    image2_color.a = 1f;
+                    image3_color.a = 0.3f;
+                    image4_color.a = 1f;
+
+
+                    select_1.color = image1_color;
+                    select_2.color = image2_color;
+                    select_3.color = image3_color;
+                    select_4.color = image4_color;
+                }
+                else if (value.x > -0.75 && value.x < 0.75 && value.y > -1 && value.y < 0) // 3사 d
+                {
+                    SelectIcon = 3;
+
+                    image1_color.a = 0.3f;
+                    image2_color.a = 0.3f;
+                    image3_color.a = 1f;
+                    image4_color.a = 1f;
+
+                    select_1.color = image1_color;
+                    select_2.color = image2_color;
+                    select_3.color = image3_color;
+                    select_4.color = image4_color;
+
+                }
+                else if (value.x < 0 && value.x > -1 && value.y > -0.75 && value.y < 0.75) // 4사
+                {
+                    SelectIcon = 4;
+
+                    image1_color.a = 1f;
+                    image2_color.a = 0.3f;
+                    image3_color.a = 1f;
+                    image4_color.a = 0.3f;
+
+
+                    select_1.color = image1_color;
+                    select_2.color = image2_color;
+                    select_3.color = image3_color;
+                    select_4.color = image4_color;
+                }
             }
-            else if (value.x > 0 && value.x < 1 &&  value.y > -0.75 && value.y < 0.75) //2사
-            {
-                SelectIcon = 2;
+        }
+     
+        #region 클리어 이미지표시
+        switch(clearCheck)
+        {
+            case 0:
+                totalStage.text = "Stage " + clearCheck.ToString();
+                break;
+            case 1:
+                Stage1_image.gameObject.SetActive(false);
+                Stage1_clear.gameObject.SetActive(true);
+                totalStage.text = "Stage " + clearCheck.ToString();
+                break;
+            case 2:   
+                totalStage.text = "Stage " + clearCheck.ToString();
+                break;
+            case 3:
+                totalStage.text = "Stage " + clearCheck.ToString();
+                break;
 
-                image1_color.a = 0.3f;
-                image2_color.a = 1f;
-                image3_color.a = 0.3f;
-                image4_color.a = 1f;
+        }
+        #endregion
 
+        infinityMode.text = Stage_infinity.maxTime.ToString();
 
-                select_1.color = image1_color;
-                select_2.color = image2_color;
-                select_3.color = image3_color;
-                select_4.color = image4_color;
-            }
-            else if (value.x > -0.75 && value.x < 0.75 && value.y > -1 && value.y < 0) // 3사 d
-            {
-                SelectIcon = 3;
-
-                image1_color.a = 0.3f;
-                image2_color.a = 0.3f;
-                image3_color.a = 1f;
-                image4_color.a = 1f;
-
-                select_1.color = image1_color;
-                select_2.color = image2_color;
-                select_3.color = image3_color;
-                select_4.color = image4_color;
-
-            }
-            else if (value.x < 0 && value.x > -1 && value.y > -0.75 && value.y < 0.75) // 4사
-            {
-                SelectIcon = 4;
-
-                image1_color.a = 1f;
-                image2_color.a = 0.3f;
-                image3_color.a = 1f;
-                image4_color.a = 0.3f;
-
-
-                select_1.color = image1_color;
-                select_2.color = image2_color;
-                select_3.color = image3_color;
-                select_4.color = image4_color;
-            }
-         }
+    
     }
 }

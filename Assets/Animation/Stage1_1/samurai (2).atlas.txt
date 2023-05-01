@@ -1,0 +1,75 @@
+samurai (2).png
+size:9264,3995
+filter:Linear,Linear
+pma:true
+L_HAND_2
+bounds:5123,563,392,496
+rotate:90
+L_foot
+bounds:8931,347,334,230
+rotate:90
+L_hend
+bounds:4988,197,364,371
+rotate:90
+L_katana
+bounds:2479,1966,1751,2027
+L_katana_blood
+bounds:4232,1966,1751,2027
+R_armor2
+bounds:3789,691,665,1273
+R_foot
+bounds:3965,31,579,239
+R_katana
+bounds:2097,11,1855,1022
+rotate:90
+blood head2
+bounds:7829,2661,1379,1332
+body
+bounds:5985,2674,1842,1319
+fur
+bounds:2,1868,2475,2125
+head
+bounds:7676,1280,1379,1586
+rotate:90
+left_arm_down
+bounds:3121,599,666,1365
+left_arm_up
+bounds:5123,957,557,1007
+left_armor
+bounds:4456,691,665,1273
+left_leg_dowm
+bounds:5361,160,349,777
+rotate:90
+left_leg_up
+bounds:6623,1062,639,871
+rotate:90
+pelvs
+bounds:2,14,2093,1852
+r_hand
+bounds:5682,1741,223,289
+rotate:90
+right_arm_down
+bounds:5985,1703,969,1689
+rotate:90
+right_arm_up
+bounds:5682,1078,623,939
+rotate:90
+right_armor
+bounds:3965,272,417,1021
+rotate:90
+right_leg_down
+bounds:8226,246,435,703
+rotate:90
+right_leg_up
+bounds:5682,511,565,854
+rotate:90
+타임라인 1_0000
+bounds:3121,2,842,595
+타임라인 1_0002
+bounds:6538,465,842,595
+타임라인 1_0004
+bounds:7496,683,842,595
+타임라인 1_0007
+bounds:8340,683,842,595
+타임라인 1_0009
+bounds:7382,86,842,595
