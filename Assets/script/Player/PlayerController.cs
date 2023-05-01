@@ -31,11 +31,11 @@ public class PlayerController : MonoBehaviour
     public GameObject bottomHp;
     public GameObject leftHp;
 
-    public int Hp = 4;
-    bool isHit = false;
+    public static int Hp;
+    bool isHit;
     float hitCoolTime = 2f;
-    float hitTimer = 0f;
-    float shaderOffset = 1f;
+    float hitTimer;
+    float shaderOffset;
     //-------------------사용할 컴포넌트-------------------
     EdgeCollider2D lineCollider; // 라인렌더러시 사용할 콜라이더
     Rigidbody2D lineRigid;
@@ -46,10 +46,14 @@ public class PlayerController : MonoBehaviour
     bool isRender = false;
     bool isRay = false;
     bool isTouch = false;
-    static bool isDie = false;
+    public static bool isDie = false;
     //---------------------Els--------------------------
     void Start()
     {
+        isDie = false;
+        Hp = 4;
+        hitTimer = 0f;
+        shaderOffset = 1f;
         Time.timeScale = 1f;
 
         material.SetFloat("_Fade", 1f);
@@ -211,27 +215,14 @@ public class PlayerController : MonoBehaviour
             return default(Touch);
         } // 터치 순서따라 finger id값 저장            
 
-      //  if (isRay) // 몬스터가 피격중일때
-      //  {
-      //      atkState = true;
-      //  }
-      //  if (!isRay) 
-      //  {
-      //      atkState = false;
-      //  }
-        
-        if(Input.GetKeyDown(KeyCode.A))
+        if (isRay) // 몬스터가 피격중일때
         {
-            Debug.Log("atkState - TRUE");
             atkState = true;
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (!isRay) 
         {
-            Debug.Log("atkState - FALSE");
             atkState = false;
         }
-
-
         #region Hp Image Change
         if (Hp == 3)
         {
@@ -250,14 +241,13 @@ public class PlayerController : MonoBehaviour
             leftHp.SetActive(false);
             material.SetFloat("_Fade", shaderOffset);
            // Player_Body.SetActive(false);
-            isDie = true;
             shaderOffset -= Time.deltaTime * 1.5f;
 
             if(shaderOffset <= 0)
             {
                 Time.timeScale = 0f;
                 shaderOffset = 0;
-                Player_Body.SetActive(false);
+                isDie = true;
             }
         }
         #endregion

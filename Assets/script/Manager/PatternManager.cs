@@ -32,7 +32,7 @@ public class PatternManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        DontDestroyOnLoad(this.gameObject);
+     //   DontDestroyOnLoad(this.gameObject);
 
         // 패턴 배열에 있는 패턴들을 패턴 딕셔너리에 삽입
         foreach (GameObject pattern in patternArray)

@@ -29,7 +29,7 @@ public class ParticleManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        DontDestroyOnLoad(this.gameObject);
+       // DontDestroyOnLoad(this.gameObject);
 
         // 파티클 시스템 배열에 있는 파티클 시스템들을 딕셔너리에 삽입
         foreach (ParticleSystem particle in particleArray)

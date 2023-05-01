@@ -161,7 +161,7 @@ public class Stage1_Boss : MonoBehaviour
     float ptn9_delayTime = 1.7f;
     // ----------------- HP -----------------
     public Text currentHp_Text;
-    float currentHp = 2000f;
+    public static float currentHp = 2000f;
     ParticleSystem hitEffect;
     // ----------------- bool -----------------
     bool isOverlab = false;
@@ -169,12 +169,16 @@ public class Stage1_Boss : MonoBehaviour
     int randomPattern;
     int randomOverlab;
 
+
+
     private void Awake()
     {
     }
 
     void Start()
     {
+        
+
         rigidbody2D = GetComponent<Rigidbody2D>();
         playerController = Player.GetComponent<PlayerController>();
 
@@ -2563,7 +2567,6 @@ public class Stage1_Boss : MonoBehaviour
         isPattern = false;
     }
     #endregion
-
     void overlab_Scp1_7()
     {
         isOverlab = true;
@@ -3027,9 +3030,9 @@ public class Stage1_Boss : MonoBehaviour
         arrow8_2 = PatternManager.Instance.StartPattern("Stage1_Arrow");
         arrow8_3 = PatternManager.Instance.StartPattern("Stage1_Arrow");
 
-        arrow8_1.transform.position = new Vector3(-6, 67, 0);
-        arrow8_2.transform.position = new Vector3(0, 67, 0);
-        arrow8_3.transform.position = new Vector3(6, 67, 0);
+        arrow8_1.transform.position = new Vector3(-6, 75, 0);
+        arrow8_2.transform.position = new Vector3(0, 75, 0);
+        arrow8_3.transform.position = new Vector3(6, 75, 0);
 
         arrow8_1.SetActive(true);
         arrow8_2.SetActive(true);
@@ -3134,9 +3137,9 @@ public class Stage1_Boss : MonoBehaviour
         overlab_arrow8_2 = PatternManager.Instance.StartPattern("Stage1_Arrow");
         overlab_arrow8_3 = PatternManager.Instance.StartPattern("Stage1_Arrow");
 
-        overlab_arrow8_1.transform.position = new Vector3(-10, 67, 0);
-        overlab_arrow8_2.transform.position = new Vector3(0, 67, 0);
-        overlab_arrow8_3.transform.position = new Vector3(10, 67, 0);
+        overlab_arrow8_1.transform.position = new Vector3(-10, 75, 0);
+        overlab_arrow8_2.transform.position = new Vector3(0, 75, 0);
+        overlab_arrow8_3.transform.position = new Vector3(10, 75, 0);
 
         overlab_arrow8_1.SetActive(true);
         overlab_arrow8_2.SetActive(true);
@@ -3320,6 +3323,9 @@ public class Stage1_Boss : MonoBehaviour
         isPattern = false;  
     }
     #endregion
+
+
+    float delayTime;
     void Update()
     {
         PlayerPos = Player.transform.position;
@@ -3328,7 +3334,7 @@ public class Stage1_Boss : MonoBehaviour
         #region Boss Hit
         if (PlayerController.atkState) // 공격상태이면
         {
-            //  hitEffect.transform.position = bossPos;
+            hitEffect.transform.position = bossPos;
             hitEffect.gameObject.SetActive(true);
             currentHp -= Time.deltaTime * 50f;
         }
@@ -3338,10 +3344,151 @@ public class Stage1_Boss : MonoBehaviour
         }
         #endregion
 
+        if (delayTime < 2f)
+            delayTime += Time.deltaTime;
+        else if(delayTime > 2f)
+        {
+            delayTime = 3f;
+
+            if (!isPattern && !isOverlab)
+            {
+                randomPattern = Random.Range(1, 11);
+                switch (randomPattern)
+                {
+                    case 1: // pattern1
+                        Scp1_1();
+                        break;
+                    case 2:
+                        Scp1_2();
+                        randomOverlab = Random.Range(1, 9);
+                        switch (randomOverlab)
+                        {
+                            case 1:
+                                overlab_Scp1_3();
+                                break;
+                            case 2:
+                                overlab_Scp1_5();
+                                break;
+                            case 3:
+                                overlab_Scp1_7();
+                                break;
+                            case 4:
+                                overlab_Scp1_8_1();
+                                break;
+                            default:
+
+                                break;
+                        }
+                        break;
+                    case 3:
+                        Scp1_3();
+                        randomOverlab = Random.Range(1, 9);
+                        switch (randomOverlab)
+                        {
+                            case 1:
+                                overlab_Scp1_2();
+                                break;
+                            case 2:
+                                overlab_Scp1_5();
+                                break;
+                            case 3:
+                                overlab_Scp1_7();
+                                break;
+                            case 4:
+                                overlab_Scp1_8_1();
+                                break;
+                            default:
+                                break;
+                        }
+
+                        break;
+                    case 4:
+                        Scp1_4();
+                        break;
+                    case 5:
+                        Scp1_5();
+                        randomOverlab = Random.Range(1, 9);
+                        switch (randomOverlab)
+                        {
+                            case 1:
+                                overlab_Scp1_3();
+                                break;
+                            case 2:
+                                overlab_Scp1_2();
+                                break;
+                            case 3:
+                                overlab_Scp1_7();
+                                break;
+                            case 4:
+                                overlab_Scp1_8_1();
+                                break;
+                            default:
+                                break;
+                        }
+
+                        break;
+                    case 6:
+                        Scp1_6();
+                        break;
+                    case 7:
+                        Scp1_7();
+                        randomOverlab = Random.Range(1, 9);
+                        switch (randomOverlab)
+                        {
+                            case 1:
+                                overlab_Scp1_3();
+                                break;
+                            case 2:
+                                overlab_Scp1_5();
+                                break;
+                            case 3:
+                                overlab_Scp1_2();
+                                break;
+                            case 4:
+                                overlab_Scp1_8_1();
+                                break;
+                            default:
+                                break;
+                        }
+
+                        break;
+                    case 8:
+                        Scp1_8();
+                        break;
+                    case 9:
+                        Scp1_8_1();
+                        randomOverlab = Random.Range(1, 9);
+                        switch (randomOverlab)
+                        {
+                            case 1:
+                                overlab_Scp1_3();
+                                break;
+                            case 2:
+                                overlab_Scp1_5();
+                                break;
+                            case 3:
+                                overlab_Scp1_7();
+                                break;
+                            case 4:
+                                overlab_Scp1_2();
+                                break;
+                            default:
+                                break;
+                        }
+
+                        break;
+                    case 10:
+                        Scp1_9();
+                        break;
+
+
+                }
+            }
+        }
         currentHp_Text.text = currentHp.ToString();
         if(currentHp <= 0)
         {
-            Time.timeScale = 0f;
+          //  클리어창
         }
    
     }

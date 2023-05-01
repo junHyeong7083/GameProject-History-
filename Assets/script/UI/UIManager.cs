@@ -2,24 +2,68 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public void OnStopBtn()
+    public Image DeathUI;
+    public Text deathScore;
+    public Text maxScore;
+    public int sceneCheck;
+    public static bool isStop = false;
+    private void Start()
     {
+        SoundManager.Instance.SetBGMSound(1, 0.5f);
+        SoundManager.Instance.PlaySound();
+        DeathUI.gameObject.SetActive(false);
+
+    }
+
+    public void OnStopBtn() // 일시정지
+    {
+        SoundManager.Instance.PauseSound();
         Time.timeScale = 0f;
     }
-    public void OutStopBtn()
+    public void OutStopBtn() // 계속하기
     {
+        SoundManager.Instance.PlaySound();
         Time.timeScale = 1f;
     }
-    public void ReStartGame()
+    public void ReStartGame() // 게임 다시시작
     {
-        SceneManager.LoadScene(1);
+        if(sceneCheck == 1)
+        {
+            SceneManager.LoadScene(1);
+        }
+        else if(sceneCheck == 4)
+            SceneManager.LoadScene(2);
     }
+
     public void GoTitleMenu()
     {
         SceneManager.LoadScene("TitleScene");
         Time.timeScale = 1f;
+    }
+   
+
+    private void Update()
+    {
+        if (PlayerController.isDie && sceneCheck == 1 )
+        {
+            SoundManager.Instance.PauseSound();
+
+            deathScore.text = Stage1_Boss.currentHp.ToString();
+            DeathUI.gameObject.SetActive(true);
+            Time.timeScale = 0f;
+        }
+        if (PlayerController.isDie && sceneCheck == 4)
+        {
+            SoundManager.Instance.PauseSound();
+
+            DeathUI.gameObject.SetActive(true);
+            deathScore.text = Stage_infinity.currentTime.ToString();
+            maxScore.text = Stage_infinity.maxTime.ToString();
+            Time.timeScale = 0f;
+        }
     }
 }
