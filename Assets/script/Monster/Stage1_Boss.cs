@@ -3548,9 +3548,10 @@ public class Stage1_Boss : MonoBehaviour
                 }
             }
         }
-        currentHp_Text.text = currentHp.ToString();
+        currentHp_Text.text = currentHp.ToString("F2");
         if(currentHp <= 0)
         {
+            currentHp = 0;
             StopAllCoroutines();
            // skeletonAnimation.AnimationState.ClearTracks(); // 이전에 재생한 모든 애니메이션 중지
             SetCurrentAnimation(AnimState.samurai_anima_death_suiside);

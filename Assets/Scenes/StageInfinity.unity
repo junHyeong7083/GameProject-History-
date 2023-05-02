@@ -326,6 +326,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2169060870772581601, guid: 2b5b507592b056647a4832515f97fe65, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2169060870772581603, guid: 2b5b507592b056647a4832515f97fe65, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -490,7 +494,7 @@ GameObject:
   m_Component:
   - component: {fileID: 605154812}
   - component: {fileID: 605154813}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -548,7 +552,7 @@ GameObject:
   m_Component:
   - component: {fileID: 636248101}
   - component: {fileID: 636248102}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -670,7 +674,7 @@ GameObject:
   m_Component:
   - component: {fileID: 847991832}
   - component: {fileID: 847991833}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -728,7 +732,7 @@ GameObject:
   m_Component:
   - component: {fileID: 946224500}
   - component: {fileID: 946224501}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}

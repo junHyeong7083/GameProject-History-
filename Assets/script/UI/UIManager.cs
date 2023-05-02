@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     {
         SoundManager.Instance.PauseSound();
         Time.timeScale = 0f;
+        PlayerController.Hp = 2000;
     }
     public void OutStopBtn() // 계속하기
     {

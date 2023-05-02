@@ -263,7 +263,8 @@ MonoBehaviour:
   rightHp: {fileID: 2169060871350916945}
   bottomHp: {fileID: 2169060870521820396}
   leftHp: {fileID: 2169060872157519428}
-  Hp: 4
+  spriteRenderer: {fileID: 0}
+  material: {fileID: 0}
 --- !u!120 &2169060870772581602
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -371,13 +372,13 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2169060870772581614}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0

@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
     public GameObject leftHp;
 
     public static int Hp;
+    [SerializeField]
+    int checkHp;
     bool isHit;
     float hitCoolTime = 2f;
     float hitTimer;
@@ -142,7 +144,7 @@ public class PlayerController : MonoBehaviour
             touch2 = FindTouchById(1);
             Vector2 touch2prePoisition = FindTouchById(1).position;
 
-             if (FindTouchById(1).phase == TouchPhase.Moved)
+             if (FindTouchById(1).phase == TouchPhase.Moved) // 두번째 입력
             {
                 isAtk = true;
                 if (isAtk)
@@ -274,7 +276,16 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
-        
+        if(Input.GetKey(KeyCode.A))
+        {
+            this.transform.position += new Vector3(-0.1f, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            this.transform.position += new Vector3(0.1f, 0, 0);
+        }
+
+        checkHp = Hp;
     }
 
 

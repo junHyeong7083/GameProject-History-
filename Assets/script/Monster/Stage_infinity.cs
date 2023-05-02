@@ -3260,7 +3260,7 @@ public class Stage_infinity : MonoBehaviour
                 maxTime = currentTime;
         }
         #endregion
-        currentText.text = currentTime.ToString();
-        maxText.text = maxTime.ToString();
+        currentText.text = currentTime.ToString("F2");
+        maxText.text = maxTime.ToString("F2");
     }
 }
