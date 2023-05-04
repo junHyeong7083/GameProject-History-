@@ -265,6 +265,7 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.Log(Hp);
                 Hp--;
+                Handheld.Vibrate();
                 hitTimer = 0;
             }
         }
@@ -276,14 +277,6 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
-        if(Input.GetKey(KeyCode.A))
-        {
-            this.transform.position += new Vector3(-0.1f, 0, 0);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            this.transform.position += new Vector3(0.1f, 0, 0);
-        }
 
         checkHp = Hp;
     }
