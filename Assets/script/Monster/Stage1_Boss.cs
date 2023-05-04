@@ -187,6 +187,7 @@ public class Stage1_Boss : MonoBehaviour
         //tracks = skeletonAnimation.AnimationState.Tracks.Items;
         bossDieTime = 0f;
         currentHp = 2000f;
+        isBossDie = false;
 
         ClearPanel.SetActive(false); 
 
@@ -195,6 +196,7 @@ public class Stage1_Boss : MonoBehaviour
 
         cam = Camera.main;
         cameraOriginalPos = cam.transform.position;
+
 
         #region HitEffect Setting
         hitEffect = ParticleManager.Instance.StartParticle("VFX_hit");
@@ -3389,15 +3391,18 @@ public class Stage1_Boss : MonoBehaviour
         bossPos = this.transform.position;
 
         #region Boss Hit
-        if (PlayerController.atkState) // 공격상태이면
+        if (!isBossDie)
         {
-            hitEffect.transform.position = bossPos;
-            hitEffect.gameObject.SetActive(true);
-            currentHp -= Time.deltaTime * 50f;
-        }
-         else if(!PlayerController.atkState)
-        {
-            hitEffect.gameObject.SetActive(false);
+            if (PlayerController.atkState) // 공격상태이면
+            {
+                hitEffect.transform.position = bossPos;
+                hitEffect.gameObject.SetActive(true);
+                currentHp -= Time.deltaTime * 50f;
+            }
+            else if (!PlayerController.atkState)
+            {
+                hitEffect.gameObject.SetActive(false);
+            }
         }
         #endregion
 
@@ -3552,18 +3557,22 @@ public class Stage1_Boss : MonoBehaviour
         if(currentHp <= 0)
         {
             currentHp = 0;
+            isBossDie = true;
             StopAllCoroutines();
            // skeletonAnimation.AnimationState.ClearTracks(); // 이전에 재생한 모든 애니메이션 중지
             SetCurrentAnimation(AnimState.samurai_anima_death_suiside);
             // 사망 애니메이션 넣을자리
-            bossDieTime += Time.deltaTime;
-            if(bossDieTime >= 3f)
+            if (isBossDie)
             {
-                Time.timeScale = 0f;
-                ClearPanel.SetActive(true);
+                bossDieTime += Time.deltaTime;
+                if (bossDieTime >= 3f)
+                {
+                    Time.timeScale = 0f;
+                    ClearPanel.SetActive(true);
+                }
+                TitleSelect.clearCheck = 1;
+                Debug.Log("checkInt" + TitleSelect.clearCheck);
             }
-            TitleSelect.clearCheck = 1;
-            Debug.Log("checkInt" + TitleSelect.clearCheck);
         }
    
     }

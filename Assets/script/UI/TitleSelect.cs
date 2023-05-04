@@ -35,10 +35,12 @@ public class TitleSelect : MonoBehaviour
     private bool istouch = false;
 
     private int SelectIcon;
-
+    [SerializeField]
+    bool checkActive;
     public static int clearCheck = 0;
     void Start()
     {
+        checkActive = true;
         radius = rectBackground.rect.width / 2;
         SelectPanel.gameObject.SetActive(false);
 
@@ -70,6 +72,7 @@ public class TitleSelect : MonoBehaviour
             if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved)
             {
                 istouch = true;
+                checkActive = true;
 
                 value = touch.position - (Vector2)rectBackground.position;
                 value = Vector2.ClampMagnitude(value, radius);
@@ -82,20 +85,25 @@ public class TitleSelect : MonoBehaviour
 
                 rectJoystick.localPosition = Vector3.zero;
 
-                switch (SelectIcon)
+                if (checkActive)
                 {
-                    case 1:
-                        SelectPanel.gameObject.SetActive(true);      
-                        break;
-                    case 2:
-                        SceneManager.LoadScene(2);
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    default:
-                        break;
+                    switch (SelectIcon)
+                    {
+                        case 1:
+                            checkActive = false;
+                            SelectPanel.gameObject.SetActive(true);
+                            break;
+                        case 2:
+                            SceneManager.LoadScene(2);
+                            checkActive = false;
+                            break;
+                        case 3:
+                            checkActive = false;
+                            break;
+                        case 4:
+                            checkActive = false;
+                            break;
+                    }
                 }
             }
             #region SelectEffect 요소 세팅
