@@ -169,12 +169,6 @@ public class Stage1_Boss : MonoBehaviour
     int randomOverlab;
     bool isBossDie = false;
     public GameObject ClearPanel;
-
-    public void Test()
-    {
-        currentHp = 0;
-    }
-
     private void Awake()
     {
     }
