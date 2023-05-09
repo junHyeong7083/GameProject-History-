@@ -22,7 +22,6 @@ public class Stage2_Boss : MonoBehaviour
     // ----------------- Pattern 2 -----------------
     GameObject pattern2_1;
     GameObject pattern2_2;
-    GameObject pattern2_3;
 
     Vector3 PivotPos = new Vector3(0, -2, 0);
     // ----------------- bool -----------------
@@ -114,11 +113,11 @@ public class Stage2_Boss : MonoBehaviour
     IEnumerator Scp2_2_Pattern()
     {
         #region Setting
+        pattern2_1 = PatternManager.Instance.StartPattern("Test");
         pattern2_2 = PatternManager.Instance.StartPattern("Test");
-        pattern2_3 = PatternManager.Instance.StartPattern("Test");
 
-        SpriteRenderer sprite2_2 = pattern2_2.GetComponent<SpriteRenderer>();
-        SpriteRenderer sprite2_3 = pattern2_3.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite2_2 = pattern2_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite2_3 = pattern2_2.GetComponent<SpriteRenderer>();
 
         UnityEngine.Color color2_2 = sprite2_2.color;
         UnityEngine.Color color2_3 = sprite2_3.color;
@@ -129,17 +128,17 @@ public class Stage2_Boss : MonoBehaviour
         sprite2_2.color = color2_2;
         sprite2_3.color = color2_3;
 
-        pattern2_2.transform.position = new Vector3(25, 13, 0);
-        pattern2_3.transform.position = new Vector3(-25, 13, 0);
+        pattern2_1.transform.position = new Vector3(25, 20, 0);
+        pattern2_2.transform.position = new Vector3(-25, 13, 0);
 
-        Vector3 startPattern2_2 = new Vector3(25, 13, 0);
-        Vector3 midPattern2_2 = new Vector3(10, -35, 0);
-        Vector3 endPattern2_2 = new Vector3(-7, -13, 0);
+        Vector3 startpattern2_1 = new Vector3(25, 20, 0);
+        Vector3 midpattern2_1 = new Vector3(-10, -90, 0);
+        Vector3 endpattern2_1 = new Vector3(-35, 75, 0);
 
-        Vector3 startPattern2_3 = new Vector3(-25, 13, 0);
-        Vector3 midPattern2_3 = new Vector3(-9, 43, 0);
-        Vector3 endPattern2_3 = new Vector3(17, -11, 0);
-        float duration = 1.5f; // 이동 시간
+        Vector3 startpattern2_2 = new Vector3(-25, 13, 0);
+        Vector3 midpattern2_2 = new Vector3(8, -77, 0);
+        Vector3 endpattern2_2 = new Vector3(30, 75, 0);
+        float duration = 2.0f; // 이동 시간
         float euler = 35f; // 회전각도
         #endregion
         float startTime = Time.time;
@@ -156,17 +155,27 @@ public class Stage2_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
+        while(Time.time - startTime < 1f)
+        {
+            pattern2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
+            pattern2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
+
+            yield return null;
+        }
+
+
+        startTime = Time.time;
         while(Time.time - startTime  < duration)
         {
             float t = (Time.time - startTime) / duration;
+            pattern2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
             pattern2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
-            pattern2_3.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
 
-            Vector3 position2 = Vector3.Lerp(startPattern2_2, endPattern2_2, t) + midPattern2_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            Vector3 position1 = Vector3.Lerp(startpattern2_1, endpattern2_1, t) + midpattern2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            pattern2_1.transform.position = position1; // 이동
+
+            Vector3 position2 = Vector3.Lerp(startpattern2_2, endpattern2_2, t) + midpattern2_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
             pattern2_2.transform.position = position2; // 이동
-
-            Vector3 position3 = Vector3.Lerp(startPattern2_3, endPattern2_3, t) + midPattern2_3 * 4 * t * (1 - t); // 포물선 이동 경로 계산
-            pattern2_3.transform.position = position3; // 이동
 
             yield return null;
         }
@@ -174,27 +183,13 @@ public class Stage2_Boss : MonoBehaviour
         startTime = Time.time;
         while(Time.time - startTime < 3-duration)
         {
+            pattern2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
             pattern2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
-            pattern2_3.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
-
-            yield return null;
-        }
-
-        startTime = Time.time;
-        while (Time.time - startTime < 0.5) // 대기시간
-        {
-            float alpha = (Time.time - startTime) / 0.5f;
-            color2_2.a = 1-alpha;
-            color2_3.a = 1-alpha;
-
-            sprite2_2.color = color2_2;
-            sprite2_3.color = color2_3;
 
             yield return null;
         }
         Destroy(pattern2_1);
         Destroy(pattern2_2);
-        Destroy(pattern2_3);
 
         isPattern = false;  
     }
