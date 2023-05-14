@@ -315,12 +315,13 @@ public class Stage2_Boss : MonoBehaviour
     #endregion
     public void Scp2_4()
     {
+        StartCoroutine(Scp2_4_Pattern());
         isPattern = true;   
     }
     IEnumerator Scp2_4_Pattern()
-    {
-        pattern4_1 = PatternManager.Instance.StartPattern("Test");
-        pattern4_2 = PatternManager.Instance.StartPattern("Test");
+    { 
+        pattern4_1 = PatternManager.Instance.StartPattern("Test"); // 왼쪽
+        pattern4_2 = PatternManager.Instance.StartPattern("Test"); // 오른쪽
         #region Setting
         SpriteRenderer sprite4_1 = pattern4_1.GetComponent<SpriteRenderer>();
         SpriteRenderer sprite4_2 = pattern4_2.GetComponent<SpriteRenderer>();
@@ -333,6 +334,31 @@ public class Stage2_Boss : MonoBehaviour
 
         sprite4_1.color= color4_1;
         sprite4_2.color= color4_2;
+
+        pattern4_1.transform.position = new Vector3(-25, 0, 0);
+        pattern4_2.transform.position = new Vector3(25, 0, 0); // 시작좌표
+
+        #region 포물선 좌표값
+        Vector3 startpattern4_1 = new Vector3(-25, 0, 0);
+        Vector3 midpattern4_1 = new Vector3(0, 25, 0);
+        Vector3 endpattern4_1 = new Vector3(25, 0, 0);
+
+        Vector3 startpattern4_2 = new Vector3(25, 0, 0);
+        Vector3 midpattern4_2 = new Vector3(0, -25, 0);
+        Vector3 endpattern4_2 = new Vector3(-25, 0, 0);
+        // =============돌아옴=============
+        Vector3 startpattern4_1_1 = new Vector3(25, 0, 0);
+        Vector3 midpattern4_1_1 = new Vector3(0, 25, 0);
+        Vector3 endpattern4_1_1 = new Vector3(-25, 0, 0);
+
+        Vector3 startpattern4_2_1 = new Vector3(-25, 0, 0);
+        Vector3 midpattern4_2_1 = new Vector3(0, -25, 0);
+        Vector3 endpattern4_2_1 = new Vector3(25, 0, 0);
+
+        Vector3 startboss = bossPos;
+        Vector3 endboss = new Vector3(0, 5, 0);
+        #endregion
+
         #endregion
         float startTime = Time.time;
         while (Time.time - startTime < 1f)
@@ -346,22 +372,82 @@ public class Stage2_Boss : MonoBehaviour
             sprite4_2.color = color4_2;
 
             yield return null;
-        }
+        } // 투명도
+        float duration = 1.5f; // 이동 시간
+        float rotateSpeed = 35f;
+
         startTime = Time.time;
-        while (Time.time - startTime < 2.0f)
+        while(Time.time - startTime<0.7f)
         {
-            // 날라갔다
+            float t = (Time.time - startTime) / 0.7f;
+            Vector3 bossposition = Vector3.Lerp(startboss, endboss, t); // 포물선 이동 경로 계산
+            this.transform.position = bossposition; // 이동
+
+
+            pattern4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50);
+            pattern4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50);
+
             yield return null;
         }
+
+
         startTime = Time.time;
-        while(Time.time - startTime < 2.0f)
+        while (Time.time - startTime < duration)
         {
-            // 돌아오기
+            float t = (Time.time - startTime) / duration;
+            pattern4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            pattern4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            Vector3 position1 = Vector3.Lerp(startpattern4_1, endpattern4_1, t) + midpattern4_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            pattern4_1.transform.position = position1; // 이동
+
+            Vector3 position2 = Vector3.Lerp(startpattern4_2, endpattern4_2, t) + midpattern4_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            pattern4_2.transform.position = position2; // 이동
+
             yield return null;
-        }
+        } // 날라감
+        startTime = Time.time;
+        while (Time.time - startTime < 1f) 
+        {
+            rotateSpeed -= Time.deltaTime * 20f;
+            pattern4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            pattern4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+            yield return null;
+        }// 잠깐 대기하면서 회전속도감소
+      
+        rotateSpeed = 35f;
+
+        startTime = Time.time;
+        while (Time.time - startTime < duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            pattern4_1.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+            pattern4_2.transform.eulerAngles += new Vector3(0, 0, +rotateSpeed * Time.deltaTime * 50f);
+
+            Vector3 position1 = Vector3.Lerp(startpattern4_1_1, endpattern4_1_1, t) + midpattern4_1_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            pattern4_1.transform.position = position1; // 이동
+
+
+            Vector3 position2 = Vector3.Lerp(startpattern4_2_1, endpattern4_2_1, t) + midpattern4_2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            pattern4_2.transform.position = position2; // 이동
+
+
+            yield return null;
+        } // 돌아옴
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            pattern4_1.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+            pattern4_2.transform.eulerAngles += new Vector3(0, 0, +rotateSpeed * Time.deltaTime * 50f);
+            yield return null;
+        }// 잠깐 대기
+
         startTime = Time.time;
         while(Time.time - startTime < 1f)
         {
+            pattern4_1.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+            pattern4_2.transform.eulerAngles += new Vector3(0, 0, +rotateSpeed * Time.deltaTime * 50f);
             // 투명도 점점0
             float alpha = (Time.time - startTime) / 1f;
             color4_1.a = 1- alpha;
@@ -371,11 +457,16 @@ public class Stage2_Boss : MonoBehaviour
             sprite4_2.color = color4_2;
 
             yield return null;
-        }
+        } // 투명도감소
+
+        Destroy(pattern4_1.gameObject);
+        Destroy(pattern4_2.gameObject);
+        isPattern = false;
     }
 
     private void Update()
     {
+        bossPos = this.transform.position;
         if (currentHp <= 0)
         {
             currentHp = 0;
