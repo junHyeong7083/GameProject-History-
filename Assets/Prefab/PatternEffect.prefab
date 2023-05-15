@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trailRenderer: {fileID: 4283515660319370244}
-  trailWidthMultiplier: 3
+  trailWidthMultiplier: 10
 --- !u!96 &4283515660319370244
 TrailRenderer:
   serializedVersion: 2

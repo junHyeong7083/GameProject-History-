@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Net;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -494,9 +495,9 @@ public class Stage2_Boss : MonoBehaviour
 
         Vector3 startpattern7_1 = pattern7.transform.position;
         Vector3 midpattern7_1 = new Vector3(-11, 60, 0);
-        Vector3 endpattern7_1 = new Vector3(-45, 40, 0);
+        Vector3 endpattern7_1 = new Vector3(-50, 40, 0);
         #endregion
-        float rotateSpeed = 35f;
+        float rotateSpeed = 35;
         float startTime = Time.time;
         while(Time.time - startTime < 1)
         {
@@ -536,13 +537,14 @@ public class Stage2_Boss : MonoBehaviour
             yield return null;
         } // 헤머 포물선
 
-        PatternEffect.transform.position = pattern7.transform.position;
+        PatternEffect.transform.position = new Vector3(pattern7.transform.position.x - 50f, pattern7.transform.position.y, pattern7.transform.position.z);
+        Vector3 targetPosition = new Vector3(PatternEffect.transform.position.x + 500, PatternEffect.transform.position.y, PatternEffect.transform.position.z);
         startTime = Time.time;
-        while (Time.time - startTime < 0.1f)
+        while (Time.time - startTime < 0.2f)
         {
             TrailRender.showTrail = true;
-            float offset = 100f;
-            PatternEffect.transform.position += new Vector3(offset, 0, 0);
+            float t = (Time.time - startTime) / 0.2f;
+            PatternEffect.transform.position = Vector3.Lerp(PatternEffect.transform.position, targetPosition, t);
             yield return null;
         } // 트레일 이동
 
@@ -550,16 +552,18 @@ public class Stage2_Boss : MonoBehaviour
         startTime = Time.time;
         while (Time.time - startTime < effectTime)
         {
-            TrailRender.showTrail = true;
             yield return null;
         } // 이펙트 보여주는시간
 
+
+        pattern7.transform.eulerAngles = new Vector3(0, 0, 45);
+        rotateSpeed = 720f;
         startTime = Time.time;
         while(Time.time - startTime < 3 )
         {
             TrailRender.showTrail = false;
             float offset = 60f * Time.deltaTime;
-            pattern7.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * 50f * Time.deltaTime);
+            pattern7.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime);
             pattern7.transform.position += new Vector3(offset * 2, 0, 0);
        
 
@@ -568,61 +572,62 @@ public class Stage2_Boss : MonoBehaviour
        
         pattern7.transform.position = new Vector3(50, 0, 0);
         PatternEffect.transform.position = pattern7.transform.position;
+        targetPosition = new Vector3(PatternEffect.transform.position.x - 500, PatternEffect.transform.position.y, PatternEffect.transform.position.z);
         startTime = Time.time;
-        while (Time.time - startTime < 0.1f)
+        while (Time.time - startTime < 0.2f)
         {
             TrailRender.showTrail = true;
-            float offset = -100f;
-            PatternEffect.transform.position = new Vector3(offset, 0, 0);
+            float t = (Time.time - startTime) / 0.2f;
+            PatternEffect.transform.position = Vector3.Lerp(PatternEffect.transform.position, targetPosition, t);
             yield return null;
         } // 트레일 이동
 
         startTime = Time.time;
         while(Time.time - startTime < effectTime)
         {
-            TrailRender.showTrail = true;
             yield return null;
         } // 이펙트 보여줌
 
+        pattern7.transform.eulerAngles = new Vector3(0, 0, -45);
 
         startTime = Time.time;
-        rotateSpeed = 35f;
         while(Time.time - startTime <3)
         {
             TrailRender.showTrail = false;
             float offset = -60f * Time.deltaTime;
-            pattern7.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * 50f * Time.deltaTime);
+            pattern7.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime);
             pattern7.transform.position += new Vector3(offset * 2, 0, 0);
             yield return null;
         } // 오 -> 왼
 
-        pattern7.transform.position = new Vector3(-50,-40, 0);
+        pattern7.transform.position = new Vector3(-55,-40, 0);
         PatternEffect.transform.position = pattern7.transform.position;
-
+        targetPosition = new Vector3(PatternEffect.transform.position.x + 500, PatternEffect.transform.position.y, PatternEffect.transform.position.z);
         startTime = Time.time;
-        while (Time.time - startTime < 0.1f)
+        while (Time.time - startTime < 0.2f)
         {
             TrailRender.showTrail = true;
-            float offset = 100f;
-            PatternEffect.transform.position += new Vector3(offset , 0, 0);
+            float t = (Time.time - startTime) / 0.2f;
+            PatternEffect.transform.position = Vector3.Lerp(PatternEffect.transform.position, targetPosition, t);
             yield return null;
         } // 트레일
 
         startTime = Time.time;
         while (Time.time - startTime < effectTime)
         {
-            TrailRender.showTrail = true;
             yield return null;
         }
+
+        pattern7.transform.eulerAngles = new Vector3(0, 0, 45);
 
         while (Time.time - startTime < 3)
         {
             TrailRender.showTrail = false;
             float offset = 60f * Time.deltaTime;
-            pattern7.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * 50f * Time.deltaTime);
+            pattern7.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime);
 
             pattern7.transform.position += new Vector3(offset * 2, 0, 0);
-
+             
 
             yield return null;
         } // 왼-> 오
