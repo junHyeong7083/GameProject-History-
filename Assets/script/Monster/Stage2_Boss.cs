@@ -19,6 +19,9 @@ public class Stage2_Boss : MonoBehaviour
     Vector3 cameraOriginalPos;
 
     public GameObject ClearPanel;
+
+    // ----------------- HitEffect  -----------------
+    GameObject PatternEffect;
     // ----------------- Pattern 2 -----------------
     GameObject pattern2_1;
     GameObject pattern2_2;
@@ -34,6 +37,10 @@ public class Stage2_Boss : MonoBehaviour
     // ----------------- Pattern 4 -----------------
     GameObject pattern4_1;
     GameObject pattern4_2;
+
+    // ----------------- Pattern 7 -----------------
+    GameObject pattern7;
+    GameObject testEffect;
     // ----------------- bool -----------------
     #region Bool
     bool isOverlab = false;
@@ -68,7 +75,6 @@ public class Stage2_Boss : MonoBehaviour
 
         cam = Camera.main;
         cameraOriginalPos = cam.transform.position;
-
 
         #region HitEffect Setting
         hitEffect = ParticleManager.Instance.StartParticle("VFX_hit");
@@ -318,6 +324,7 @@ public class Stage2_Boss : MonoBehaviour
         StartCoroutine(Scp2_4_Pattern());
         isPattern = true;   
     }
+    #region Scp2_4 패턴로직
     IEnumerator Scp2_4_Pattern()
     { 
         pattern4_1 = PatternManager.Instance.StartPattern("Test"); // 왼쪽
@@ -463,6 +470,167 @@ public class Stage2_Boss : MonoBehaviour
         Destroy(pattern4_2.gameObject);
         isPattern = false;
     }
+    #endregion
+
+    public void Scp2_7()
+    {
+        isPattern = true;
+        StartCoroutine(Scp2_7_Pattern());
+    }
+    #region Scp2_7 패턴로직
+    IEnumerator Scp2_7_Pattern()
+    {
+        pattern7 = PatternManager.Instance.StartPattern("Hammer");
+        PatternEffect = PatternManager.Instance.StartPattern("PatternEffect");
+       // testEffect.SetActive(false);
+        #region Setting
+        pattern7.transform.position = new Vector3(bossPos.x - 5f, bossPos.y, bossPos.z);
+       
+        SpriteRenderer sprite7 = pattern7.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color7 = sprite7.color;
+        color7.a = 0;
+        sprite7.color = color7;
+
+
+        Vector3 startpattern7_1 = pattern7.transform.position;
+        Vector3 midpattern7_1 = new Vector3(-11, 60, 0);
+        Vector3 endpattern7_1 = new Vector3(-45, 40, 0);
+        #endregion
+        float rotateSpeed = 35f;
+        float startTime = Time.time;
+        while(Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+
+            color7.a = alpha;
+            sprite7.color = color7;
+
+            yield return null;
+        } // 투명도 조절 오브젝트 등장
+        startTime = Time.time;
+        while(Time.time - startTime < 2)
+        {
+            // 애니메이션 재생
+            Debug.Log("애니메이션");
+            if(Time.time - startTime > 0.7f)
+            {
+                float offset = 1f;
+                pattern7.transform.localScale += new Vector3(offset, offset, offset) * Time.deltaTime;
+                if(Time.time - startTime > 1.2f)
+                {
+                    pattern7.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * 50f * Time.deltaTime);
+                }
+            }
+
+            yield return null;
+        } // 애니메이션, 헤머 사이즈업
+        startTime = Time.time;
+        float duration = 1.5f;
+        while(Time.time - startTime < duration)
+        {
+            pattern7.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * 50f * Time.deltaTime);
+            float t = (Time.time - startTime) / duration;
+            Vector3 position1 = Vector3.Lerp(startpattern7_1, endpattern7_1, t) + midpattern7_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            pattern7.transform.position = position1;
+
+            yield return null;
+        } // 헤머 포물선
+
+        PatternEffect.transform.position = pattern7.transform.position;
+        startTime = Time.time;
+        while (Time.time - startTime < 0.1f)
+        {
+            TrailRender.showTrail = true;
+            float offset = 100f;
+            PatternEffect.transform.position += new Vector3(offset, 0, 0);
+            yield return null;
+        } // 트레일 이동
+
+        float effectTime = 1f;
+        startTime = Time.time;
+        while (Time.time - startTime < effectTime)
+        {
+            TrailRender.showTrail = true;
+            yield return null;
+        } // 이펙트 보여주는시간
+
+        startTime = Time.time;
+        while(Time.time - startTime < 3 )
+        {
+            TrailRender.showTrail = false;
+            float offset = 60f * Time.deltaTime;
+            pattern7.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * 50f * Time.deltaTime);
+            pattern7.transform.position += new Vector3(offset * 2, 0, 0);
+       
+
+            yield return null;
+        } // 왼-> 오
+       
+        pattern7.transform.position = new Vector3(50, 0, 0);
+        PatternEffect.transform.position = pattern7.transform.position;
+        startTime = Time.time;
+        while (Time.time - startTime < 0.1f)
+        {
+            TrailRender.showTrail = true;
+            float offset = -100f;
+            PatternEffect.transform.position = new Vector3(offset, 0, 0);
+            yield return null;
+        } // 트레일 이동
+
+        startTime = Time.time;
+        while(Time.time - startTime < effectTime)
+        {
+            TrailRender.showTrail = true;
+            yield return null;
+        } // 이펙트 보여줌
+
+
+        startTime = Time.time;
+        rotateSpeed = 35f;
+        while(Time.time - startTime <3)
+        {
+            TrailRender.showTrail = false;
+            float offset = -60f * Time.deltaTime;
+            pattern7.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * 50f * Time.deltaTime);
+            pattern7.transform.position += new Vector3(offset * 2, 0, 0);
+            yield return null;
+        } // 오 -> 왼
+
+        pattern7.transform.position = new Vector3(-50,-40, 0);
+        PatternEffect.transform.position = pattern7.transform.position;
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.1f)
+        {
+            TrailRender.showTrail = true;
+            float offset = 100f;
+            PatternEffect.transform.position += new Vector3(offset , 0, 0);
+            yield return null;
+        } // 트레일
+
+        startTime = Time.time;
+        while (Time.time - startTime < effectTime)
+        {
+            TrailRender.showTrail = true;
+            yield return null;
+        }
+
+        while (Time.time - startTime < 3)
+        {
+            TrailRender.showTrail = false;
+            float offset = 60f * Time.deltaTime;
+            pattern7.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * 50f * Time.deltaTime);
+
+            pattern7.transform.position += new Vector3(offset * 2, 0, 0);
+
+
+            yield return null;
+        } // 왼-> 오
+        Destroy(pattern7.gameObject);
+        isPattern = false;
+    }
+    #endregion
+
 
     private void Update()
     {
