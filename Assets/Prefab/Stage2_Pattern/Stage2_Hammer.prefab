@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1242023691021635691}
   - component: {fileID: 1538497636286028893}
   m_Layer: 0
-  m_Name: Hammer
+  m_Name: Stage2_Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

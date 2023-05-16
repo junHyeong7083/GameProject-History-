@@ -39,9 +39,13 @@ public class Stage2_Boss : MonoBehaviour
     GameObject pattern4_1;
     GameObject pattern4_2;
 
+
+    // ----------------- Pattern 5 -----------------
+    GameObject pattern5_1;
+    GameObject pattern5_2;
+    GameObject pattern5_3;
     // ----------------- Pattern 7 -----------------
     GameObject pattern7;
-    GameObject testEffect;
     // ----------------- bool -----------------
     #region Bool
     bool isOverlab = false;
@@ -77,6 +81,7 @@ public class Stage2_Boss : MonoBehaviour
         cam = Camera.main;
         cameraOriginalPos = cam.transform.position;
 
+        PatternEffect = PatternManager.Instance.StartPattern("PatternEffect");
         #region HitEffect Setting
         hitEffect = ParticleManager.Instance.StartParticle("VFX_hit");
         hitEffect.gameObject.SetActive(false);
@@ -473,6 +478,135 @@ public class Stage2_Boss : MonoBehaviour
     }
     #endregion
 
+    public void Scp2_5()
+    {
+        isPattern = true;
+        StartCoroutine(Scp2_5_Pattern());
+    }
+    #region Scp2_5 패턴로직
+    IEnumerator Scp2_5_Pattern()
+    {
+        PatternEffect.transform.position = new Vector3(-21, 80, 0);
+        Vector3 targetPosition = new Vector3(PatternEffect.transform.position.x, PatternEffect.transform.position.y-500f, PatternEffect.transform.position.z);
+        float startTime = Time.time;
+        while(Time.time - startTime < 0.2f) 
+        {
+            TrailRender.showTrail = true;
+            float t = (Time.time - startTime) / 0.2f;
+            PatternEffect.transform.position = Vector3.Lerp(PatternEffect.transform.position, targetPosition, t);
+
+            yield return null;
+        } // 트레일 이동1
+       
+        startTime = Time.time;
+        while(Time.time - startTime < 1f)
+        {
+            yield return null;
+        } // 1경고시간
+
+        startTime = Time.time;
+        while(Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+            yield return null;
+        }
+
+        pattern5_1 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
+        pattern5_1.transform.position = new Vector3(-21, -2, 0);
+        SpriteRenderer sprite5_1 = pattern5_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color5_1 = sprite5_1.color;
+
+        PatternEffect.transform.position = new Vector3(0, 80, 0);
+        targetPosition = new Vector3(PatternEffect.transform.position.x, PatternEffect.transform.position.y - 500f, PatternEffect.transform.position.z);
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            if(Time.time - startTime < 0.2f)
+            {
+                TrailRender.showTrail = true;
+                float t = (Time.time - startTime) / 0.2f;
+                PatternEffect.transform.position = Vector3.Lerp(PatternEffect.transform.position, targetPosition, t); // 두번째 경고선
+            }
+
+            color5_1.a = 1f;
+            sprite5_1.color = color5_1;
+
+            yield return null;
+        }
+        Destroy(pattern5_1);
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            yield return null;
+        } // 2경고시간
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+            yield return null;
+        }
+
+
+        pattern5_2 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
+        pattern5_2.transform.position = new Vector3(0, -2, 0);
+        SpriteRenderer sprite5_2 = pattern5_2.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color5_2 = sprite5_2.color;
+
+        PatternEffect.transform.position = new Vector3(21, 80, 0);
+        targetPosition = new Vector3(PatternEffect.transform.position.x, PatternEffect.transform.position.y - 500f, PatternEffect.transform.position.z);
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            color5_2.a = 1f;
+            sprite5_2.color = color5_2;
+
+            if(Time.time - startTime < 0.2f)
+            {
+                TrailRender.showTrail = true;
+                float t = (Time.time - startTime) / 0.2f;
+                PatternEffect.transform.position = Vector3.Lerp(PatternEffect.transform.position, targetPosition, t); // 3번째 선
+            }
+
+            yield return null;
+        }
+        Destroy(pattern5_2);
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            yield return null;
+        } // 3경고시간
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+            yield return null;
+        }
+
+        pattern5_3 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
+        pattern5_3.transform.position = new Vector3(21, -2, 0);
+        SpriteRenderer sprite5_3 = pattern5_3.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color5_3 = sprite5_3.color;
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            color5_3.a = 1f;
+            sprite5_3.color = color5_3;
+
+            yield return null;
+        }
+        Destroy(pattern5_3);
+
+        isPattern = false;
+
+    }
+
+
+    #endregion
+
     public void Scp2_7()
     {
         isPattern = true;
@@ -481,9 +615,7 @@ public class Stage2_Boss : MonoBehaviour
     #region Scp2_7 패턴로직
     IEnumerator Scp2_7_Pattern()
     {
-        pattern7 = PatternManager.Instance.StartPattern("Hammer");
-        PatternEffect = PatternManager.Instance.StartPattern("PatternEffect");
-       // testEffect.SetActive(false);
+        pattern7 = PatternManager.Instance.StartPattern("Stage2_Hammer");
         #region Setting
         pattern7.transform.position = new Vector3(bossPos.x - 5f, bossPos.y, bossPos.z);
        
@@ -601,7 +733,7 @@ public class Stage2_Boss : MonoBehaviour
         } // 오 -> 왼
 
         pattern7.transform.position = new Vector3(-55,-40, 0);
-        PatternEffect.transform.position = pattern7.transform.position;
+        PatternEffect.transform.position = new Vector3(pattern7.transform.position.x - 50f, pattern7.transform.position.y, pattern7.transform.position.z);
         targetPosition = new Vector3(PatternEffect.transform.position.x + 500, PatternEffect.transform.position.y, PatternEffect.transform.position.z);
         startTime = Time.time;
         while (Time.time - startTime < 0.2f)
