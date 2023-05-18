@@ -5,6 +5,7 @@ using System.Data;
 using System.Net;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.SceneTemplate;
 using UnityEngine;
 using UnityEngine.UI;
 using static Stage1_Boss;
@@ -44,6 +45,21 @@ public class Stage2_Boss : MonoBehaviour
     GameObject pattern5_1;
     GameObject pattern5_2;
     GameObject pattern5_3;
+
+    // ----------------- Pattern 6 -----------------
+    GameObject pattern6_Hammer; // 바닥에 던질 망치
+
+    GameObject pattern6_1;
+    GameObject pattern6_2;
+    GameObject pattern6_3;
+    GameObject pattern6_4;
+    GameObject pattern6_5;
+    GameObject pattern6_6;
+
+    GameObject effect6_1;
+    GameObject effect6_2;
+
+
     // ----------------- Pattern 7 -----------------
     GameObject pattern7;
     // ----------------- bool -----------------
@@ -605,6 +621,144 @@ public class Stage2_Boss : MonoBehaviour
     }
 
 
+    #endregion
+
+    public void Scp2_6()
+    {
+        isPattern = true;
+        StartCoroutine(Scp2_6_Pattern());
+    }
+    #region Scp2_6 패턴로직
+    IEnumerator Scp2_6_Pattern()
+    {
+        #region Hammer Setting
+        pattern6_Hammer = PatternManager.Instance.StartPattern("Stage2_Hammer"); // 인스턴스
+        pattern6_Hammer.transform.position = new Vector3(bossPos.x - 4f, bossPos.y + 4f, bossPos.z); // 이 좌표는 보스  애니메이션 재생하면서 수정해야함
+        pattern6_Hammer.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
+
+        effect6_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect6_2 = PatternManager.Instance.StartPattern("PatternEffect");
+
+        SpriteRenderer sprite_hammer = pattern6_Hammer.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color_hammer = sprite_hammer.color;
+        color_hammer.a = 0f;
+        sprite_hammer.color = color_hammer;
+
+        Vector3 startHammerPos = pattern6_Hammer.transform.position;
+        #endregion
+
+        Vector3 target_HammerPosition = new Vector3(0, -50, 0); // 망치가 이동할 포지션
+        float startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            // 애니메이션 재생  
+            Debug.Log("애니메이션 재생");
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5f)
+        {
+            // 돌아오는 애니메이션 (a -> idle)
+            color_hammer.a = 1f;
+            sprite_hammer.color = color_hammer;
+
+            float t = (Time.time - startTime) / 0.5f;
+            float rotate_Speed = 240;
+
+            pattern6_Hammer.transform.eulerAngles += new Vector3(0, 0, rotate_Speed * Time.deltaTime);
+            pattern6_Hammer.transform.position = Vector3.Lerp(startHammerPos, target_HammerPosition, t);
+
+            yield return null;
+        }
+
+        effect6_1.transform.position = new Vector3(-8, 80, 0);
+        Vector3 targetPosition1 = new Vector3(effect6_1.transform.position.x, effect6_1.transform.position.y - 500f, effect6_1.transform.position.z);
+        effect6_2.transform.position = new Vector3(8, 80, 0);
+        Vector3 targetPosition2 = new Vector3(effect6_2.transform.position.x, effect6_2.transform.position.y - 500f, effect6_2.transform.position.z);
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.2f)
+        {
+            TrailRender.showTrail = true;
+            float t = (Time.time - startTime) / 0.2f;
+            effect6_1.transform.position = Vector3.Lerp(effect6_1.transform.position, targetPosition1, t);
+            effect6_2.transform.position = Vector3.Lerp(effect6_2.transform.position, targetPosition2, t);
+
+            yield return null;
+        } // 1 경고선
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            yield return null;
+        } // 1경고시간
+        startTime = Time.time;
+        while(Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+
+            yield return null;
+        } // 경고선 지우기
+
+        pattern6_1 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
+        pattern6_2 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
+      
+        pattern6_1.transform.position = new Vector3(-8, -2, 0);
+        pattern6_2.transform.position = new Vector3( 8, -2, 0);
+
+        SpriteRenderer sprite6_1 = pattern6_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite6_2 = pattern6_2.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color6_1 = sprite6_1.color;
+        UnityEngine.Color color6_2 = sprite6_2.color;
+
+        effect6_1.transform.position = new Vector3(-16, 80, 0);
+        targetPosition1 = new Vector3(effect6_1.transform.position.x, effect6_1.transform.position.y - 500f, effect6_1.transform.position.z);
+        effect6_2.transform.position = new Vector3(16, 80, 0);
+        targetPosition2 = new Vector3(effect6_2.transform.position.x, effect6_2.transform.position.y - 500f, effect6_2.transform.position.z);
+
+        startTime = Time.time;
+        while(Time.time - startTime < 1f)
+        {
+            color6_1.a = 1f;
+            color6_2.a = 1f;
+
+            sprite6_1.color = color6_1;
+            sprite6_2.color = color6_2;
+
+
+            if(Time.time - startTime < 0.2f)
+            {
+                float t = (Time.time - startTime) / 0.2f;
+                TrailRender.showTrail = true;
+                effect6_1.transform.position = Vector3.Lerp(effect6_1.transform.position, targetPosition1, t);
+                effect6_2.transform.position = Vector3.Lerp(effect6_2.transform.position, targetPosition2, t);
+            }
+            yield return null;
+        }
+        startTime= Time.time;
+        while(Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+
+            yield return null;
+        }
+        pattern6_3 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
+        pattern6_4 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
+
+        pattern6_3.transform.position = new Vector3(-16, -2, 0);
+        pattern6_4.transform.position = new Vector3(16, -2, 0);
+
+        SpriteRenderer sprite6_3 = pattern6_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite6_4 = pattern6_2.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color6_3 = sprite6_3.color;
+        UnityEngine.Color color6_4 = sprite6_4.color;
+
+
+    }
     #endregion
 
     public void Scp2_7()
