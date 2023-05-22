@@ -2,6 +2,7 @@ using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Net;
 using TMPro;
 using Unity.VisualScripting;
@@ -62,6 +63,17 @@ public class Stage2_Boss : MonoBehaviour
 
     // ----------------- Pattern 7 -----------------
     GameObject pattern7;
+
+    // ----------------- Pattern 8 -----------------
+    GameObject pattern8_1;
+    GameObject pattern8_2;
+    GameObject pattern8_3;
+    GameObject pattern8_4;
+
+    // ----------------- Pattern 9 -----------------
+    GameObject pattern9;
+
+
     // ----------------- bool -----------------
     #region Bool
     bool isOverlab = false;
@@ -103,7 +115,7 @@ public class Stage2_Boss : MonoBehaviour
         hitEffect.gameObject.SetActive(false);
         #endregion
     }
-
+  
     public void Scp2_1()
     {
         isPattern = true;
@@ -673,9 +685,9 @@ public class Stage2_Boss : MonoBehaviour
             yield return null;
         }
 
-        effect6_1.transform.position = new Vector3(-8, 80, 0);
+        effect6_1.transform.position = new Vector3(-7, 80, 0);
         Vector3 targetPosition1 = new Vector3(effect6_1.transform.position.x, effect6_1.transform.position.y - 500f, effect6_1.transform.position.z);
-        effect6_2.transform.position = new Vector3(8, 80, 0);
+        effect6_2.transform.position = new Vector3(7, 80, 0);
         Vector3 targetPosition2 = new Vector3(effect6_2.transform.position.x, effect6_2.transform.position.y - 500f, effect6_2.transform.position.z);
 
 
@@ -705,8 +717,8 @@ public class Stage2_Boss : MonoBehaviour
         pattern6_1 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
         pattern6_2 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
       
-        pattern6_1.transform.position = new Vector3(-8, -2, 0);
-        pattern6_2.transform.position = new Vector3( 8, -2, 0);
+        pattern6_1.transform.position = new Vector3(-7, -2, 0);
+        pattern6_2.transform.position = new Vector3( 7, -2, 0);
 
         SpriteRenderer sprite6_1 = pattern6_1.GetComponent<SpriteRenderer>();
         SpriteRenderer sprite6_2 = pattern6_2.GetComponent<SpriteRenderer>();
@@ -714,13 +726,14 @@ public class Stage2_Boss : MonoBehaviour
         UnityEngine.Color color6_1 = sprite6_1.color;
         UnityEngine.Color color6_2 = sprite6_2.color;
 
-        effect6_1.transform.position = new Vector3(-16, 80, 0);
+        effect6_1.transform.position = new Vector3(-15, 80, 0);
         targetPosition1 = new Vector3(effect6_1.transform.position.x, effect6_1.transform.position.y - 500f, effect6_1.transform.position.z);
-        effect6_2.transform.position = new Vector3(16, 80, 0);
+        effect6_2.transform.position = new Vector3(15, 80, 0);
         targetPosition2 = new Vector3(effect6_2.transform.position.x, effect6_2.transform.position.y - 500f, effect6_2.transform.position.z);
 
         startTime = Time.time;
-        while(Time.time - startTime < 1f)
+       // StartCoroutine(CameraShaking(0.1f, 0.5f));
+        while(Time.time - startTime < 1.2f)
         {
             color6_1.a = 1f;
             color6_2.a = 1f;
@@ -745,11 +758,12 @@ public class Stage2_Boss : MonoBehaviour
 
             yield return null;
         }
+
         pattern6_3 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
         pattern6_4 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
 
-        pattern6_3.transform.position = new Vector3(-16, -2, 0);
-        pattern6_4.transform.position = new Vector3(16, -2, 0);
+        pattern6_3.transform.position = new Vector3(-15, -2, 0);
+        pattern6_4.transform.position = new Vector3(15, -2, 0);
 
         SpriteRenderer sprite6_3 = pattern6_1.GetComponent<SpriteRenderer>();
         SpriteRenderer sprite6_4 = pattern6_2.GetComponent<SpriteRenderer>();
@@ -757,7 +771,66 @@ public class Stage2_Boss : MonoBehaviour
         UnityEngine.Color color6_3 = sprite6_3.color;
         UnityEngine.Color color6_4 = sprite6_4.color;
 
+        effect6_1.transform.position = new Vector3(-24, 80, 0);
+        targetPosition1 = new Vector3(effect6_1.transform.position.x, effect6_1.transform.position.y - 500f, effect6_1.transform.position.z);
+        effect6_2.transform.position = new Vector3(24, 80, 0);
+        targetPosition2 = new Vector3(effect6_2.transform.position.x, effect6_2.transform.position.y - 500f, effect6_2.transform.position.z);
 
+        startTime = Time.time;
+       // StartCoroutine(CameraShaking(0.1f, 0.5f));
+        while (Time.time - startTime < 1.2f)
+        {
+            color6_3.a = 1f;
+            color6_4.a = 1f;
+
+            sprite6_3.color = color6_3;
+            sprite6_4.color = color6_4;
+
+            if (Time.time - startTime < 0.2f)
+            {
+                float t = (Time.time - startTime) / 0.2f;
+                TrailRender.showTrail = true;
+                effect6_1.transform.position = Vector3.Lerp(effect6_1.transform.position, targetPosition1, t);
+                effect6_2.transform.position = Vector3.Lerp(effect6_2.transform.position, targetPosition2, t);
+            }
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while(Time.time - startTime  < 0.3f)
+        {
+            TrailRender.showTrail = false;
+
+            yield return null;
+        }
+        pattern6_5 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
+        pattern6_6 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
+
+        pattern6_5.transform.position = new Vector3(-24, -2, 0);
+        pattern6_6.transform.position = new Vector3(24, -2, 0);
+
+        SpriteRenderer sprite6_5 = pattern6_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite6_6 = pattern6_2.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color6_5 = sprite6_5.color;
+        UnityEngine.Color color6_6 = sprite6_6.color;
+
+        startTime = Time.time;
+      //  StartCoroutine(CameraShaking(0.1f, 0.5f));
+        while (Time.time - startTime < 0.8f) // 일부로 다음패턴 넘어가기 빠르게 시간을 줄일까 고민중
+        {
+            color6_5.a = 1f;
+            color6_6.a = 1f;
+
+            sprite6_5.color = color6_5;
+            sprite6_6.color = color6_6;
+
+            yield return null;
+        }
+
+
+        isPattern = false; // 패턴끝
     }
     #endregion
 
@@ -918,6 +991,257 @@ public class Stage2_Boss : MonoBehaviour
             yield return null;
         } // 왼-> 오
         Destroy(pattern7.gameObject);
+        isPattern = false;
+    }
+    #endregion
+
+    public void Scp2_8()
+    {
+        isPattern = true;
+        StartCoroutine(Scp2_8_Pattern());
+    }
+    #region Scp2_8 패턴로직
+    IEnumerator Scp2_8_Pattern()
+    {
+        #region Setting
+        pattern8_1 = PatternManager.Instance.StartPattern("VKEH");
+        pattern8_2 = PatternManager.Instance.StartPattern("VKEH");
+        pattern8_3 = PatternManager.Instance.StartPattern("VKEH");
+        pattern8_4 = PatternManager.Instance.StartPattern("VKEH");
+
+        pattern8_1.transform.position = new Vector3(0, 0, 0); // 왼
+        pattern8_2.transform.position = new Vector3(0, 0, 0);// 아래
+        pattern8_3.transform.position = new Vector3(0, 0, 0); // 오른
+        pattern8_4.transform.position = new Vector3(0, 0, 0); // 위
+
+
+        SpriteRenderer sprite8_1 = pattern8_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite8_2 = pattern8_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite8_3 = pattern8_3.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite8_4 = pattern8_4.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color8_1 = sprite8_1.color;
+        UnityEngine.Color color8_2 = sprite8_2.color;
+        UnityEngine.Color color8_3 = sprite8_3.color;
+        UnityEngine.Color color8_4 = sprite8_4.color;
+        #endregion
+        float startTime = Time.time;
+        while(Time.time-  startTime < 0.5)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            color8_1.a = alpha;
+            color8_2.a = alpha;
+            color8_3.a = alpha;
+            color8_4.a = alpha;
+
+            sprite8_1.color = color8_1;
+            sprite8_2.color = color8_2;
+            sprite8_3.color = color8_3;
+            sprite8_4.color = color8_4;
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time- startTime < 10)
+        {
+            yield return null;
+        }
+        int randValue;
+        randValue = Random.Range(1, 3);
+        switch(randValue)
+        {
+            case 1:
+                Scp2_9();
+                break;
+            case 2:
+                startTime = Time.time;
+                while(Time.time - startTime < 0.5)
+                {
+                    float alpha = (Time.time - startTime) / 0.5f;
+
+                    color8_1.a = 1 - alpha;
+                    color8_2.a = 1-  alpha;
+                    color8_3.a = 1 - alpha;
+                    color8_4.a = 1 - alpha;
+
+                    sprite8_1.color = color8_1;
+                    sprite8_2.color = color8_2;
+                    sprite8_3.color = color8_3;
+                    sprite8_4.color = color8_4;
+
+                    yield return null;
+                } // 투명도 다시 0되게
+                Destroy(pattern8_1.gameObject);
+                Destroy(pattern8_2.gameObject);
+                Destroy(pattern8_3.gameObject);
+                Destroy(pattern8_4.gameObject);
+
+                isPattern = false;
+                break;
+        }
+    }
+    #endregion
+    public void Scp2_9()
+    {
+        isPattern = true;
+        StartCoroutine(Scp2_9_Pattern());
+    }
+    #region
+    IEnumerator Scp2_9_Pattern()
+    {
+        int randValue;
+        randValue = Random.Range(1, 5);
+
+        pattern9 = PatternManager.Instance.StartPattern("Ship");
+        SpriteRenderer sprite9 = pattern9.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color9 = sprite9.color;
+        float startTime = Time.time;
+        switch(randValue)
+        {
+            case 1: // 왼쪽
+                pattern9.transform.position = new Vector3(0, 0, 0);
+                pattern9.transform.eulerAngles = new Vector3(0, 0, 0);
+                while (Time.time - startTime < 1)
+                {
+                    float alpha = (Time.time - startTime) / 1;
+                    color9.a = alpha;
+                    sprite9.color = color9;
+
+                    yield return null;
+                }
+
+                Vector3 startPos1 = pattern9.transform.position; // 출발지점
+                Vector3 targetPos1 = new Vector3(0, 0, 0); // 도착지점
+                startTime = Time.time;
+                while(Time.time - startTime < 4)
+                {
+                    float t = (Time.time - startTime) / 4f;
+                    pattern9.transform.position = Vector3.Lerp(startPos1, targetPos1, t); 
+                    yield return null;
+                }
+
+                startTime = Time.time;
+                while (Time.time - startTime < 1)
+                {
+                    float alpha = (Time.time - startTime) / 1f;
+
+                    color9.a = 1 - alpha;
+                    sprite9.color = color9;
+
+                    yield return null;
+                }
+
+                break;
+
+            case 2: // 아래
+                pattern9.transform.position = new Vector3(0, 0, 0);
+                pattern9.transform.eulerAngles = new Vector3(0, 0, 0);
+                while (Time.time - startTime < 1)
+                {
+                    float alpha = (Time.time - startTime) / 1;
+                    color9.a = alpha;
+                    sprite9.color = color9;
+
+                    yield return null;
+                }
+
+                Vector3 startPos2 = pattern9.transform.position; // 출발지점
+                Vector3 targetPos2 = new Vector3(0, 0, 0); // 도착지점
+                startTime = Time.time;
+                while (Time.time - startTime < 4)
+                {
+                    float t = (Time.time - startTime) / 4f;
+                    pattern9.transform.position = Vector3.Lerp(startPos2, targetPos2, t); 
+                    yield return null;
+                }
+
+                startTime = Time.time;
+                while (Time.time - startTime < 1)
+                {
+                    float alpha = (Time.time - startTime) / 1f;
+
+                    color9.a = 1 - alpha;
+                    sprite9.color = color9;
+
+                    yield return null;
+                }
+
+                break;
+
+            case 3: // 오른쪽
+                pattern9.transform.position = new Vector3(0, 0, 0);
+                pattern9.transform.eulerAngles = new Vector3(0, 0, 0);
+                while (Time.time - startTime < 1)
+                {
+                    float alpha = (Time.time - startTime) / 1;
+                    color9.a = alpha;
+                    sprite9.color = color9;
+
+                    yield return null;
+                }
+
+                Vector3 startPos3 = pattern9.transform.position; // 출발지점
+                Vector3 targetPos3 = new Vector3(0, 0, 0); // 도착지점
+                startTime = Time.time;
+                while (Time.time - startTime < 4)
+                {
+                    float t = (Time.time - startTime) / 4f;
+                    pattern9.transform.position = Vector3.Lerp(startPos3, targetPos3, t); 
+                    yield return null;
+                }
+
+                startTime = Time.time;
+                while (Time.time - startTime < 1)
+                {
+                    float alpha = (Time.time - startTime) / 1f;
+
+                    color9.a = 1 - alpha;
+                    sprite9.color = color9;
+
+                    yield return null;
+                }
+
+                break;
+
+            case 4: // 우ㅢ;쪽
+                pattern9.transform.position = new Vector3(0, 0, 0);
+                pattern9.transform.eulerAngles = new Vector3(0, 0, 0);
+                while (Time.time - startTime < 1)
+                {
+                    float alpha = (Time.time - startTime) / 1;
+                    color9.a = alpha;
+                    sprite9.color = color9;
+
+                    yield return null;
+                }
+
+                Vector3 startPos4 = pattern9.transform.position; // 출발지점
+                Vector3 targetPos4 = new Vector3(0, 0, 0); // 도착지점
+                startTime = Time.time;
+                while (Time.time - startTime < 4)
+                {
+                    float t = (Time.time - startTime) / 4f;
+                    pattern9.transform.position = Vector3.Lerp(startPos4, targetPos4, t); 
+                    yield return null;
+                }
+
+                startTime = Time.time;
+                while (Time.time - startTime < 1)
+                {
+                    float alpha = (Time.time - startTime) / 1f;
+
+                    color9.a = 1 - alpha;
+                    sprite9.color = color9;
+
+                    yield return null;
+                }
+
+                break;
+
+        }
+
+        Destroy(pattern9.gameObject);
+
         isPattern = false;
     }
     #endregion
