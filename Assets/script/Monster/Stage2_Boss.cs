@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 using UnityEditor.SceneTemplate;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static Stage1_Boss;
 
 public class Stage2_Boss : MonoBehaviour
@@ -70,6 +71,8 @@ public class Stage2_Boss : MonoBehaviour
     GameObject pattern8_3;
     GameObject pattern8_4;
 
+    float toggleTimer = 0;
+    float maxtoggleTimer = 20f;
     // ----------------- Pattern 9 -----------------
     GameObject pattern9;
 
@@ -78,6 +81,8 @@ public class Stage2_Boss : MonoBehaviour
     #region Bool
     bool isOverlab = false;
     bool isPattern = false;
+    bool isToggle = false;
+
     int randomPattern;
     int randomOverlab;
     bool isBossDie = false;
@@ -997,7 +1002,7 @@ public class Stage2_Boss : MonoBehaviour
 
     public void Scp2_8()
     {
-        isPattern = true;
+        isToggle = true;
         StartCoroutine(Scp2_8_Pattern());
     }
     #region Scp2_8 패턴로직
@@ -1042,7 +1047,7 @@ public class Stage2_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-        while(Time.time- startTime < 10)
+        while(Time.time- startTime < 1)
         {
             yield return null;
         }
@@ -1054,6 +1059,12 @@ public class Stage2_Boss : MonoBehaviour
                 Scp2_9();
                 break;
             case 2:
+                startTime = Time.time;
+                while(Time.time - startTime <9)
+                {
+                    yield return null;
+                }
+
                 startTime = Time.time;
                 while(Time.time - startTime < 0.5)
                 {
@@ -1076,14 +1087,14 @@ public class Stage2_Boss : MonoBehaviour
                 Destroy(pattern8_3.gameObject);
                 Destroy(pattern8_4.gameObject);
 
-                isPattern = false;
+                isToggle = false;
                 break;
         }
     }
     #endregion
     public void Scp2_9()
     {
-        isPattern = true;
+        isToggle = true;
         StartCoroutine(Scp2_9_Pattern());
     }
     #region
@@ -1094,6 +1105,17 @@ public class Stage2_Boss : MonoBehaviour
 
         pattern9 = PatternManager.Instance.StartPattern("Ship");
         SpriteRenderer sprite9 = pattern9.GetComponent<SpriteRenderer>();
+
+        SpriteRenderer sprite8_1 = pattern8_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite8_2 = pattern8_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite8_3 = pattern8_3.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite8_4 = pattern8_4.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color8_1 = sprite8_1.color;
+        UnityEngine.Color color8_2 = sprite8_2.color;
+        UnityEngine.Color color8_3 = sprite8_3.color;
+        UnityEngine.Color color8_4 = sprite8_4.color;
+
         UnityEngine.Color color9 = sprite9.color;
         float startTime = Time.time;
         switch(randValue)
@@ -1113,10 +1135,15 @@ public class Stage2_Boss : MonoBehaviour
                 Vector3 startPos1 = pattern9.transform.position; // 출발지점
                 Vector3 targetPos1 = new Vector3(0, 0, 0); // 도착지점
                 startTime = Time.time;
-                while(Time.time - startTime < 4)
+                while(Time.time - startTime < 8)
                 {
-                    float t = (Time.time - startTime) / 4f;
-                    pattern9.transform.position = Vector3.Lerp(startPos1, targetPos1, t); 
+                    if(Time.time - startTime < 4)
+                    {
+                        float t = (Time.time - startTime) / 4f;
+                        pattern9.transform.position = Vector3.Lerp(startPos1, targetPos1, t);
+                    }
+           
+                    
                     yield return null;
                 }
 
@@ -1127,6 +1154,18 @@ public class Stage2_Boss : MonoBehaviour
 
                     color9.a = 1 - alpha;
                     sprite9.color = color9;
+
+
+                    color8_1.a = 1 - alpha;
+                    color8_2.a = 1 - alpha;
+                    color8_3.a = 1 - alpha;
+                    color8_4.a = 1 - alpha;
+
+                    sprite8_1.color = color8_1;
+                    sprite8_2.color = color8_2;
+                    sprite8_3.color = color8_3;
+                    sprite8_4.color = color8_4;
+
 
                     yield return null;
                 }
@@ -1148,10 +1187,15 @@ public class Stage2_Boss : MonoBehaviour
                 Vector3 startPos2 = pattern9.transform.position; // 출발지점
                 Vector3 targetPos2 = new Vector3(0, 0, 0); // 도착지점
                 startTime = Time.time;
-                while (Time.time - startTime < 4)
+                while (Time.time - startTime < 8)
                 {
-                    float t = (Time.time - startTime) / 4f;
-                    pattern9.transform.position = Vector3.Lerp(startPos2, targetPos2, t); 
+                    if (Time.time - startTime < 4)
+                    {
+                        float t = (Time.time - startTime) / 4f;
+                        pattern9.transform.position = Vector3.Lerp(startPos2, targetPos2, t);
+                    }
+
+
                     yield return null;
                 }
 
@@ -1162,6 +1206,18 @@ public class Stage2_Boss : MonoBehaviour
 
                     color9.a = 1 - alpha;
                     sprite9.color = color9;
+
+
+                    color8_1.a = 1 - alpha;
+                    color8_2.a = 1 - alpha;
+                    color8_3.a = 1 - alpha;
+                    color8_4.a = 1 - alpha;
+
+                    sprite8_1.color = color8_1;
+                    sprite8_2.color = color8_2;
+                    sprite8_3.color = color8_3;
+                    sprite8_4.color = color8_4;
+
 
                     yield return null;
                 }
@@ -1183,10 +1239,15 @@ public class Stage2_Boss : MonoBehaviour
                 Vector3 startPos3 = pattern9.transform.position; // 출발지점
                 Vector3 targetPos3 = new Vector3(0, 0, 0); // 도착지점
                 startTime = Time.time;
-                while (Time.time - startTime < 4)
+                while (Time.time - startTime < 8)
                 {
-                    float t = (Time.time - startTime) / 4f;
-                    pattern9.transform.position = Vector3.Lerp(startPos3, targetPos3, t); 
+                    if (Time.time - startTime < 4)
+                    {
+                        float t = (Time.time - startTime) / 4f;
+                        pattern9.transform.position = Vector3.Lerp(startPos3, targetPos3, t);
+                    }
+
+
                     yield return null;
                 }
 
@@ -1197,6 +1258,18 @@ public class Stage2_Boss : MonoBehaviour
 
                     color9.a = 1 - alpha;
                     sprite9.color = color9;
+
+
+                    color8_1.a = 1 - alpha;
+                    color8_2.a = 1 - alpha;
+                    color8_3.a = 1 - alpha;
+                    color8_4.a = 1 - alpha;
+
+                    sprite8_1.color = color8_1;
+                    sprite8_2.color = color8_2;
+                    sprite8_3.color = color8_3;
+                    sprite8_4.color = color8_4;
+
 
                     yield return null;
                 }
@@ -1218,10 +1291,15 @@ public class Stage2_Boss : MonoBehaviour
                 Vector3 startPos4 = pattern9.transform.position; // 출발지점
                 Vector3 targetPos4 = new Vector3(0, 0, 0); // 도착지점
                 startTime = Time.time;
-                while (Time.time - startTime < 4)
+                while (Time.time - startTime < 8)
                 {
-                    float t = (Time.time - startTime) / 4f;
-                    pattern9.transform.position = Vector3.Lerp(startPos4, targetPos4, t); 
+                    if (Time.time - startTime < 4)
+                    {
+                        float t = (Time.time - startTime) / 4f;
+                        pattern9.transform.position = Vector3.Lerp(startPos4, targetPos4, t);
+                    }
+
+
                     yield return null;
                 }
 
@@ -1233,16 +1311,32 @@ public class Stage2_Boss : MonoBehaviour
                     color9.a = 1 - alpha;
                     sprite9.color = color9;
 
+
+                    color8_1.a = 1 - alpha;
+                    color8_2.a = 1 - alpha;
+                    color8_3.a = 1 - alpha;
+                    color8_4.a = 1 - alpha;
+
+                    sprite8_1.color = color8_1;
+                    sprite8_2.color = color8_2;
+                    sprite8_3.color = color8_3;
+                    sprite8_4.color = color8_4;
+
+
                     yield return null;
                 }
 
                 break;
 
         }
+        Destroy(pattern8_1.gameObject);
+        Destroy(pattern8_2.gameObject);
+        Destroy(pattern8_3.gameObject);
+        Destroy(pattern8_4.gameObject);
 
         Destroy(pattern9.gameObject);
 
-        isPattern = false;
+        isToggle = false;
     }
     #endregion
 
@@ -1268,5 +1362,19 @@ public class Stage2_Boss : MonoBehaviour
                 Debug.Log("checkInt" + TitleSelect.clearCheck);
             }
         }
+
+        
+        if(toggleTimer > maxtoggleTimer) // checkToggle = 30f; 
+        {
+            if(isToggle)
+            {
+                Scp2_8();
+                toggleTimer = 0; // 다시 토글타이머 초기화
+            }
+            Scp2_8();
+            toggleTimer = 0; // 다시 토글타이머 초기화
+        }
+        if(!isToggle)
+           toggleTimer += Time.deltaTime; // 시작과 동시에 토글타이머가 돌아감
     }
 }
