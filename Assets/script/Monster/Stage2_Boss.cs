@@ -1009,16 +1009,21 @@ public class Stage2_Boss : MonoBehaviour
     IEnumerator Scp2_8_Pattern()
     {
         #region Setting
-        pattern8_1 = PatternManager.Instance.StartPattern("VKEH");
-        pattern8_2 = PatternManager.Instance.StartPattern("VKEH");
-        pattern8_3 = PatternManager.Instance.StartPattern("VKEH");
-        pattern8_4 = PatternManager.Instance.StartPattern("VKEH");
+        pattern8_1 = PatternManager.Instance.StartPattern("Stage2_Tide");
+        pattern8_2 = PatternManager.Instance.StartPattern("Stage2_Tide");
+        pattern8_3 = PatternManager.Instance.StartPattern("Stage2_Tide");
+        pattern8_4 = PatternManager.Instance.StartPattern("Stage2_Tide");
 
-        pattern8_1.transform.position = new Vector3(0, 0, 0); // 왼
-        pattern8_2.transform.position = new Vector3(0, 0, 0);// 아래
-        pattern8_3.transform.position = new Vector3(0, 0, 0); // 오른
-        pattern8_4.transform.position = new Vector3(0, 0, 0); // 위
+        pattern8_1.transform.position = new Vector3(1.5f, 0, 0); // 왼
+        pattern8_1.transform.eulerAngles = new Vector3(0, 0, 180f);
 
+        pattern8_2.transform.position = new Vector3(0, -28f, 0);// 아래
+        pattern8_2.transform.eulerAngles = new Vector3(0, 0, 90f);
+
+        pattern8_3.transform.position = new Vector3(-1.5f, 0, 0); // 오른
+
+        pattern8_4.transform.position = new Vector3(0, 28f, 0); // 위
+        pattern8_4.transform.eulerAngles = new Vector3(0, 0, 270f);
 
         SpriteRenderer sprite8_1 = pattern8_1.GetComponent<SpriteRenderer>();
         SpriteRenderer sprite8_2 = pattern8_2.GetComponent<SpriteRenderer>();
@@ -1031,9 +1036,9 @@ public class Stage2_Boss : MonoBehaviour
         UnityEngine.Color color8_4 = sprite8_4.color;
         #endregion
         float startTime = Time.time;
-        while(Time.time-  startTime < 0.5)
+        while(Time.time-  startTime < 1f)
         {
-            float alpha = (Time.time - startTime) / 0.5f;
+            float alpha = (Time.time - startTime) / 1f;
             color8_1.a = alpha;
             color8_2.a = alpha;
             color8_3.a = alpha;
@@ -1363,8 +1368,9 @@ public class Stage2_Boss : MonoBehaviour
             }
         }
 
-        
-        if(toggleTimer > maxtoggleTimer) // checkToggle = 30f; 
+
+        #region Scp2_8, Scp2_9
+        if (toggleTimer > maxtoggleTimer) // checkToggle = 30f; 
         {
             if(isToggle)
             {
@@ -1376,5 +1382,6 @@ public class Stage2_Boss : MonoBehaviour
         }
         if(!isToggle)
            toggleTimer += Time.deltaTime; // 시작과 동시에 토글타이머가 돌아감
+        #endregion
     }
 }
