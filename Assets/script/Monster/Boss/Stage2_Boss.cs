@@ -7,11 +7,9 @@ using System.Net;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.SceneTemplate;
+using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using static Stage1_Boss;
-
 public class Stage2_Boss : MonoBehaviour
 {
     Rigidbody2D rigidbody2D;
@@ -23,12 +21,15 @@ public class Stage2_Boss : MonoBehaviour
     Vector3 cameraOriginalPos;
 
     public GameObject ClearPanel;
-
+    Stage2_wolf stage2_Wolf;
     // ----------------- HitEffect  -----------------
     GameObject PatternEffect;
     // ----------------- Pattern 2 -----------------
     GameObject pattern2_1;
     GameObject pattern2_2;
+
+    GameObject effect2_1;
+    GameObject effect2_2;
 
     // -------------- Overlab_Pattern 2 --------------
     GameObject overlab_pattern2_1;
@@ -37,11 +38,13 @@ public class Stage2_Boss : MonoBehaviour
 
     // ----------------- Pattern 3 -----------------
     GameObject pattern3_1;
-
+    GameObject target3;
     // ----------------- Pattern 4 -----------------
     GameObject pattern4_1;
     GameObject pattern4_2;
 
+    GameObject effect4_1;
+    GameObject effect4_2;
 
     // ----------------- Pattern 5 -----------------
     GameObject pattern5_1;
@@ -114,6 +117,7 @@ public class Stage2_Boss : MonoBehaviour
         cam = Camera.main;
         cameraOriginalPos = cam.transform.position;
 
+
         PatternEffect = PatternManager.Instance.StartPattern("PatternEffect");
         #region HitEffect Setting
         hitEffect = ParticleManager.Instance.StartParticle("VFX_hit");
@@ -171,6 +175,16 @@ public class Stage2_Boss : MonoBehaviour
         pattern2_1 = PatternManager.Instance.StartPattern("Test");
         pattern2_2 = PatternManager.Instance.StartPattern("Test");
 
+        effect2_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect2_2 = PatternManager.Instance.StartPattern("PatternEffect");
+     
+        TrailRender tr1;
+        TrailRender tr2;
+        tr1 = effect2_1.GetComponent<TrailRender>();
+        tr2 = effect2_2.GetComponent<TrailRender>();
+        tr1.trailWidthMultiplier = 4f;
+        tr2.trailWidthMultiplier = 4f;
+
         SpriteRenderer sprite2_2 = pattern2_1.GetComponent<SpriteRenderer>();
         SpriteRenderer sprite2_3 = pattern2_2.GetComponent<SpriteRenderer>();
 
@@ -193,6 +207,15 @@ public class Stage2_Boss : MonoBehaviour
         Vector3 startpattern2_2 = new Vector3(-25, 13, 0);
         Vector3 midpattern2_2 = new Vector3(8, -77, 0);
         Vector3 endpattern2_2 = new Vector3(30, 75, 0);
+
+        Vector3 effect_startpattern2_1 = new Vector3(25, 20, 0);
+        Vector3 effect_midpattern2_1 = new Vector3(-10, -90, 0);
+        Vector3 effect_endpattern2_1 = new Vector3(-30, 75, 0);
+
+        Vector3 effect_startpattern2_2 = new Vector3(-25, 13, 0);
+        Vector3 effect_midpattern2_2 = new Vector3(8, -77, 0);
+        Vector3 effect_endpattern2_2 = new Vector3(30, 75, 0);
+
         float duration = 2.0f; // 이동 시간
         float euler = 35f; // 회전각도
         #endregion
@@ -217,14 +240,48 @@ public class Stage2_Boss : MonoBehaviour
 
             yield return null;
         }
+        startTime = Time.time;
+        while(Time.time - startTime < 0.04f)
+        {
+            float t = (Time.time - startTime) / 0.04f;
+            TrailRender.showTrail = true;
+
+            pattern2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
+            pattern2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
+
+            Vector3 position1 = Vector3.Lerp(effect_startpattern2_1, effect_endpattern2_1, t) + effect_midpattern2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            effect2_1.transform.position = position1; // 이동
+
+            Vector3 position2 = Vector3.Lerp(effect_startpattern2_2, effect_endpattern2_2, t) + effect_midpattern2_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            effect2_2.transform.position = position2; // 이동
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time - startTime < 1f)
+        {
+            pattern2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
+            pattern2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while(Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+
+            yield return null;
+
+        }
 
 
         startTime = Time.time;
         while(Time.time - startTime  < duration)
         {
             float t = (Time.time - startTime) / duration;
-            pattern2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
-            pattern2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
+            pattern2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);  // 뱅글뱅글
+            pattern2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);   // 뱅글뱅글
 
             Vector3 position1 = Vector3.Lerp(startpattern2_1, endpattern2_1, t) + midpattern2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
             pattern2_1.transform.position = position1; // 이동
@@ -245,7 +302,8 @@ public class Stage2_Boss : MonoBehaviour
         }
         Destroy(pattern2_1);
         Destroy(pattern2_2);
-
+        Destroy(effect2_1);
+        Destroy(effect2_2);
         isPattern = false;  
     }
     #endregion
@@ -341,23 +399,177 @@ public class Stage2_Boss : MonoBehaviour
     }
     #endregion
 
-
-    #region 유기
     public void Scp2_3()
     {
         isPattern = true;
+        StartCoroutine(Scp2_3_Pattern());
     }
+    #region Scp2_3 패턴로직
     IEnumerator Scp2_3_Pattern()
     {
         float startTime = Time.time;
-        while(Time.time - startTime < 2f)
+        while (Time.time - startTime < 2f)
         {
             // 휘파람 사운드
+
             yield return null;
         }
-        yield return null;
+
+        startTime = Time.time;
+        #region Setting
+        target3 = PatternManager.Instance.StartPattern("test_eyes");
+        SpriteRenderer spritetarget = target3.GetComponent<SpriteRenderer>();
+       UnityEngine.Color colortarget = spritetarget.color;
+        colortarget.a = 0f;
+
+        spritetarget.color = colortarget;
+
+        pattern3_1 = PatternManager.Instance.StartPattern("Stage2_Wolf");
+        pattern3_1.transform.position = new Vector3(0, -20, 0);
+
+        stage2_Wolf = pattern3_1.GetComponent<Stage2_wolf>();
+        #endregion
+        startTime = Time.time;
+        while(Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1;
+            stage2_Wolf.SetTransparencyForAllSlots(alpha);
+
+            colortarget.a = alpha;
+            spritetarget.color = colortarget;
+
+            yield return null;
+        }// 투명도 조절
+
+        startTime = Time.time;
+        while (Time.time - startTime < 2f)
+        {
+            Vector3 direction = PlayerPos - pattern3_1.transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
+            pattern3_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 75f);
+
+
+            target3.transform.position = PlayerPos;
+            colortarget.a = 1f;
+            spritetarget.color = colortarget;
+            yield return null;
+        }
+
+        Vector3 targetPosition = PlayerPos;
+        Vector3 startPosition = pattern3_1.transform.position;
+        startTime = Time.time;
+        while(Time.time - startTime < 4)
+        {
+            stage2_Wolf.SetCurrentAnimation(Stage2_wolf.AnimState_wolf.run);
+
+            float t = (Time.time - startTime) / 4;
+            // 시작 위치와 목표 위치 사이의 보간값을 사용하여 새로운 위치 계산
+            Vector3 newPosition = Vector3.Lerp(startPosition, targetPosition, t);
+            // 오브젝트의 위치를 새로운 위치로 업데이트
+            pattern3_1.transform.position = newPosition;
+
+            if(Time.time - startTime > 3.9f)
+            {
+                stage2_Wolf.SetCurrentAnimation(Stage2_wolf.AnimState_wolf.animation);
+            } // 다시 idle
+
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 2f)
+        {
+
+            Vector3 direction = PlayerPos - pattern3_1.transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
+            pattern3_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 75f);
+
+            target3.transform.position = PlayerPos;
+            colortarget.a = 1f;
+            spritetarget.color = colortarget;
+
+            yield return null;
+        }
+
+        targetPosition = PlayerPos;
+        startPosition = pattern3_1.transform.position;
+        startTime = Time.time;
+        while (Time.time - startTime < 4)
+        {
+            stage2_Wolf.SetCurrentAnimation(Stage2_wolf.AnimState_wolf.run);
+
+            float t = (Time.time - startTime) / 4;
+            // 시작 위치와 목표 위치 사이의 보간값을 사용하여 새로운 위치 계산
+            Vector3 newPosition = Vector3.Lerp(startPosition, targetPosition, t);
+            // 오브젝트의 위치를 새로운 위치로 업데이트
+            pattern3_1.transform.position = newPosition;
+
+            if (Time.time - startTime > 3.9f)
+            {
+                stage2_Wolf.SetCurrentAnimation(Stage2_wolf.AnimState_wolf.animation);
+            } // 다시 idle
+
+
+            yield return null;
+        }
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < 2f)
+        {
+            Vector3 direction = PlayerPos - pattern3_1.transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, direction);
+            pattern3_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation.eulerAngles.z + 75f);
+
+
+            target3.transform.position = PlayerPos;
+            colortarget.a = 1f;
+            spritetarget.color = colortarget;
+            yield return null;
+        }
+
+        targetPosition = PlayerPos;
+        startPosition = pattern3_1.transform.position;
+        startTime = Time.time;
+        while (Time.time - startTime < 4)
+        {
+            stage2_Wolf.SetCurrentAnimation(Stage2_wolf.AnimState_wolf.run);
+
+            float t = (Time.time - startTime) / 4;
+            // 시작 위치와 목표 위치 사이의 보간값을 사용하여 새로운 위치 계산
+            Vector3 newPosition = Vector3.Lerp(startPosition, targetPosition, t);
+            // 오브젝트의 위치를 새로운 위치로 업데이트
+            pattern3_1.transform.position = newPosition;
+
+            if (Time.time - startTime > 3.9f)
+            {
+                stage2_Wolf.SetCurrentAnimation(Stage2_wolf.AnimState_wolf.animation);
+            } // 다시 idle
+
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1;
+            float decreaseAlpha = 1 - alpha;
+            stage2_Wolf.SetTransparencyForAllSlots(decreaseAlpha);
+
+            yield return null;
+        }// 투명도 조절
+
+
+
+        isPattern = false;
     }
+
+
     #endregion
+
+
     public void Scp2_4()
     {
         StartCoroutine(Scp2_4_Pattern());
@@ -368,6 +580,17 @@ public class Stage2_Boss : MonoBehaviour
     { 
         pattern4_1 = PatternManager.Instance.StartPattern("Test"); // 왼쪽
         pattern4_2 = PatternManager.Instance.StartPattern("Test"); // 오른쪽
+
+        effect4_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect4_2 = PatternManager.Instance.StartPattern("PatternEffect");
+
+        TrailRender tr1;
+        TrailRender tr2;
+        tr1 = effect4_1.GetComponent<TrailRender>();
+        tr2 = effect4_2.GetComponent<TrailRender>();
+
+        tr1.trailWidthMultiplier = 2f;
+        tr2.trailWidthMultiplier = 2f;
         #region Setting
         SpriteRenderer sprite4_1 = pattern4_1.GetComponent<SpriteRenderer>();
         SpriteRenderer sprite4_2 = pattern4_2.GetComponent<SpriteRenderer>();
@@ -430,12 +653,45 @@ public class Stage2_Boss : MonoBehaviour
             this.transform.position = bossposition; // 이동
 
 
-            pattern4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50);
-            pattern4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50);
+            pattern4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50);    //뱅글뱅글
+            pattern4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50);  //뱅글뱅글
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time - startTime < 0.04f)
+        {
+            float t = (Time.time - startTime) / 0.04f;
+            pattern4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            pattern4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            TrailRender.showTrail = true;
+
+            Vector3 position1 = Vector3.Lerp(startpattern4_1, endpattern4_1, t) + midpattern4_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            effect4_1.transform.position = position1; // 이동
+
+            Vector3 position2 = Vector3.Lerp(startpattern4_2, endpattern4_2, t) + midpattern4_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            effect4_2.transform.position = position2; // 이동
 
             yield return null;
         }
 
+
+        startTime = Time.time;
+        while(Time.time - startTime < 1f)
+        {
+            pattern4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            pattern4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while(Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+            yield return null;
+        }
 
         startTime = Time.time;
         while (Time.time - startTime < duration)
@@ -460,7 +716,41 @@ public class Stage2_Boss : MonoBehaviour
             pattern4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
             yield return null;
         }// 잠깐 대기하면서 회전속도감소
-      
+
+        startTime = Time.time;
+        while(Time.time - startTime < 0.04f) 
+        {
+            float t = (Time.time - startTime) / 0.04f;
+            TrailRender.showTrail = true;
+
+            pattern4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            pattern4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            Vector3 position1 = Vector3.Lerp(startpattern4_1_1, endpattern4_1_1, t) + midpattern4_1_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            effect4_1.transform.position = position1; // 이동
+
+
+            Vector3 position2 = Vector3.Lerp(startpattern4_2_1, endpattern4_2_1, t) + midpattern4_2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            effect4_2.transform.position = position2; // 이동
+
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time - startTime < 1f)
+        {
+            pattern4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            pattern4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+            yield return null;
+        }
+
         rotateSpeed = 35f;
 
         startTime = Time.time;
@@ -507,6 +797,8 @@ public class Stage2_Boss : MonoBehaviour
 
         Destroy(pattern4_1.gameObject);
         Destroy(pattern4_2.gameObject);
+        Destroy(effect4_1.gameObject);
+        Destroy(effect4_2.gameObject);
         isPattern = false;
     }
     #endregion
@@ -1065,18 +1357,18 @@ public class Stage2_Boss : MonoBehaviour
                 break;
             case 2:
                 startTime = Time.time;
-                while(Time.time - startTime <9)
+                while (Time.time - startTime < 9)
                 {
                     yield return null;
                 }
 
                 startTime = Time.time;
-                while(Time.time - startTime < 0.5)
+                while (Time.time - startTime < 0.5)
                 {
                     float alpha = (Time.time - startTime) / 0.5f;
 
                     color8_1.a = 1 - alpha;
-                    color8_2.a = 1-  alpha;
+                    color8_2.a = 1 - alpha;
                     color8_3.a = 1 - alpha;
                     color8_4.a = 1 - alpha;
 
@@ -1094,6 +1386,7 @@ public class Stage2_Boss : MonoBehaviour
 
                 isToggle = false;
                 break;
+
         }
     }
     #endregion
@@ -1108,7 +1401,7 @@ public class Stage2_Boss : MonoBehaviour
         int randValue;
         randValue = Random.Range(1, 5);
 
-        pattern9 = PatternManager.Instance.StartPattern("Ship");
+        pattern9 = PatternManager.Instance.StartPattern("Stage2_Ship");
         SpriteRenderer sprite9 = pattern9.GetComponent<SpriteRenderer>();
 
         SpriteRenderer sprite8_1 = pattern8_1.GetComponent<SpriteRenderer>();
@@ -1126,8 +1419,8 @@ public class Stage2_Boss : MonoBehaviour
         switch(randValue)
         {
             case 1: // 왼쪽
-                pattern9.transform.position = new Vector3(0, 0, 0);
-                pattern9.transform.eulerAngles = new Vector3(0, 0, 0);
+                pattern9.transform.position = new Vector3(-16, 52, 0);
+                pattern9.transform.eulerAngles = new Vector3(0, 0, 270);
                 while (Time.time - startTime < 1)
                 {
                     float alpha = (Time.time - startTime) / 1;
@@ -1138,7 +1431,7 @@ public class Stage2_Boss : MonoBehaviour
                 }
 
                 Vector3 startPos1 = pattern9.transform.position; // 출발지점
-                Vector3 targetPos1 = new Vector3(0, 0, 0); // 도착지점
+                Vector3 targetPos1 = new Vector3(-16, -46, 0); // 도착지점
                 startTime = Time.time;
                 while(Time.time - startTime < 8)
                 {
@@ -1146,9 +1439,13 @@ public class Stage2_Boss : MonoBehaviour
                     {
                         float t = (Time.time - startTime) / 4f;
                         pattern9.transform.position = Vector3.Lerp(startPos1, targetPos1, t);
+
+                        // X 좌표에 3씩 더하고 빼기
+                        float offset = Mathf.PingPong(Time.time - startTime, 1f) * 3f - 2f;
+                        pattern9.transform.position += new Vector3(offset, 0f, 0f);
                     }
-           
-                    
+
+  
                     yield return null;
                 }
 
@@ -1178,7 +1475,7 @@ public class Stage2_Boss : MonoBehaviour
                 break;
 
             case 2: // 아래
-                pattern9.transform.position = new Vector3(0, 0, 0);
+                pattern9.transform.position = new Vector3(-27, -42, 0);
                 pattern9.transform.eulerAngles = new Vector3(0, 0, 0);
                 while (Time.time - startTime < 1)
                 {
@@ -1190,7 +1487,7 @@ public class Stage2_Boss : MonoBehaviour
                 }
 
                 Vector3 startPos2 = pattern9.transform.position; // 출발지점
-                Vector3 targetPos2 = new Vector3(0, 0, 0); // 도착지점
+                Vector3 targetPos2 = new Vector3(22, -42, 0); // 도착지점
                 startTime = Time.time;
                 while (Time.time - startTime < 8)
                 {
@@ -1198,8 +1495,11 @@ public class Stage2_Boss : MonoBehaviour
                     {
                         float t = (Time.time - startTime) / 4f;
                         pattern9.transform.position = Vector3.Lerp(startPos2, targetPos2, t);
-                    }
 
+                        // X 좌표에 3씩 더하고 빼기
+                        float offset = Mathf.PingPong(Time.time - startTime, 1f) * 3f - 2f;
+                        pattern9.transform.position += new Vector3(0f, offset, 0f);
+                    }
 
                     yield return null;
                 }
@@ -1230,8 +1530,8 @@ public class Stage2_Boss : MonoBehaviour
                 break;
 
             case 3: // 오른쪽
-                pattern9.transform.position = new Vector3(0, 0, 0);
-                pattern9.transform.eulerAngles = new Vector3(0, 0, 0);
+                pattern9.transform.position = new Vector3(16, -52, 0);
+                pattern9.transform.eulerAngles = new Vector3(0, 0, 90);
                 while (Time.time - startTime < 1)
                 {
                     float alpha = (Time.time - startTime) / 1;
@@ -1242,7 +1542,7 @@ public class Stage2_Boss : MonoBehaviour
                 }
 
                 Vector3 startPos3 = pattern9.transform.position; // 출발지점
-                Vector3 targetPos3 = new Vector3(0, 0, 0); // 도착지점
+                Vector3 targetPos3 = new Vector3(16, 46, 0); // 도착지점
                 startTime = Time.time;
                 while (Time.time - startTime < 8)
                 {
@@ -1250,6 +1550,10 @@ public class Stage2_Boss : MonoBehaviour
                     {
                         float t = (Time.time - startTime) / 4f;
                         pattern9.transform.position = Vector3.Lerp(startPos3, targetPos3, t);
+
+                        // X 좌표에 3씩 더하고 빼기
+                        float offset = Mathf.PingPong(Time.time - startTime, 1f) * 3f - 2f;
+                        pattern9.transform.position += new Vector3(offset, 0f, 0f);
                     }
 
 
@@ -1282,8 +1586,8 @@ public class Stage2_Boss : MonoBehaviour
                 break;
 
             case 4: // 우ㅢ;쪽
-                pattern9.transform.position = new Vector3(0, 0, 0);
-                pattern9.transform.eulerAngles = new Vector3(0, 0, 0);
+                pattern9.transform.position = new Vector3(27, 42, 0);
+                pattern9.transform.eulerAngles = new Vector3(0, 0, 180);
                 while (Time.time - startTime < 1)
                 {
                     float alpha = (Time.time - startTime) / 1;
@@ -1294,7 +1598,7 @@ public class Stage2_Boss : MonoBehaviour
                 }
 
                 Vector3 startPos4 = pattern9.transform.position; // 출발지점
-                Vector3 targetPos4 = new Vector3(0, 0, 0); // 도착지점
+                Vector3 targetPos4 = new Vector3(-22, 42, 0); // 도착지점
                 startTime = Time.time;
                 while (Time.time - startTime < 8)
                 {
@@ -1302,8 +1606,11 @@ public class Stage2_Boss : MonoBehaviour
                     {
                         float t = (Time.time - startTime) / 4f;
                         pattern9.transform.position = Vector3.Lerp(startPos4, targetPos4, t);
-                    }
 
+                        // X 좌표에 3씩 더하고 빼기
+                        float offset = Mathf.PingPong(Time.time - startTime, 1f) * 3f - 2f;
+                        pattern9.transform.position += new Vector3(0, offset, 0f);
+                    }
 
                     yield return null;
                 }
@@ -1348,6 +1655,7 @@ public class Stage2_Boss : MonoBehaviour
 
     private void Update()
     {
+        PlayerPos = Player.transform.position;
         bossPos = this.transform.position;
         if (currentHp <= 0)
         {

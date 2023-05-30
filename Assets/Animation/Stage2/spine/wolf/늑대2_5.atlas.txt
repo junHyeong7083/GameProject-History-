@@ -1,0 +1,53 @@
+늑대2_5.png
+size:4025,821
+filter:Linear,Linear
+pma:true
+back_forearm1
+bounds:2677,15,314,405
+rotate:90
+back_forearm2
+bounds:1308,52,171,368
+rotate:90
+back_forearm_paw
+bounds:3621,13,139,56
+back_forearm_wrist
+bounds:3903,685,120,134
+back_hind leg1
+bounds:3272,361,317,458
+back_hind leg2
+bounds:3471,71,288,274
+rotate:90
+back_hind leg_paw
+bounds:3903,399,148,67
+rotate:90
+back_hind leg_wrist
+bounds:2048,80,162,284
+rotate:90
+body
+bounds:2,3,1304,816
+front_forearm1
+bounds:3084,19,310,385
+rotate:90
+front_forearm2
+bounds:1678,52,171,368
+rotate:90
+front_forearm_paw
+bounds:3762,24,139,56
+front_forearm_wrist
+bounds:3903,549,120,134
+front_hind leg1
+bounds:3591,372,310,447
+front_hind leg2
+bounds:3747,82,288,274
+rotate:90
+front_hind leg_paw
+bounds:3471,2,148,67
+front_hind leg_wrist
+bounds:2334,80,162,284
+rotate:90
+head
+bounds:1308,225,714,594
+neck
+bounds:2677,331,593,488
+tail
+bounds:2024,244,651,575

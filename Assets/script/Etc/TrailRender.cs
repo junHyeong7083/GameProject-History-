@@ -21,9 +21,9 @@ public class TrailRender : MonoBehaviour
         alphaKeys[1].alpha = 0.3f;
         alphaKeys[1].time = 0f;
 
-        colorKeys[0].color= Color.red;
+        colorKeys[0].color= Color.grey;
         colorKeys[0].time = 0f;
-        colorKeys[1].color = Color.red;
+        colorKeys[1].color = Color.grey;
         colorKeys[1].time = 1f;
 
 
