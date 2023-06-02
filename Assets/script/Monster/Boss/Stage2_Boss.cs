@@ -97,7 +97,6 @@ public class Stage2_Boss : MonoBehaviour
     ParticleSystem hitEffect;
 
     float bossDieTime = 0f;
-    float delayTime;
     #endregion
     void Start()
     {
@@ -1395,7 +1394,7 @@ public class Stage2_Boss : MonoBehaviour
         isToggle = true;
         StartCoroutine(Scp2_9_Pattern());
     }
-    #region
+    #region Scp2_9 패턴로직
     IEnumerator Scp2_9_Pattern()
     {
         int randValue;

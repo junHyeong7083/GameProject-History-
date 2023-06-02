@@ -51,7 +51,10 @@ public class Stage3_Boss : MonoBehaviour
     GameObject effect2_7;
     GameObject effect2_8;
     GameObject effect2_9;
+    // --------------- Pattern 3 ---------------
+    GameObject pattern3_1;
 
+    GameObject effect3_1;
 
     // ----------------- bool -----------------
     #region Bool
@@ -591,6 +594,81 @@ public class Stage3_Boss : MonoBehaviour
 
     #endregion
 
+    public void Scp3_3()
+    {
+        isPattern = true;
+
+    }
+    #region Scp3_3 패턴로직
+    IEnumerator Scp3_3_Pattern()
+    {
+        #region Setting
+        pattern3_1 = PatternManager.Instance.StartPattern("Stage3_Spear");
+        pattern3_1.transform.position = new Vector3(0, 20, 0);
+
+        SpriteRenderer sprite3_1 = pattern3_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color3_1 = sprite3_1.color;
+        color3_1.a = 0f;
+        sprite3_1.color = color3_1;
+
+        effect3_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        #endregion
+
+        float startTime = Time.time;
+        while(Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1;
+            color3_1.a = alpha;
+
+            sprite3_1.color = color3_1;
+
+            yield return null;
+        }
+
+
+        startTime = Time.time;
+        while(Time.time - startTime < 3)
+        {
+            Vector3 direction1 = PlayerPos - pattern3_1.transform.position;
+            Quaternion lookRotation1 = Quaternion.LookRotation(Vector3.forward, direction1);
+            pattern3_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation1.eulerAngles.z + 75f);
+
+            Vector3 direction2 = PlayerPos -this.transform.position;
+            Quaternion lookRotation2 = Quaternion.LookRotation(Vector3.forward, direction2);
+            pattern3_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation2.eulerAngles.z + 75f);
+
+            yield return null;
+        } //3초간 조준
+
+        Vector3 effectEndpos = PlayerPos;
+        Vector3 effectStartpos = pattern3_1.transform.position;
+
+        startTime = Time.time;
+        while(Time.time - startTime < 0.1f)
+        {
+            float t = (Time.time - startTime) / 0.1f;
+            effect3_1.transform.position = Vector3.Lerp(effect1_1.transform.position, PlayerPos, t);
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while(Time.time - startTime < 1f)
+        {
+            if (Time.time - startTime > 0.8f)
+                TrailRender.showTrail = false;
+
+
+            yield return null;
+        }
+
+
+
+
+    }
+
+
+    #endregion
 
 
     private void Update()
