@@ -10,6 +10,8 @@ using UnityEditor.SceneTemplate;
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
+
 public class Stage3_Boss : MonoBehaviour
 {
     Rigidbody2D rigidbody2D;
@@ -54,7 +56,13 @@ public class Stage3_Boss : MonoBehaviour
     // --------------- Pattern 3 ---------------
     GameObject pattern3_1;
 
-    GameObject effect3_1;
+    // --------------- Pattern 4 ---------------
+    GameObject pattern4_1;
+    GameObject pattern4_2;
+    GameObject pattern4_3;
+
+    GameObject 
+
 
     // ----------------- bool -----------------
     #region Bool
@@ -597,7 +605,7 @@ public class Stage3_Boss : MonoBehaviour
     public void Scp3_3()
     {
         isPattern = true;
-
+        StartCoroutine(Scp3_3_Pattern());
     }
     #region Scp3_3 패턴로직
     IEnumerator Scp3_3_Pattern()
@@ -611,7 +619,6 @@ public class Stage3_Boss : MonoBehaviour
         color3_1.a = 0f;
         sprite3_1.color = color3_1;
 
-        effect3_1 = PatternManager.Instance.StartPattern("PatternEffect");
         #endregion
 
         float startTime = Time.time;
@@ -640,32 +647,68 @@ public class Stage3_Boss : MonoBehaviour
             yield return null;
         } //3초간 조준
 
-        Vector3 effectEndpos = PlayerPos;
-        Vector3 effectStartpos = pattern3_1.transform.position;
-
         startTime = Time.time;
-        while(Time.time - startTime < 0.1f)
+        Vector3 startPos = pattern3_1.transform.position;
+        Vector3 direction = (PlayerPos - startPos).normalized;
+        float distance = 0f; // 초기 거리를 0으로 설정합니다.
+
+        while (true)
         {
-            float t = (Time.time - startTime) / 0.1f;
-            effect3_1.transform.position = Vector3.Lerp(effect1_1.transform.position, PlayerPos, t);
+            pattern3_1.transform.position = startPos + direction * distance;
+            float speed = 150f;
+            // 벽에 부딪히는지 확인
+            RaycastHit2D hit = Physics2D.Raycast(pattern3_1.transform.position, direction, 0.1f);
+            if (hit.collider != null && hit.collider.CompareTag("Wall"))
+            {
+                // 벽에 부딪혔을 때 동작을 수행하고 종료합니다.
+                // 예를 들어, 폭발 이펙트를 생성하거나 몬스터를 제거하는 등의 동작을 수행할 수 있습니다.
+                break;
+            }
+
+            distance += Time.deltaTime * speed; // speed는 날아가는 속도를 나타내는 변수입니다.
 
             yield return null;
         }
 
-        startTime = Time.time;
-        while(Time.time - startTime < 1f)
-        {
-            if (Time.time - startTime > 0.8f)
-                TrailRender.showTrail = false;
 
+
+        startTime = Time.time;
+        while(Time.time - startTime <1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+
+            color3_1.a = 1 - alpha;
+            sprite3_1.color = color3_1;
 
             yield return null;
         }
 
+        Destroy(pattern3_1);
+        isPattern = false;
+
+    }
+    #endregion
+
+    public void Scp3_4()
+    {
+        isPattern = true;
+
+    }
+    #region Scp3_4 패턴로직
+    IEnumerator Scp3_4_Pattern()
+    {
+        #region Settgin
+
+
+
+        #endregion
 
 
 
     }
+
+
+
 
 
     #endregion
