@@ -1,16 +1,9 @@
-using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Net;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.SceneTemplate;
-using UnityEditor.Timeline;
 using UnityEngine;
+using Spine;
+using Spine.Unity;
 using UnityEngine.UI;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class Stage3_Boss : MonoBehaviour
 {
@@ -61,8 +54,7 @@ public class Stage3_Boss : MonoBehaviour
     GameObject pattern4_2;
     GameObject pattern4_3;
 
-    GameObject 
-
+    
 
     // ----------------- bool -----------------
     #region Bool
@@ -166,7 +158,7 @@ public class Stage3_Boss : MonoBehaviour
 
         #endregion
         float startTime = Time.time;
-        while(Time.time - startTime < 1)
+        while (Time.time - startTime < 1)
         {
             float alpha = (Time.time - startTime) / 1;
 
@@ -185,14 +177,14 @@ public class Stage3_Boss : MonoBehaviour
         effect1_2 = PatternManager.Instance.StartPattern("PatternEffect");
         effect1_3 = PatternManager.Instance.StartPattern("PatternEffect");
 
-        TrailRender tr1,tr2,tr3;
+        TrailRender tr1, tr2, tr3;
         tr1 = effect1_1.GetComponent<TrailRender>();
         tr1.trailWidthMultiplier = 4f;
 
         tr2 = effect1_2.GetComponent<TrailRender>();
         tr2.trailWidthMultiplier = 4f;
 
-        tr3= effect1_3.GetComponent<TrailRender>();
+        tr3 = effect1_3.GetComponent<TrailRender>();
         tr3.trailWidthMultiplier = 4f;
 
         effect1_1.transform.position = pattern1_1.transform.position;
@@ -205,7 +197,7 @@ public class Stage3_Boss : MonoBehaviour
 
 
         startTime = Time.time;
-        while(Time.time - startTime < 0.1f)
+        while (Time.time - startTime < 0.1f)
         {
             TrailRender.showTrail = true;
             float t = (Time.time - startTime) / 0.1f;
@@ -218,7 +210,7 @@ public class Stage3_Boss : MonoBehaviour
         }
 
         startTime = Time.time;
-        while(Time.time - startTime < 1.5f)
+        while (Time.time - startTime < 1.5f)
         {
             if (Time.time - startTime > 1.0f)
                 TrailRender.showTrail = false;
@@ -255,9 +247,9 @@ public class Stage3_Boss : MonoBehaviour
         }
 
         startTime = Time.time;
-        while(Time.time - startTime < 1)
+        while (Time.time - startTime < 1)
         {
-            float alpha = (Time.time - startTime) / 1f ;
+            float alpha = (Time.time - startTime) / 1f;
 
             color1_1.a = 1 - alpha;
             color1_2.a = 1 - alpha;
@@ -416,7 +408,7 @@ public class Stage3_Boss : MonoBehaviour
 
         #endregion
         float startTime = Time.time;
-        while(Time.time - startTime  < 1)
+        while (Time.time - startTime < 1)
         {
             Debug.Log("화살쏘는 애니메이션");
             yield return null;
@@ -458,7 +450,7 @@ public class Stage3_Boss : MonoBehaviour
         }
 
         startTime = Time.time;
-        while(Time.time - startTime < 0.1f)
+        while (Time.time - startTime < 0.1f)
         {
             TrailRender.showTrail = true;
             float t = (Time.time - startTime) / 0.1f;
@@ -475,7 +467,7 @@ public class Stage3_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-        while(Time.time - startTime  < 1.5f)
+        while (Time.time - startTime < 1.5f)
         {
             if (Time.time - startTime > 1.0f)
                 TrailRender.showTrail = false;
@@ -515,7 +507,7 @@ public class Stage3_Boss : MonoBehaviour
             }
             if (Time.time - startTime > 0.5f)
             {
-                pattern2_5.transform.position += new Vector3(0, speed5 * Time.deltaTime, 0);  
+                pattern2_5.transform.position += new Vector3(0, speed5 * Time.deltaTime, 0);
             }
             if (Time.time - startTime > 0.6f)
             {
@@ -622,7 +614,7 @@ public class Stage3_Boss : MonoBehaviour
         #endregion
 
         float startTime = Time.time;
-        while(Time.time - startTime < 1)
+        while (Time.time - startTime < 1)
         {
             float alpha = (Time.time - startTime) / 1;
             color3_1.a = alpha;
@@ -634,13 +626,13 @@ public class Stage3_Boss : MonoBehaviour
 
 
         startTime = Time.time;
-        while(Time.time - startTime < 3)
+        while (Time.time - startTime < 3)
         {
             Vector3 direction1 = PlayerPos - pattern3_1.transform.position;
             Quaternion lookRotation1 = Quaternion.LookRotation(Vector3.forward, direction1);
             pattern3_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation1.eulerAngles.z + 75f);
 
-            Vector3 direction2 = PlayerPos -this.transform.position;
+            Vector3 direction2 = PlayerPos - this.transform.position;
             Quaternion lookRotation2 = Quaternion.LookRotation(Vector3.forward, direction2);
             pattern3_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation2.eulerAngles.z + 75f);
 
@@ -673,7 +665,7 @@ public class Stage3_Boss : MonoBehaviour
 
 
         startTime = Time.time;
-        while(Time.time - startTime <1)
+        while (Time.time - startTime < 1)
         {
             float alpha = (Time.time - startTime) / 1f;
 
@@ -702,7 +694,7 @@ public class Stage3_Boss : MonoBehaviour
 
 
         #endregion
-
+        yield return null;
 
 
     }
@@ -737,4 +729,5 @@ public class Stage3_Boss : MonoBehaviour
             }
         }
     }
- }
+}
+ 

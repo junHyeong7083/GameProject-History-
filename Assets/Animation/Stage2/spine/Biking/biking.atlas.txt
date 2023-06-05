@@ -1,0 +1,110 @@
+biking.png
+size:2749,3924
+filter:Linear,Linear
+pma:true
+L_ pants
+bounds:215,258,467,514
+L_calf
+bounds:2328,1853,270,419
+rotate:90
+L_foot
+bounds:1769,2778,205,78
+rotate:90
+L_hand
+bounds:1220,51,224,329
+rotate:90
+L_hand 2
+bounds:2,22,224,329
+rotate:90
+L_hand_2
+bounds:571,785,355,339
+L_low_arm
+bounds:732,1925,251,281
+L_low_arm 2
+bounds:732,2208,251,281
+L_up_arm
+bounds:1728,799,367,454
+L_up_arm 2
+bounds:979,788,367,466
+R_ pants
+bounds:995,2405,757,772
+rotate:90
+R_calf
+bounds:1554,1274,325,427
+R_foot
+bounds:1769,2985,177,96
+rotate:90
+R_hand
+bounds:688,1126,289,273
+R_hand 2
+bounds:688,1401,289,273
+R_hand2
+bounds:2432,715,308,310
+rotate:90
+R_low_arm
+bounds:333,5,247,251
+R_low_arm 2
+bounds:732,1676,247,251
+rotate:90
+R_up_arm
+bounds:2281,1025,378,456
+rotate:90
+R_up_arm 2
+bounds:1348,798,378,456
+R_up_arm2
+bounds:1685,340,378,456
+beard
+bounds:1551,65,210,479
+rotate:90
+beard 2
+bounds:2,248,211,524
+belt
+bounds:1697,1703,629,509
+chain_R
+bounds:2533,2125,213,525
+chain_l
+bounds:861,2761,132,488
+cloth1
+bounds:2,2491,857,758
+cloth1 2
+bounds:1033,3164,857,758
+cloth2
+bounds:2,774,567,478
+cloth2 2
+bounds:985,1256,567,478
+head
+bounds:2065,399,336,398
+head 2
+bounds:2032,2,336,398
+rotate:90
+r_hammer
+bounds:2,3251,671,1029
+rotate:90
+skull
+bounds:901,26,317,246
+skull 2
+bounds:582,10,317,246
+upperbody
+bounds:985,1736,667,710
+rotate:90
+upperbody 2
+bounds:2,1779,728,710
+viking_axe_l
+bounds:1769,2214,436,762
+rotate:90
+viking_axe_r
+bounds:2,1254,684,523
+wolf_head
+bounds:1186,277,509,497
+rotate:90
+wolf_head blood
+bounds:684,274,509,500
+rotate:90
+wolf_skin1
+bounds:1892,2652,833,634
+wolf_skin1 blood
+bounds:1892,3288,833,634
+wolf_skin2
+bounds:1881,1255,398,446
+wolf_skin2 2
+bounds:2328,1405,398,446

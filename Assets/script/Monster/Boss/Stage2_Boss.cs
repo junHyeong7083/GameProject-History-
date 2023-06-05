@@ -123,7 +123,78 @@ public class Stage2_Boss : MonoBehaviour
         hitEffect.gameObject.SetActive(false);
         #endregion
     }
-  
+
+
+    AnimState_biking _AnimState;
+
+    public enum AnimState_biking
+    {
+        biking_attack_jump,
+        biking_death1,
+        biking_death2,
+        biking_handsup,
+        biking_throw,
+        biking_underthrow,
+
+    }
+
+
+    void _AsyncAnimation(AnimationReferenceAsset animClip, bool loop, float timeScalse)
+    {
+        if (animClip.name.Equals(CurrentAnimation))
+            return;
+
+        // 해당 애니메이션으로 변경한다.
+        skeletonAnimation.state.SetAnimation(0, animClip, loop).TimeScale = timeScalse;
+
+        // 애니메이션이 끝나면 원래 상태로 돌아간다.
+        // skeletonAnimation.AnimationState.Complete += delegate { SetCurrentAnimation(AnimState.none); };
+        // 현재 재생되고 있는 애니메이션 값을 변경
+        CurrentAnimation = animClip.name;
+
+    }
+
+
+
+    private void SetCurrentAnimation(AnimState_biking _state)
+    {
+        Debug.Log(_state);
+
+        switch (_state)
+        {
+            case AnimState_biking.AnimState_biking:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_death_suiside], false, 1f);
+                break;
+            case AnimState_biking.samurai_anima_idle:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_idle], true, 0.7f);
+                break;
+            case AnimState_biking.samurai_anima_katana_roll:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_katana_roll], false, 0.35f);
+                break;
+            case AnimState_biking.samurai_anima_katana_roll_3:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_katana_roll_3], false, 3f);
+                break;
+            case AnimState_biking.samurai_anima_pattern_1:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_pattern_1], false, 1.4f);
+                break;
+            case AnimState_biking.samurai_anima_pattern_6_left:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_pattern_6_left], false, 1.5f);
+                break;
+            case AnimState_biking.samurai_anima_pattern_6_right:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_pattern_6_right], false, 1.5f);
+                break;
+            case AnimState_biking.samurai_anima_turn_back:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_turn_back], false, 1.2f);
+                break;
+        }
+    }
+
+
+
+
+
+
+
     public void Scp2_1()
     {
         isPattern = true;
