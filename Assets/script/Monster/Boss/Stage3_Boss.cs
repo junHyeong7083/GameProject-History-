@@ -4,8 +4,8 @@ using UnityEngine;
 using Spine;
 using Spine.Unity;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
-using UnityEditor.TerrainTools;
+using Unity.VisualScripting;
+using UnityEditor.Rendering;
 
 public class Stage3_Boss : MonoBehaviour
 {
@@ -63,11 +63,20 @@ public class Stage3_Boss : MonoBehaviour
     GameObject pattern5_1;
     // --------------- Pattern 6 ---------------
     ParticleSystem pattern6_1;
+    // --------------- Pattern 7 ---------------
+    GameObject pattern7_1;
+    GameObject pattern7_2;
+    // --------------- Pattern 8 ---------------
+    GameObject pattern8_1;
+    GameObject pattern8_2;
+
+    GameObject effect8_1;
+    GameObject effect8_2;
     // ----------------- bool -----------------
     #region Bool
     bool isOverlab = false;
     bool isPattern = false;
-    bool isToggle = false;
+    bool isGate = false;
 
     int randomPattern;
     int randomOverlab;
@@ -1086,8 +1095,252 @@ public class Stage3_Boss : MonoBehaviour
         Destroy(pattern6_1);
         isPattern = false;
     }
+    #endregion
+    public void Scp3_7()
+    {
+        isGate = true;
+        StartCoroutine(Scp3_7_Pattern());
+    }
+    #region Scp3_7 패턴로직
+    IEnumerator Scp3_7_Pattern()
+    {
+        #region Setting 
+        pattern7_1 = PatternManager.Instance.StartPattern("Stage3_IronGate");
+        pattern7_2 = PatternManager.Instance.StartPattern("Stage3_IronGate");
+
+        pattern7_1.transform.position = new Vector3(-25, 17.5f, 0);
+        pattern7_1.transform.eulerAngles = new Vector3(0, 0, 0);
+
+        pattern7_2.transform.position = new Vector3(25, 17.5f, 0);
+        pattern7_2.transform.eulerAngles = new Vector3(0, 180, 0);
+
+        SpriteRenderer sprite7_1 = pattern7_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite7_2 = pattern7_2.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color7_1 = sprite7_1.color;
+        UnityEngine.Color color7_2 = sprite7_2.color;
+
+        color7_1.a = 0f;
+        color7_2.a = 0f;
+        sprite7_1.color = color7_1;
+        sprite7_2.color = color7_2;
+
+
+        Vector3 startPos = this.transform.position;
+        Vector3 endPos = new Vector3(0, 20, 0);
+        #endregion
+        float startTime = Time.time;
+        while(Time.time - startTime < 1)
+        {
+            float t = (Time.time - startTime) / 1f;
+
+            this.transform.position = Vector3.Lerp(startPos, endPos, t);
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while(Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+
+            color7_1.a = alpha;
+            color7_2.a = alpha;
+
+            sprite7_1.color = color7_1;
+            sprite7_2.color = color7_2;
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while(Time.time - startTime < 10)
+        {
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+
+            color7_1.a =1- alpha;
+            color7_2.a =1- alpha;
+
+            sprite7_1.color = color7_1;
+            sprite7_2.color = color7_2;
+
+            yield return null;
+        }
+        Destroy(pattern7_1);
+        Destroy(pattern7_2);
+
+
+        isGate = false;
+    }
+    #endregion
+    public void Scp3_8()
+    {
+        StartCoroutine(Scp3_8_Pattern());
+    }
+    #region Scp3_8 패턴로직
+    IEnumerator Scp3_8_Pattern()
+    {
+        #region Setting
+        pattern8_1 = PatternManager.Instance.StartPattern("Stage3_Spear");
+        pattern8_2 = PatternManager.Instance.StartPattern("Stage3_Spear");
+
+        pattern8_1.transform.position = new Vector3(-10, 45, 0);
+        pattern8_1.transform.eulerAngles = new Vector3(0, 0, 180);
+
+        pattern8_2.transform.position = new Vector3(10, 45, 0);
+        pattern8_2.transform.eulerAngles = new Vector3(0, 0, 180);
+
+        effect8_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect8_2 = PatternManager.Instance.StartPattern("PatternEffect");
+
+        effect8_1.transform.position = pattern8_1.transform.position;
+        effect8_2.transform.position = pattern8_2.transform.position;
+
+        Vector3 effect1startPos = new Vector3(-10, 40, 0);
+        Vector3 effect2startPos = new Vector3(10, 40, 0);
+
+        Vector3 effect1endPos = new Vector3(-10, -100, 0);
+        Vector3 effect2endPos = new Vector3(10, -100, 0);
+
+
+        TrailRenderer tr1, tr2;
+        tr1 = effect8_1.GetComponent<TrailRenderer>();
+        tr2 = effect8_2.GetComponent<TrailRenderer>();
+        tr1.widthMultiplier = 2f;
+        tr2.widthMultiplier = 2f;
+
+
+        SpriteRenderer sprite1 = pattern8_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite2 = pattern8_2.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color1 = sprite1.color;
+        UnityEngine.Color color2 = sprite2.color;
+        color1.a = 0f;
+        color2.a = 0f;
+
+        sprite1.color = color1;
+        sprite2.color = color2;
+
+        float speed = -300f;
+        #endregion
+        float startTime = Time.time;
+        while(Time.time - startTime < 1f)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            color1.a = alpha;
+            color2.a = alpha;
+
+            sprite1.color = color1;
+            sprite2.color = color2;
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5f)
+        {
+            Debug.Log("애니메이션1");
+            yield return null;
+        }
+        #region 이펙트표시선
+        startTime = Time.time;
+        while(Time.time - startTime < 0.1f)
+        {
+            float t = (Time.time - startTime) / 0.1f;
+
+            TrailRender.showTrail = true;
+            effect8_1.transform.position = Vector3.Lerp(effect1startPos, effect1endPos, t);
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time - startTime < 0.7f)
+        {
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.2f)
+        {
+            TrailRender.showTrail = false;
+            yield return null;
+        }
+        #endregion
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            if(Time.time - startTime <0.6f)
+            {
+                pattern8_1.transform.position += new Vector3(0, speed * Time.deltaTime, 0);
+            }
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5f)
+        {
+            Debug.Log("애니메이션2");
+            yield return null;
+        }
+        #region 이펙트표시선
+        startTime = Time.time;
+        while (Time.time - startTime < 0.1f)
+        {
+            float t = (Time.time - startTime) / 0.1f;
+
+            TrailRender.showTrail = true;
+            effect8_2.transform.position = Vector3.Lerp(effect2startPos, effect2endPos, t);
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.7f)
+        {
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.2f)
+        {
+            TrailRender.showTrail = false;
+            yield return null;
+        }
+        #endregion
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            if (Time.time - startTime < 0.6f)
+            {
+                pattern8_2.transform.position += new Vector3(0, speed * Time.deltaTime, 0);
+            }
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            color1.a = 1 - alpha;
+            color2.a = 1- alpha;
+
+            sprite1.color = color1;
+            sprite2.color = color2;
+
+            yield return null;
+        }
+        Destroy(pattern8_1);
+        Destroy(pattern8_2);
+    }
 
     #endregion
+
+
+
 
     private void Update()
     {
