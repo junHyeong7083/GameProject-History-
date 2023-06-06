@@ -59,11 +59,10 @@ public class Stage3_Boss : MonoBehaviour
     GameObject target4_1;
     GameObject target4_2;
     GameObject target4_3;
-
-    GameObject effect4_1;
-    GameObject effect4_2;
-    GameObject effect4_3;
-
+    // --------------- Pattern 5 ---------------
+    GameObject pattern5_1;
+    // --------------- Pattern 6 ---------------
+    ParticleSystem pattern6_1;
     // ----------------- bool -----------------
     #region Bool
     bool isOverlab = false;
@@ -710,10 +709,6 @@ public class Stage3_Boss : MonoBehaviour
         target4_2 = PatternManager.Instance.StartPattern("Stage1_GunAim");
         target4_3 = PatternManager.Instance.StartPattern("Stage1_GunAim");
 
-        effect4_1 = PatternManager.Instance.StartPattern("PatternEffect");
-        effect4_2 = PatternManager.Instance.StartPattern("PatternEffect");
-        effect4_3 = PatternManager.Instance.StartPattern("PatternEffect");
-
         Transform bulletPosTransform1 = pattern4_1.transform.Find("BulletPos");
         Transform bulletPosTransform2 = pattern4_2.transform.Find("BulletPos");
         Transform bulletPosTransform3 = pattern4_3.transform.Find("BulletPos");
@@ -958,15 +953,141 @@ public class Stage3_Boss : MonoBehaviour
 
             yield return null;
         }
+        Destroy(bullet1);
+        Destroy(bullet2);
+        Destroy(bullet3);
+        Destroy(pattern4_1);
+        Destroy(pattern4_2);
+        Destroy(pattern4_3);
+        Destroy(target4_1);
+        Destroy(target4_2);
+        Destroy(target4_3);
 
+        isPattern = false;
     }
-
-
-
-
-
     #endregion
 
+    public void Scp3_5()
+    {
+        isPattern = true;
+        StartCoroutine(Scp3_5_Pattern());
+    }
+    #region Scp3_5 패턴로직
+    IEnumerator Scp3_5_Pattern()
+    {
+        #region Setting 
+        pattern5_1 = PatternManager.Instance.StartPattern("Stage3_Sword");
+
+        pattern5_1.transform.position = new Vector3(0, 17, 0);
+
+        SpriteRenderer sprite5_1 = pattern5_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color color5_1 = sprite5_1.color;
+        color5_1.a = 0f; 
+        sprite5_1.color = color5_1;
+        #endregion
+        float startTime = Time.time;
+        while(Time.time - startTime < 1f)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+
+            color5_1.a = alpha;
+            sprite5_1.color = color5_1;
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5f)
+        {
+            Debug.Log("칼베는 애니메이션1");
+            yield return null;
+        }
+        startTime = Time.time;
+        while(Time.time - startTime < 1f)
+        {
+            if(Time.time - startTime < 0.5f )
+            {
+                float rotateSpeed = -700f;
+
+                pattern5_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime);
+            }
+            if(Time.time - startTime > 0.75f)
+            {
+                float rotateSpeed = -40f;
+                pattern5_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime);
+            }
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5f)
+        {
+            Debug.Log("칼베는 애니메이션2");
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            if (Time.time - startTime < 0.5f)
+            {
+                float rotateSpeed = 700f;
+
+                pattern5_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime);
+            }
+            if (Time.time - startTime > 0.75f)
+            {
+                float rotateSpeed = 40f;
+                pattern5_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime);
+            }
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while(Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+
+            color5_1.a = 1 - alpha;
+            sprite5_1.color = color5_1;
+
+            yield return null;
+        }
+        Destroy(pattern5_1);
+        isPattern = false;
+    
+    }
+    #endregion
+
+    public void Scp3_6()
+    {
+        isPattern = true;
+        StartCoroutine(Scp3_6_Pattern());
+    }
+    #region
+    IEnumerator Scp3_6_Pattern()
+    {
+        float startTime = Time.time;
+        while(Time.time - startTime < 1f)
+        {
+            Debug.Log("애니메이션");
+
+            yield return null;
+        }
+
+        pattern6_1 = ParticleManager.Instance.StartParticle("TestEffect");
+        pattern6_1.transform.position = new Vector3(0, -45, 0);
+        startTime = Time.time;
+        while(Time.time - startTime < 1.5f)
+        {
+            yield return null;
+        }
+        Destroy(pattern6_1);
+        isPattern = false;
+    }
+
+    #endregion
 
     private void Update()
     {
