@@ -4,6 +4,8 @@ using UnityEngine;
 using Spine;
 using Spine.Unity;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
+using UnityEditor.TerrainTools;
 
 public class Stage3_Boss : MonoBehaviour
 {
@@ -54,7 +56,13 @@ public class Stage3_Boss : MonoBehaviour
     GameObject pattern4_2;
     GameObject pattern4_3;
 
-    
+    GameObject target4_1;
+    GameObject target4_2;
+    GameObject target4_3;
+
+    GameObject effect4_1;
+    GameObject effect4_2;
+    GameObject effect4_3;
 
     // ----------------- bool -----------------
     #region Bool
@@ -682,22 +690,274 @@ public class Stage3_Boss : MonoBehaviour
 
     }
     #endregion
-
+     
     public void Scp3_4()
     {
         isPattern = true;
+
+        StartCoroutine(Scp3_4_Pattern());
 
     }
     #region Scp3_4 패턴로직
     IEnumerator Scp3_4_Pattern()
     {
         #region Settgin
+        pattern4_1 = PatternManager.Instance.StartPattern("Stage3_Cannon");
+        pattern4_2 = PatternManager.Instance.StartPattern("Stage3_Cannon");
+        pattern4_3 = PatternManager.Instance.StartPattern("Stage3_Cannon");
+
+        target4_1 = PatternManager.Instance.StartPattern("Stage1_GunAim");
+        target4_2 = PatternManager.Instance.StartPattern("Stage1_GunAim");
+        target4_3 = PatternManager.Instance.StartPattern("Stage1_GunAim");
+
+        effect4_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect4_2 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect4_3 = PatternManager.Instance.StartPattern("PatternEffect");
+
+        Transform bulletPosTransform1 = pattern4_1.transform.Find("BulletPos");
+        Transform bulletPosTransform2 = pattern4_2.transform.Find("BulletPos");
+        Transform bulletPosTransform3 = pattern4_3.transform.Find("BulletPos");
 
 
+        pattern4_1.transform.position = new Vector3(-34, 16, 0);
+        pattern4_2.transform.position = new Vector3(0, 57, 0);
+        pattern4_3.transform.position = new Vector3(34, 16, 0);
+
+        SpriteRenderer ptn_sprite1 = pattern4_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer ptn_sprite2 = pattern4_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer ptn_sprite3 = pattern4_3.GetComponent<SpriteRenderer>();
+
+        SpriteRenderer target_sprite1 = target4_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer target_sprite2 = target4_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer target_sprite3 = target4_3.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color ptn_color1 = ptn_sprite1.color;
+        UnityEngine.Color ptn_color2 = ptn_sprite2.color;
+        UnityEngine.Color ptn_color3 = ptn_sprite3.color;
+
+        UnityEngine.Color target_color1 = target_sprite1.color;
+        UnityEngine.Color target_color2 = target_sprite2.color;
+        UnityEngine.Color target_color3 = target_sprite3.color;
+
+        ptn_color1.a = 0f;
+        ptn_color2.a = 0f;
+        ptn_color3.a = 0f;
+        target_color1.a = 0f;
+        target_color2.a = 1f;
+        target_color3.a = 1f;
+
+        ptn_sprite1.color = ptn_color1;
+        ptn_sprite2.color = ptn_color2;
+        ptn_sprite3.color = ptn_color3;
+        target_sprite1.color = target_color1;
+        target_sprite2.color = target_color2;
+        target_sprite3.color = target_color3;
+
+        float targetSizeup = 0.3f;
 
         #endregion
-        yield return null;
+        target4_1.SetActive(true);
+        float startTime = Time.time;
+        while(Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
 
+            ptn_color1.a = alpha; 
+            ptn_color2.a = alpha;
+            ptn_color3.a = alpha;
+
+            target_color1.a = alpha;
+            target_sprite1.color = target_color1;
+
+            ptn_sprite1.color = ptn_color1;
+            ptn_sprite2.color = ptn_color2;
+            ptn_sprite3.color = ptn_color3;
+
+            target4_1.transform.position = PlayerPos;
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while(Time.time - startTime < 1.3f)
+        {
+            float addeuler = 0f;
+
+            Vector3 direction1 = PlayerPos - pattern4_1.transform.position;
+            Quaternion lookRotation1 = Quaternion.LookRotation(Vector3.forward, direction1);
+            pattern4_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation1.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+            Vector3 direction2 = PlayerPos - pattern4_2.transform.position;
+            Quaternion lookRotation2 = Quaternion.LookRotation(Vector3.forward, direction2);
+            pattern4_2.transform.rotation = Quaternion.Euler(0, 0, lookRotation2.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+            Vector3 direction3 = PlayerPos - pattern4_3.transform.position;
+            Quaternion lookRotation3 = Quaternion.LookRotation(Vector3.forward, direction3);
+            pattern4_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation3.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+
+
+            target4_1.transform.position = PlayerPos;
+            target4_1.transform.localScale += new Vector3(targetSizeup * Time.deltaTime, targetSizeup * Time.deltaTime, 0);
+
+
+            yield return null;
+        }
+
+        target4_2.SetActive(true);
+        startTime = Time.time;
+        while (Time.time - startTime < 1.3f)
+        {
+            float addeuler = 0f;
+
+            Vector3 direction2 = PlayerPos - pattern4_2.transform.position;
+            Quaternion lookRotation2 = Quaternion.LookRotation(Vector3.forward, direction2);
+            pattern4_2.transform.rotation = Quaternion.Euler(0, 0, lookRotation2.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+            Vector3 direction3 = PlayerPos - pattern4_3.transform.position;
+            Quaternion lookRotation3 = Quaternion.LookRotation(Vector3.forward, direction3);
+            pattern4_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation3.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+
+
+            target4_2.transform.position = PlayerPos;
+            target4_2.transform.localScale += new Vector3(targetSizeup * Time.deltaTime, targetSizeup * Time.deltaTime, 0);
+            yield return null;
+        }
+
+
+
+        target4_3.SetActive(true);
+        startTime = Time.time;
+        while (Time.time - startTime < 1.3f)
+        {
+            float addeuler = 0f;
+            Vector3 direction3 = PlayerPos - pattern4_3.transform.position;
+            Quaternion lookRotation3 = Quaternion.LookRotation(Vector3.forward, direction3);
+            pattern4_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation3.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+
+
+            target4_3.transform.position = PlayerPos;
+            target4_3.transform.localScale += new Vector3(targetSizeup * Time.deltaTime, targetSizeup * Time.deltaTime, 0);
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = Mathf.PingPong((Time.time - startTime) * 5f, 1f); // 알파값을 PingPong 함수를 사용하여 반짝거리는 효과를 생성
+
+            target_color1.a = alpha;
+            target_color2.a = alpha;
+            target_color3.a = alpha;
+
+            target_sprite1.color = target_color1;
+            target_sprite2.color = target_color2;
+            target_sprite3.color = target_color3;
+
+
+            yield return null;
+        }
+
+
+        float bulletSpeed = 400f;
+
+        GameObject bullet1 = PatternManager.Instance.StartPattern("Stage3_Cannonball");
+        GameObject bullet2 = PatternManager.Instance.StartPattern("Stage3_Cannonball");
+        GameObject bullet3 = PatternManager.Instance.StartPattern("Stage3_Cannonball");
+
+        bullet1.transform.position = bulletPosTransform1.transform.position;
+        bullet2.transform.position = bulletPosTransform2.transform.position;
+        bullet3.transform.position = bulletPosTransform3.transform.position;
+
+        bullet1.transform.rotation = pattern4_1.transform.rotation;
+        bullet2.transform.rotation = pattern4_2.transform.rotation;
+        bullet3.transform.rotation = pattern4_3.transform.rotation;
+
+        ParticleSystem shoot1 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot1.transform.position = bulletPosTransform1.transform.position;
+        shoot1.transform.localScale = new Vector3(15, 15, 15);
+        shoot1.transform.rotation = pattern4_1.transform.rotation;
+        var main1 = shoot1.main;
+        main1.startRotationZ = 0f;
+
+    
+
+        Vector3 dir1 = target4_1.transform.position - pattern4_1.transform.position;
+        Vector3 dir2 = target4_2.transform.position - pattern4_2.transform.position;
+        Vector3 dir3 = target4_3.transform.position - pattern4_3.transform.position;
+
+
+        startTime = Time.time;
+        while(Time.time - startTime < 2.0f)
+        {
+            if (Time.time - startTime > 1.0)
+            {
+                if (shoot1 != null) Destroy(shoot1.gameObject);
+            }
+            bullet1.GetComponent<Rigidbody2D>().velocity = dir1.normalized * bulletSpeed;
+            yield return null;
+        }
+        ParticleSystem shoot2 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot2.transform.position = bulletPosTransform2.transform.position;
+        shoot2.transform.localScale = new Vector3(15, 15, 15);
+        shoot2.transform.rotation = pattern4_2.transform.rotation;
+        var main2 = shoot2.main;
+        main2.startRotationZ = 0f;
+
+        startTime = Time.time;
+        while (Time.time - startTime < 2.0f)
+        {
+            if (Time.time - startTime > 1.0)
+            {
+                if (shoot2 != null) Destroy(shoot2.gameObject);
+            }
+            bullet2.GetComponent<Rigidbody2D>().velocity = dir2.normalized * bulletSpeed;
+            yield return null;
+        }
+        ParticleSystem shoot3 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot3.transform.position = bulletPosTransform3.transform.position;
+        shoot3.transform.localScale = new Vector3(15, 15, 15);
+        shoot3.transform.rotation = pattern4_3.transform.rotation;
+        var main3 = shoot3.main;
+        main3.startRotationZ = 0f;
+
+        startTime = Time.time;
+        while (Time.time - startTime < 2.0f)
+        {
+            if (Time.time - startTime > 1.0)
+            {
+                if (shoot3 != null) Destroy(shoot3.gameObject);
+            }
+            bullet3.GetComponent<Rigidbody2D>().velocity =   dir3.normalized * bulletSpeed;
+            yield return null;
+        }
+
+
+        startTime = Time.time;
+        while(Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+
+            ptn_color1.a = 1 - alpha;
+            ptn_color2.a = 1 - alpha;
+            ptn_color3.a = 1 - alpha;
+
+            target_color1.a = 1 - alpha;
+            target_color2.a = 1 - alpha;
+            target_color3.a = 1 - alpha;
+
+            ptn_sprite1.color = ptn_color1;
+            ptn_sprite2.color = ptn_color2;
+            ptn_sprite3.color = ptn_color3;
+
+            target_sprite1.color = target_color1;
+            target_sprite2.color = target_color2;
+            target_sprite3.color = target_color3;
+
+            yield return null;
+        }
 
     }
 
