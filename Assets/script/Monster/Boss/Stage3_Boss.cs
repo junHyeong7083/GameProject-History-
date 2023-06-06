@@ -98,19 +98,21 @@ public class Stage3_Boss : MonoBehaviour
         hitEffect.gameObject.SetActive(false);
         #endregion
     }
-    IEnumerator CameraShaking(float duration, float magnitude)
+
+    public enum AnimState
     {
-        float timer = 0;
-        while (timer <= duration)
-        {
-            cam.transform.localPosition = Random.insideUnitSphere * magnitude + cameraOriginalPos;
+        samurai_anima_death_suiside,
+        samurai_anima_idle,
+        samurai_anima_katana_roll,
+        samurai_anima_katana_roll_3,
+        samurai_anima_pattern_1,
+        samurai_anima_pattern_6_left,
+        samurai_anima_pattern_6_right,
+        samurai_anima_turn_back,
+    }
 
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        cam.transform.localPosition = cameraOriginalPos;
 
-    } // 카메라 쉐이킹
+   
     public void Scp3_1()
     {
         isPattern = true;

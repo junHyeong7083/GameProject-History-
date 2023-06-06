@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: biking_death1
   m_EditorClassIdentifier: 
   skeletonDataAsset: {fileID: 11400000, guid: 9df383c93af200c42b33aabfd0724a1a, type: 2}
-  animationName: death(unuse)
+  animationName: death1

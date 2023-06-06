@@ -22,6 +22,17 @@ public class Stage2_Boss : MonoBehaviour
 
     public GameObject ClearPanel;
     Stage2_wolf stage2_Wolf;
+
+    // -------------- Spine Animation --------------
+    #region Spine
+    public SkeletonAnimation skeletonAnimation;
+    public AnimationReferenceAsset[] AnimClip;
+
+    string CurrentAnimation = ""; // 현재 어떤 애니메이션이 재생되고 있는지에 대한 변수    //   TrackEntry[] tracks;
+
+    // 현재 애니메이션 처리가 무엇인지 대한 변수
+    AnimState_biking _AnimState;
+    #endregion
     // ----------------- HitEffect  -----------------
     GameObject PatternEffect;
     // ----------------- Pattern 2 -----------------
@@ -100,7 +111,7 @@ public class Stage2_Boss : MonoBehaviour
     #endregion
     void Start()
     {
-       // skeletonAnimation = GetComponent<SkeletonAnimation>();
+        skeletonAnimation = GetComponent<SkeletonAnimation>();
 
         // 모든 애니메이션 컴포넌트 가져오기
         //tracks = skeletonAnimation.AnimationState.Tracks.Items;
@@ -125,16 +136,15 @@ public class Stage2_Boss : MonoBehaviour
     }
 
 
-    AnimState_biking _AnimState;
-
     public enum AnimState_biking
     {
         biking_attack_jump,
         biking_death1,
         biking_death2,
         biking_handsup,
+        biking_idle,
         biking_throw,
-        biking_underthrow,
+        biking_underhit
 
     }
 
@@ -162,29 +172,26 @@ public class Stage2_Boss : MonoBehaviour
 
         switch (_state)
         {
-            case AnimState_biking.AnimState_biking:
-                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_death_suiside], false, 1f);
+            case AnimState_biking.biking_attack_jump:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.biking_attack_jump], false, 1.4f);
                 break;
-            case AnimState_biking.samurai_anima_idle:
-                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_idle], true, 0.7f);
+            case AnimState_biking.biking_death1:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.biking_death1], false, 0.7f);
                 break;
-            case AnimState_biking.samurai_anima_katana_roll:
-                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_katana_roll], false, 0.35f);
+            case AnimState_biking.biking_death2:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.biking_death2], false, 0.35f);
                 break;
-            case AnimState_biking.samurai_anima_katana_roll_3:
-                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_katana_roll_3], false, 3f);
+            case AnimState_biking.biking_handsup:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.biking_handsup], false, 0.5f);
                 break;
-            case AnimState_biking.samurai_anima_pattern_1:
-                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_pattern_1], false, 1.4f);
+            case AnimState_biking.biking_idle:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.biking_idle], true, 0.7f);
                 break;
-            case AnimState_biking.samurai_anima_pattern_6_left:
-                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_pattern_6_left], false, 1.5f);
+            case AnimState_biking.biking_throw:
+               _AsyncAnimation(AnimClip[(int)AnimState_biking.biking_throw], false, 0.5f);
                 break;
-            case AnimState_biking.samurai_anima_pattern_6_right:
-                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_pattern_6_right], false, 1.5f);
-                break;
-            case AnimState_biking.samurai_anima_turn_back:
-                _AsyncAnimation(AnimClip[(int)AnimState_biking.samurai_anima_turn_back], false, 1.2f);
+            case AnimState_biking.biking_underhit:
+                _AsyncAnimation(AnimClip[(int)AnimState_biking.biking_underhit], false, 0.65f);
                 break;
         }
     }
@@ -197,6 +204,8 @@ public class Stage2_Boss : MonoBehaviour
 
     public void Scp2_1()
     {
+        SetCurrentAnimation(AnimState_biking.biking_idle);
+
         isPattern = true;
         StartCoroutine(Scp2_1_Pattern());
     }
@@ -206,27 +215,26 @@ public class Stage2_Boss : MonoBehaviour
         float startTime = Time.time;
         while (Time.time - startTime < 2)
         {
-            // 애니메이션 실행장소
-          //  SetCurrentAnimation(AnimState.samurai_anima_katana_roll);
+       
+            SetCurrentAnimation(AnimState_biking.biking_handsup);
 
             yield return null;
         }
         Vector3 targetPos = PlayerPos;
         startTime = Time.time;
         float duration = 0.7f; // 이동에 걸리는 시간
-        while (Time.time - startTime < 2)
+        while (Time.time - startTime < 1f)
         {
-          //  SetCurrentAnimation(AnimState.samurai_anima_pattern_1);
+            SetCurrentAnimation(AnimState_biking.biking_attack_jump);
             float t = (Time.time - startTime) / duration;
             rigidbody2D.MovePosition(Vector3.Lerp(bossPos, targetPos, t));
 
-            //   if(Time.time - startTime < 1.5) { }  원위치로 돌아오는 애니메이션 들어갈 자리
             yield return null;
         }
         startTime = Time.time;
         while (Time.time - startTime < 1)
         {
-         //   SetCurrentAnimation(AnimState.samurai_anima_turn_back);
+            SetCurrentAnimation(AnimState_biking.biking_idle);
             yield return null;
         }
         isPattern = false;
@@ -235,6 +243,8 @@ public class Stage2_Boss : MonoBehaviour
 
     public void Scp2_2()
     {
+        SetCurrentAnimation(AnimState_biking.biking_idle);
+
         isPattern = true;
         StartCoroutine(Scp2_2_Pattern());
     }
@@ -380,6 +390,8 @@ public class Stage2_Boss : MonoBehaviour
 
     public void Overlab_Scp2_2()
     {
+        SetCurrentAnimation(AnimState_biking.biking_idle);
+
         isOverlab = true;
         StartCoroutine(Overlab_Scp2_2_Pattern());
     }
@@ -471,6 +483,8 @@ public class Stage2_Boss : MonoBehaviour
 
     public void Scp2_3()
     {
+        SetCurrentAnimation(AnimState_biking.biking_idle);
+
         isPattern = true;
         StartCoroutine(Scp2_3_Pattern());
     }
@@ -642,6 +656,7 @@ public class Stage2_Boss : MonoBehaviour
 
     public void Scp2_4()
     {
+        SetCurrentAnimation(AnimState_biking.biking_idle);
         StartCoroutine(Scp2_4_Pattern());
         isPattern = true;   
     }
@@ -695,7 +710,7 @@ public class Stage2_Boss : MonoBehaviour
         Vector3 endpattern4_2_1 = new Vector3(25, 0, 0);
 
         Vector3 startboss = bossPos;
-        Vector3 endboss = new Vector3(0, 5, 0);
+        Vector3 endboss = new Vector3(-10, 10, 0);
         #endregion
 
         #endregion
@@ -729,9 +744,9 @@ public class Stage2_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-        while(Time.time - startTime < 0.04f)
+        while(Time.time - startTime < 0.1f)
         {
-            float t = (Time.time - startTime) / 0.04f;
+            float t = (Time.time - startTime) / 0.1f;
             pattern4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
             pattern4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
 
@@ -788,9 +803,9 @@ public class Stage2_Boss : MonoBehaviour
         }// 잠깐 대기하면서 회전속도감소
 
         startTime = Time.time;
-        while(Time.time - startTime < 0.04f) 
+        while(Time.time - startTime < 0.1f) 
         {
-            float t = (Time.time - startTime) / 0.04f;
+            float t = (Time.time - startTime) / 0.1f;
             TrailRender.showTrail = true;
 
             pattern4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
@@ -875,6 +890,7 @@ public class Stage2_Boss : MonoBehaviour
 
     public void Scp2_5()
     {
+        SetCurrentAnimation(AnimState_biking.biking_idle);
         isPattern = true;
         StartCoroutine(Scp2_5_Pattern());
     }
@@ -883,6 +899,9 @@ public class Stage2_Boss : MonoBehaviour
     {
         PatternEffect.transform.position = new Vector3(-21, 80, 0);
         Vector3 targetPosition = new Vector3(PatternEffect.transform.position.x, PatternEffect.transform.position.y-500f, PatternEffect.transform.position.z);
+
+        SetCurrentAnimation(AnimState_biking.biking_handsup);
+        skeletonAnimation.timeScale = 3f;
         float startTime = Time.time;
         while(Time.time - startTime < 0.2f) 
         {
@@ -916,7 +935,9 @@ public class Stage2_Boss : MonoBehaviour
         startTime = Time.time;
         while (Time.time - startTime < 1f)
         {
-            if(Time.time - startTime < 0.2f)
+            skeletonAnimation.timeScale = 1f;
+            SetCurrentAnimation(AnimState_biking.biking_idle);
+            if (Time.time - startTime < 0.2f)
             {
                 TrailRender.showTrail = true;
                 float t = (Time.time - startTime) / 0.2f;
@@ -931,12 +952,7 @@ public class Stage2_Boss : MonoBehaviour
         Destroy(pattern5_1);
 
         startTime = Time.time;
-        while (Time.time - startTime < 1f)
-        {
-            yield return null;
-        } // 2경고시간
-        startTime = Time.time;
-        while (Time.time - startTime < 0.3f)
+        while (Time.time - startTime < 0.2f)
         {
             TrailRender.showTrail = false;
             yield return null;
@@ -969,12 +985,6 @@ public class Stage2_Boss : MonoBehaviour
         Destroy(pattern5_2);
 
         startTime = Time.time;
-        while (Time.time - startTime < 1f)
-        {
-            yield return null;
-        } // 3경고시간
-
-        startTime = Time.time;
         while (Time.time - startTime < 0.3f)
         {
             TrailRender.showTrail = false;
@@ -1004,6 +1014,7 @@ public class Stage2_Boss : MonoBehaviour
 
     public void Scp2_6()
     {
+        SetCurrentAnimation(AnimState_biking.biking_idle);
         isPattern = true;
         StartCoroutine(Scp2_6_Pattern());
     }
@@ -1012,8 +1023,9 @@ public class Stage2_Boss : MonoBehaviour
     {
         #region Hammer Setting
         pattern6_Hammer = PatternManager.Instance.StartPattern("Stage2_Hammer"); // 인스턴스
-        pattern6_Hammer.transform.position = new Vector3(bossPos.x - 4f, bossPos.y + 4f, bossPos.z); // 이 좌표는 보스  애니메이션 재생하면서 수정해야함
+        pattern6_Hammer.transform.position = new Vector3(bossPos.x - 0.5f, bossPos.y - 5.5f, bossPos.z); // 이 좌표는 보스  애니메이션 재생하면서 수정해야함
         pattern6_Hammer.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
+        pattern6_Hammer.transform.eulerAngles = new Vector3(0, 0, 300f);
 
         effect6_1 = PatternManager.Instance.StartPattern("PatternEffect");
         effect6_2 = PatternManager.Instance.StartPattern("PatternEffect");
@@ -1030,28 +1042,29 @@ public class Stage2_Boss : MonoBehaviour
         float startTime = Time.time;
         while (Time.time - startTime < 1f)
         {
-            // 애니메이션 재생  
+            SetCurrentAnimation(AnimState_biking.biking_underhit);
             Debug.Log("애니메이션 재생");
-
             yield return null;
         }
 
         startTime = Time.time;
         while (Time.time - startTime < 0.5f)
         {
-            // 돌아오는 애니메이션 (a -> idle)
-            color_hammer.a = 1f;
-            sprite_hammer.color = color_hammer;
+            if(Time.time - startTime  > 0.24f)
+            {
+                color_hammer.a = 1f;
+                sprite_hammer.color = color_hammer;
+            }
 
             float t = (Time.time - startTime) / 0.5f;
-            float rotate_Speed = 240;
+            float rotate_Speed = 120f;
 
-            pattern6_Hammer.transform.eulerAngles += new Vector3(0, 0, rotate_Speed * Time.deltaTime);
+            pattern6_Hammer.transform.eulerAngles += new Vector3(0, 0, -rotate_Speed * Time.deltaTime);
             pattern6_Hammer.transform.position = Vector3.Lerp(startHammerPos, target_HammerPosition, t);
 
             yield return null;
         }
-
+        SetCurrentAnimation(AnimState_biking.biking_idle);
         effect6_1.transform.position = new Vector3(-7, 80, 0);
         Vector3 targetPosition1 = new Vector3(effect6_1.transform.position.x, effect6_1.transform.position.y - 500f, effect6_1.transform.position.z);
         effect6_2.transform.position = new Vector3(7, 80, 0);
@@ -1203,6 +1216,8 @@ public class Stage2_Boss : MonoBehaviour
 
     public void Scp2_7()
     {
+        SetCurrentAnimation(AnimState_biking.biking_idle);
+
         isPattern = true;
         StartCoroutine(Scp2_7_Pattern());
     }
@@ -1211,7 +1226,7 @@ public class Stage2_Boss : MonoBehaviour
     {
         pattern7 = PatternManager.Instance.StartPattern("Stage2_Hammer");
         #region Setting
-        pattern7.transform.position = new Vector3(bossPos.x - 5f, bossPos.y, bossPos.z);
+        pattern7.transform.position = new Vector3(bossPos.x + 11f, bossPos.y-6.4f, bossPos.z);
        
         SpriteRenderer sprite7 = pattern7.GetComponent<SpriteRenderer>();
         UnityEngine.Color color7 = sprite7.color;
@@ -1225,44 +1240,35 @@ public class Stage2_Boss : MonoBehaviour
         #endregion
         float rotateSpeed = 35;
         float startTime = Time.time;
-        while(Time.time - startTime < 1)
+        while(Time.time - startTime < 1f)
         {
-            float alpha = (Time.time - startTime) / 1f;
-
-            color7.a = alpha;
-            sprite7.color = color7;
-
+            SetCurrentAnimation(AnimState_biking.biking_throw);
+           
+            float offset = 1f;
+            pattern7.transform.localScale += new Vector3(offset, offset, offset) * Time.deltaTime;
             yield return null;
         } // 투명도 조절 오브젝트 등장
-        startTime = Time.time;
-        while(Time.time - startTime < 2)
-        {
-            // 애니메이션 재생
-            Debug.Log("애니메이션");
-            if(Time.time - startTime > 0.7f)
-            {
-                float offset = 1f;
-                pattern7.transform.localScale += new Vector3(offset, offset, offset) * Time.deltaTime;
-                if(Time.time - startTime > 1.2f)
-                {
-                    pattern7.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * 50f * Time.deltaTime);
-                }
-            }
 
-            yield return null;
-        } // 애니메이션, 헤머 사이즈업
+
         startTime = Time.time;
         float duration = 1.5f;
         while(Time.time - startTime < duration)
         {
-            pattern7.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * 50f * Time.deltaTime);
+            if(Time.time - startTime < 0.5f)
+            {
+                color7.a = 1f;
+                sprite7.color = color7;
+                pattern7.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * 15f * Time.deltaTime);
+
+            }
+            pattern7.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * 15f * Time.deltaTime);
             float t = (Time.time - startTime) / duration;
             Vector3 position1 = Vector3.Lerp(startpattern7_1, endpattern7_1, t) + midpattern7_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
             pattern7.transform.position = position1;
 
             yield return null;
         } // 헤머 포물선
-
+        SetCurrentAnimation(AnimState_biking.biking_idle);
         PatternEffect.transform.position = new Vector3(pattern7.transform.position.x - 50f, pattern7.transform.position.y, pattern7.transform.position.z);
         Vector3 targetPosition = new Vector3(PatternEffect.transform.position.x + 500, PatternEffect.transform.position.y, PatternEffect.transform.position.z);
         startTime = Time.time;
@@ -1296,7 +1302,7 @@ public class Stage2_Boss : MonoBehaviour
             yield return null;
         } // 왼-> 오
        
-        pattern7.transform.position = new Vector3(50, 0, 0);
+        pattern7.transform.position = new Vector3(70, 0, 0);
         PatternEffect.transform.position = pattern7.transform.position;
         targetPosition = new Vector3(PatternEffect.transform.position.x - 500, PatternEffect.transform.position.y, PatternEffect.transform.position.z);
         startTime = Time.time;
@@ -1364,6 +1370,7 @@ public class Stage2_Boss : MonoBehaviour
 
     public void Scp2_8()
     {
+        SetCurrentAnimation(AnimState_biking.biking_idle);
         isToggle = true;
         StartCoroutine(Scp2_8_Pattern());
     }
@@ -1462,6 +1469,7 @@ public class Stage2_Boss : MonoBehaviour
     #endregion
     public void Scp2_9()
     {
+        SetCurrentAnimation(AnimState_biking.biking_idle);
         isToggle = true;
         StartCoroutine(Scp2_9_Pattern());
     }

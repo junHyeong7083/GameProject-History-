@@ -19,12 +19,12 @@ public class Stage1_Boss : MonoBehaviour
     Vector3 bossPos;
     Camera cam;
     Vector3 cameraOriginalPos;
-    string CurrentAnimation = ""; // 현재 어떤 애니메이션이 재생되고 있는지에 대한 변수
      // -------------- Spine Animation --------------
     #region Spine
     public SkeletonAnimation skeletonAnimation;
     public AnimationReferenceAsset[] AnimClip;
- //   TrackEntry[] tracks;
+
+    string CurrentAnimation = ""; // 현재 어떤 애니메이션이 재생되고 있는지에 대한 변수    //   TrackEntry[] tracks;
 
     // 현재 애니메이션 처리가 무엇인지 대한 변수
     AnimState _AnimState;

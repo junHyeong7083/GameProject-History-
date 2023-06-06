@@ -24,6 +24,11 @@ public class Stage2_wolf : MonoBehaviour
         run,
     }
 
+
+
+
+
+
     void _AsyncAnimation(AnimationReferenceAsset animClip, bool loop, float timeScalse)
     {
         if (animClip.name.Equals(CurrentAnimation))
