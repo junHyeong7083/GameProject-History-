@@ -72,6 +72,12 @@ public class Stage3_Boss : MonoBehaviour
 
     GameObject effect8_1;
     GameObject effect8_2;
+    // --------------- Pattern 9 ---------------
+    GameObject pattern9_1;
+    GameObject pattern9_2;
+
+
+
     // ----------------- bool -----------------
     #region Bool
     bool isOverlab = false;
@@ -1339,7 +1345,97 @@ public class Stage3_Boss : MonoBehaviour
 
     #endregion
 
+    public void Scp3_9()
+    {
+        StartCoroutine(Scp3_9_Pattern());
+    }
+    #region Scp3_9 패턴로직
+    IEnumerator Scp3_9_Pattern()
+    {
+        #region Setting
+        pattern9_1 = PatternManager.Instance.StartPattern("Stage3_door");
+        pattern9_2 = PatternManager.Instance.StartPattern("Stage3_door");
 
+        pattern9_1.transform.position = new Vector3(0, 3, 0);
+        pattern9_2.transform.position = new Vector3(0, -50, 0);
+
+
+        Vector3 startPos1 =pattern9_1.transform.position;
+        Vector3 startPos2 =pattern9_2.transform.position;
+
+        Vector3 endPos1 = new Vector3(0, -25, 0);
+        Vector3 endPos2 = new Vector3(0, -22, 0);
+
+        SpriteRenderer sprite1 = pattern9_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite2 = pattern9_2.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color1 = sprite1.color;
+        UnityEngine.Color color2 = sprite2.color;
+        color1.a = 0f;
+        color2.a = 0f;
+        sprite1.color = color1;
+        sprite2.color = color2;
+        #endregion
+        float startTime = Time.time;
+        while(Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            color1.a = alpha;
+            color2.a = alpha;
+            sprite1.color = color1;
+            sprite2.color = color2;
+
+            yield return null;
+        }
+        int randomValue = Random.Range(1, 3);
+        Debug.Log("RandomValue : " + randomValue);
+        switch(randomValue)
+        {
+            case 1:
+                startTime = Time.time;
+                while(Time.time - startTime < 3)
+                {
+                    float t = (Time.time - startTime) / 3;
+                    pattern9_1.transform.position = Vector3.Lerp(startPos1, endPos1, t);
+                    yield return null;
+                }
+                break;
+
+            case 2:
+                startTime = Time.time;
+                while (Time.time - startTime < 3)
+                {
+                    float t = (Time.time - startTime) / 3;
+                    pattern9_2.transform.position = Vector3.Lerp(startPos2, endPos2, t);
+                    yield return null;
+                }
+                break;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 2f)
+        {
+            yield return null;
+        }
+
+
+
+        startTime = Time.time;
+        while(Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+            color1.a = 1 - alpha;
+            color2.a = 1 - alpha;
+
+            sprite1.color = color1;
+            sprite2.color = color2;
+
+            yield return null;
+        }
+        Destroy(pattern9_1);
+        Destroy(pattern9_2);
+    }
+
+    #endregion
 
 
     private void Update()
