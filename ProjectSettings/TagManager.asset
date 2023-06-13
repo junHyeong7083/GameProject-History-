@@ -12,6 +12,7 @@ TagManager:
   - Stage1_Arrow
   - Stage1_SpinSword
   - Particle
+  - Wall
   layers:
   - Default
   - TransparentFX

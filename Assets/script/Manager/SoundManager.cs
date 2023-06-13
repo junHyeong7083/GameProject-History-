@@ -51,7 +51,11 @@ public class SoundManager : MonoBehaviour
         {
             audioClipsDic.Add(audioclip.name, audioclip);
         }
+
     }
+
+
+
 
     // SFX
     public void PlaySFXSound(string name, float volume = 1f)
@@ -77,6 +81,19 @@ public class SoundManager : MonoBehaviour
             bgmPlayer.clip = MainBgmAudioClip;
         }
     }
+
+    // Volume
+    public void SetMasterVolume(float value)
+    {
+        masterVolumeBGM = value;
+        masterVolumeSFX = value;
+    }
+
+    public float GetMasterVolume()
+    {
+        return masterVolumeBGM;
+    }
+
 
     // Sound Play
     public void PlaySound()

@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
         lineRenderer.endWidth = 3f;
     }
 
+
     public void DecreaseHp()
     {
         Hp--;
