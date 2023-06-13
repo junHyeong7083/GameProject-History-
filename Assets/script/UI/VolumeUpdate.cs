@@ -6,10 +6,12 @@ using UnityEngine.UI;
 
 public class VolumeUpdate : MonoBehaviour
 {
+    [Header("Slider")]
     public Slider BGMSlider;
     public Slider SFXSlider;
     public Slider MasterSlider;
 
+    [Header("SoundPlayer")]
     public GameObject BGM_SoundPlayer;
     public GameObject SFX_SoundPlayer;
 
@@ -44,4 +46,30 @@ public class VolumeUpdate : MonoBehaviour
         SFX_Audiio.volume =  SFXSlider.value *  MasterSlider.value;
     }
 
+
+    public void UpMater()
+    {
+        MasterSlider.value += 0.2f;
+    }
+    public void DownMater()
+    {
+        MasterSlider.value -= 0.2f;
+    }
+
+    public void UpBgm()
+    {
+        BGMSlider.value += 0.1f;
+    }
+    public void DownBgm()
+    {
+        BGMSlider.value -= 0.1f;
+    }
+    public void UpSfx()
+    {
+        SFXSlider.value += 0.2f;
+    }
+    public void DownSfx()
+    {
+        SFXSlider.value -= 0.2f;
+    }
 }

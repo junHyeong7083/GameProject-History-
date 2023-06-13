@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     public static bool isStop = false;
     private void Start()
     {
-        SoundManager.Instance.SetBGMSound(1, 0.2f);
+        SoundManager.Instance.SetBGMSound(1, 0f);
         SoundManager.Instance.PlaySound();
         DeathUI.gameObject.SetActive(false);
 
