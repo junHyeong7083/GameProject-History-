@@ -26,12 +26,21 @@ public class VolumeUpdate : MonoBehaviour
 
     public void SetBgmlVolume()
     {
-        BGM_Audio.volume = BGMSlider.value;
+        // m = 0.5  b = 0.3
+        if ((MasterSlider.value / 2) * BGMSlider.value < 0)
+            BGM_Audio.volume = 0;
+
+        BGM_Audio.volume = BGMSlider.value * (MasterSlider.value );
+        //  BGM_Audio.volume = BGMSlider.value;
     }
 
     public void SetSfxVolume()
     {
-        SFX_Audiio.volume = SFXSlider.value;
+        // m = 0.5  b = 0.3
+        if ((MasterSlider.value / 2) * SFXSlider.value < 0)
+            BGM_Audio.volume = 0;
+
+        SFX_Audiio.volume = SFXSlider.value * (MasterSlider.value);
     }
 
     public void SetMasterVolume()

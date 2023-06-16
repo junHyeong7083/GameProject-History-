@@ -1358,7 +1358,7 @@ public class Stage3_Boss : MonoBehaviour
 
         pattern9_1.transform.position = new Vector3(0, 3, 0);
         pattern9_2.transform.position = new Vector3(0, -50, 0);
-
+        pattern9_2.transform.eulerAngles = new Vector3(0, 0, 180f);
 
         Vector3 startPos1 =pattern9_1.transform.position;
         Vector3 startPos2 =pattern9_2.transform.position;
