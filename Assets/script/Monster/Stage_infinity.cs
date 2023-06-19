@@ -9,6 +9,7 @@ using static UnityEngine.GraphicsBuffer;
 using Spine.Unity;
 using Unity.VisualScripting;
 using static Stage2_Boss;
+using static Stage3_Boss;
 
 public class Stage_infinity : MonoBehaviour
 {
@@ -114,22 +115,110 @@ public class Stage_infinity : MonoBehaviour
 
 
 
-    // ----------------- Pattern 4 -----------------
+    // ----------------- Pattern 2_4 -----------------
     GameObject pattern2_4_1;
     GameObject pattern2_4_2;
 
     GameObject effect4_1;
     GameObject effect4_2;
 
-    // ----------------- overlab_Pattern 4 -----------------
+    // ----------------- overlab_Pattern 2_4 -----------------
     GameObject overlab_pattern2_4_1;
     GameObject overlab_pattern2_4_2;
 
     GameObject overlab_effect4_1;
     GameObject overlab_effect4_2;
 
+    // --------------- Pattern 3_1 ---------------
+    GameObject pattern3_1_1;
+    GameObject pattern3_1_2;
+    GameObject pattern3_1_3;
+
+    GameObject effect3_1_1;
+    GameObject effect3_1_2;
+    GameObject effect3_1_3;
+
+    GameObject stone3_1;
+    GameObject stone3_2;
+    GameObject stone3_3;
 
 
+    // --------------- overlab_Pattern 3_1 ---------------
+    GameObject overlab_pattern3_1_1;
+    GameObject overlab_pattern3_1_2;
+    GameObject overlab_pattern3_1_3;
+
+    GameObject overlab_effect3_1_1;
+    GameObject overlab_effect3_1_2;
+    GameObject overlab_effect3_1_3;
+
+    GameObject overlab_stone3_1;
+    GameObject overlab_stone3_2;
+    GameObject overlab_stone3_3;
+    // --------------- Pattern 3_2 ---------------
+    GameObject pattern3_2_1;
+    GameObject pattern3_2_2;
+    GameObject pattern3_2_3;
+    GameObject pattern3_2_4;
+    GameObject pattern3_2_5;
+    GameObject pattern3_2_6;
+    GameObject pattern3_2_7;
+    GameObject pattern3_2_8;
+    GameObject pattern3_2_9;
+
+    GameObject effect3_2_1;
+    GameObject effect3_2_2;
+    GameObject effect3_2_3;
+    GameObject effect3_2_4;
+    GameObject effect3_2_5;
+    GameObject effect3_2_6;
+    GameObject effect3_2_7;
+    GameObject effect3_2_8;
+    GameObject effect3_2_9;
+    // --------------- Pattern 3_2 ---------------
+    GameObject overlab_pattern3_2_1;
+    GameObject overlab_pattern3_2_2;
+    GameObject overlab_pattern3_2_3;
+    GameObject overlab_pattern3_2_4;
+    GameObject overlab_pattern3_2_5;
+    GameObject overlab_pattern3_2_6;
+    GameObject overlab_pattern3_2_7;
+    GameObject overlab_pattern3_2_8;
+    GameObject overlab_pattern3_2_9;
+
+    GameObject overlab_effect3_2_1;
+    GameObject overlab_effect3_2_2;
+    GameObject overlab_effect3_2_3;
+    GameObject overlab_effect3_2_4;
+    GameObject overlab_effect3_2_5;
+    GameObject overlab_effect3_2_6;
+    GameObject overlab_effect3_2_7;
+    GameObject overlab_effect3_2_8;
+    GameObject overlab_effect3_2_9;
+
+    // --------------- Pattern 3 ---------------
+    GameObject pattern3_3_1;
+    GameObject pattern3_3Aim;
+
+    // --------------- Overlab_Pattern 3 ---------------
+    GameObject overlab_pattern3_3_1;
+    GameObject overlab_pattern3_3Aim;
+    // --------------- Pattern 4 ---------------
+    GameObject pattern3_4_1;
+    GameObject pattern3_4_2;
+    GameObject pattern3_4_3;
+
+    GameObject target3_4_1;
+    GameObject target3_4_2;
+    GameObject target3_4_3;
+    // --------------- Overlab_Pattern 4 ---------------
+    GameObject overlab_pattern3_4_1;
+    GameObject overlab_pattern3_4_2;
+    GameObject overlab_pattern3_4_3;
+
+    GameObject overlab_target3_4_1;
+    GameObject overlab_target3_4_2;
+    GameObject overlab_target3_4_3;
     // ----------------- Overlab -----------------
     #region Overlab
     // ----------------- PatternOverlab_2 -----------------
@@ -198,7 +287,7 @@ public class Stage_infinity : MonoBehaviour
         // pattern2_2 = Instantiate(Sword.gameObject);
 
         pattern2_1 = PatternManager.Instance.StartPattern("Stage1_Sword");
-        pattern2_2 = PatternManager.Instance.StartPattern("Stage1_Sword");
+       // pattern2_2 = PatternManager.Instance.StartPattern("Stage1_Sword");
 
         #region Pattern2_1 Pos Setting
         pattern2_1.transform.localScale = new Vector3(2, 2, 2);
@@ -246,6 +335,7 @@ public class Stage_infinity : MonoBehaviour
     IEnumerator Scp1_2_2()
     {
         #region Pattern2_2 Pos Setting
+        pattern2_2 = PatternManager.Instance.StartPattern("Stage1_Sword");
         pattern2_2.transform.localScale = new Vector3(2, 2, 2);
         pattern2_2.transform.position = new Vector3(25, 0, 0);
         pattern2_2.transform.rotation = Quaternion.Euler(0, 0, 360f);
@@ -312,7 +402,6 @@ public class Stage_infinity : MonoBehaviour
     IEnumerator overlab_Scp1_2_1()
     {
         overlab_pattern2_1 = PatternManager.Instance.StartPattern("Stage1_Sword");
-        overlab_pattern2_2 = PatternManager.Instance.StartPattern("Stage1_Sword");
         overlab_pattern2_1.SetActive(true);
 
         overlab_pattern2_1.transform.localScale = new Vector3(2, 2, 2);
@@ -365,6 +454,7 @@ public class Stage_infinity : MonoBehaviour
     IEnumerator overlab_Scp1_2_2()
     {
         #region overlab_pattern2_2 Pos Setting
+        overlab_pattern2_2 = PatternManager.Instance.StartPattern("Stage1_Sword");
         overlab_pattern2_2.transform.localScale = new Vector3(2, 2, 2);
         overlab_pattern2_2.transform.position = new Vector3(25, 0, 0);
         overlab_pattern2_2.transform.rotation = Quaternion.Euler(0, 0, 360f);
@@ -3260,8 +3350,7 @@ public class Stage_infinity : MonoBehaviour
         isPattern = false;
     }
     #endregion
-
-    public void overlabScp2_2()
+    public void overlab_Scp2_2()
     {
         isOverlab = true;
         StartCoroutine(overalb_Scp2_2_Pattern());
@@ -3859,6 +3948,1544 @@ public class Stage_infinity : MonoBehaviour
         isOverlab = false;
     }
     #endregion
+    void Scp3_1()
+    {
+        isPattern = true;
+        StartCoroutine(Scp3_1_Pattern());
+    }
+    #region Scp3_1 패턴로직
+    IEnumerator Scp3_1_Pattern()
+    {
+        #region Setting
+        pattern3_1_1 = PatternManager.Instance.StartPattern("Stage3_Spear");
+        pattern3_1_2 = PatternManager.Instance.StartPattern("Stage3_Spear");
+        pattern3_1_3 = PatternManager.Instance.StartPattern("Stage3_Spear");
+
+        SpriteRenderer sprite1_1 = pattern3_1_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite1_2 = pattern3_1_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite1_3 = pattern3_1_3.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color1_1 = sprite1_1.color;
+        UnityEngine.Color color1_2 = sprite1_2.color;
+        UnityEngine.Color color1_3 = sprite1_3.color;
+
+        color1_1.a = 0f;
+        color1_2.a = 0f;
+        color1_3.a = 0f;
+
+        sprite1_1.color = color1_1;
+        sprite1_2.color = color1_2;
+        sprite1_3.color = color1_3;
+
+        pattern3_1_1.transform.position = new Vector3(-51.6f, 46.6f, 0);
+        pattern3_1_1.transform.eulerAngles = new Vector3(0, 0, 225f);
+
+        pattern3_1_2.transform.position = new Vector3(0, 80.5f, 0);
+        pattern3_1_2.transform.eulerAngles = new Vector3(0, 0, 180f);
+
+        pattern3_1_3.transform.position = new Vector3(51.6f, 46.6f, 0);
+        pattern3_1_3.transform.eulerAngles = new Vector3(0, 0, 135f);
+
+        Vector3 pattern1_endPos = new Vector3(27.2f, -32.2f, 0);
+        Vector3 pattern2_endPos = new Vector3(0, -48f, 0);
+        Vector3 pattern3_endPos = new Vector3(-27.2f, -32.2f, 0);
+
+        // 3 - 77.3   87.3  0
+
+
+        #endregion
+        float startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1;
+
+            color1_1.a = alpha;
+            color1_2.a = alpha;
+            color1_3.a = alpha;
+
+            sprite1_1.color = color1_1;
+            sprite1_2.color = color1_2;
+            sprite1_3.color = color1_3;
+
+            yield return null;
+        }
+
+        effect3_1_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect3_1_2 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect3_1_3 = PatternManager.Instance.StartPattern("PatternEffect");
+
+        TrailRender tr1, tr2, tr3;
+        tr1 = effect3_1_1.GetComponent<TrailRender>();
+        tr1.trailWidthMultiplier = 4f;
+
+        tr2 = effect3_1_2.GetComponent<TrailRender>();
+        tr2.trailWidthMultiplier = 4f;
+
+        tr3 = effect3_1_3.GetComponent<TrailRender>();
+        tr3.trailWidthMultiplier = 4f;
+
+        effect3_1_1.transform.position = pattern3_1_1.transform.position;
+        effect3_1_2.transform.position = pattern3_1_2.transform.position;
+        effect3_1_3.transform.position = pattern3_1_3.transform.position;
+
+        Vector3 effect1_endPos = new Vector3(57f, -62f, 0); // 이펙트 도착지점
+        Vector3 effect2_endPos = new Vector3(0, -90f, 0); // 이펙트 도착지점
+        Vector3 effect3_endPos = new Vector3(-57f, -62f, 0); // 이펙트 도착지점
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.1f)
+        {
+            TrailRender.overlab_showTrail = true;
+            float t = (Time.time - startTime) / 0.1f;
+
+            effect3_1_1.transform.position = Vector3.Lerp(effect3_1_1.transform.position, effect1_endPos, t); // 이동
+            effect3_1_2.transform.position = Vector3.Lerp(effect3_1_2.transform.position, effect2_endPos, t); // 이동
+            effect3_1_3.transform.position = Vector3.Lerp(effect3_1_3.transform.position, effect3_endPos, t); // 이동
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1.5f)
+        {
+            if (Time.time - startTime > 1.0f)
+                TrailRender.overlab_showTrail = false;
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            float t = (Time.time - startTime) / 0.3f;
+
+            pattern3_1_1.transform.position = Vector3.Lerp(pattern3_1_1.transform.position, pattern1_endPos, t); // 이동
+            yield return null;
+        }
+        stone3_1 = PatternManager.Instance.StartPattern("VFX_knight_stone");
+        stone3_1.transform.position = new Vector3(27.2f, -32.2f, 0);
+
+        // 모든 파티클의 위치를 부모 오브젝트와 동일하게 설정
+        ParticleSystem[] particleSystems1 = stone3_1.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem particleSystem in particleSystems1)
+        {
+            particleSystem.transform.localPosition = Vector3.zero;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            float t = (Time.time - startTime) / 0.3f;
+
+            pattern3_1_2.transform.position = Vector3.Lerp(pattern3_1_2.transform.position, pattern2_endPos, t); // 이동
+            yield return null;
+        }
+        stone3_2 = PatternManager.Instance.StartPattern("VFX_knight_stone");
+        stone3_2.transform.position = new Vector3(0, -48f, 0);
+        // 모든 파티클의 위치를 부모 오브젝트와 동일하게 설정
+        ParticleSystem[] particleSystems2 = stone3_2.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem particleSystem in particleSystems2)
+        {
+            particleSystem.transform.localPosition = Vector3.zero;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            float t = (Time.time - startTime) / 0.3f;
+
+            pattern3_1_3.transform.position = Vector3.Lerp(pattern3_1_3.transform.position, pattern3_endPos, t); // 이동
+            yield return null;
+        }
+        stone3_3 = PatternManager.Instance.StartPattern("VFX_knight_stone");
+        stone3_3.transform.position = new Vector3(-27.2f, -32.2f, 0);
+        // 모든 파티클의 위치를 부모 오브젝트와 동일하게 설정
+        ParticleSystem[] particleSystems3 = stone3_3.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem particleSystem in particleSystems3)
+        {
+            particleSystem.transform.localPosition = Vector3.zero;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+
+            color1_1.a = 1 - alpha;
+            color1_2.a = 1 - alpha;
+            color1_3.a = 1 - alpha;
+
+            sprite1_1.color = color1_1;
+            sprite1_2.color = color1_2;
+            sprite1_3.color = color1_3;
+
+            yield return null;
+        }
+        Destroy(stone3_1);
+        Destroy(stone3_2);
+        Destroy(stone3_3);
+
+        Destroy(pattern3_1_1);
+        Destroy(pattern3_1_2);
+        Destroy(pattern3_1_3);
+
+        Destroy(effect3_1_1);
+        Destroy(effect3_1_2);
+        Destroy(effect3_1_3);
+
+        isPattern = false;
+    }
+
+    #endregion
+    void overlab_Scp3_1()
+    {
+        isOverlab = true;
+        StartCoroutine(overlab_Scp3_1_Pattern());
+    }
+    #region overlab_Scp3_1 패턴로직
+    IEnumerator overlab_Scp3_1_Pattern()
+    {
+        #region Setting
+        overlab_pattern3_1_1 = PatternManager.Instance.StartPattern("Stage3_Spear");
+        overlab_pattern3_1_2 = PatternManager.Instance.StartPattern("Stage3_Spear");
+        overlab_pattern3_1_3 = PatternManager.Instance.StartPattern("Stage3_Spear");
+
+        SpriteRenderer sprite1_1 = overlab_pattern3_1_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite1_2 = overlab_pattern3_1_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite1_3 = overlab_pattern3_1_3.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color1_1 = sprite1_1.color;
+        UnityEngine.Color color1_2 = sprite1_2.color;
+        UnityEngine.Color color1_3 = sprite1_3.color;
+
+        color1_1.a = 0f;
+        color1_2.a = 0f;
+        color1_3.a = 0f;
+
+        sprite1_1.color = color1_1;
+        sprite1_2.color = color1_2;
+        sprite1_3.color = color1_3;
+
+        overlab_pattern3_1_1.transform.position = new Vector3(-51.6f, 46.6f, 0);
+        overlab_pattern3_1_1.transform.eulerAngles = new Vector3(0, 0, 225f);
+
+        overlab_pattern3_1_2.transform.position = new Vector3(0, 80.5f, 0);
+        overlab_pattern3_1_2.transform.eulerAngles = new Vector3(0, 0, 180f);
+
+        overlab_pattern3_1_3.transform.position = new Vector3(51.6f, 46.6f, 0);
+        overlab_pattern3_1_3.transform.eulerAngles = new Vector3(0, 0, 135f);
+
+        Vector3 pattern1_endPos = new Vector3(27.2f, -32.2f, 0);
+        Vector3 pattern2_endPos = new Vector3(0, -48f, 0);
+        Vector3 pattern3_endPos = new Vector3(-27.2f, -32.2f, 0);
+
+        // 3 - 77.3   87.3  0
+
+
+        #endregion
+        float startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1;
+
+            color1_1.a = alpha;
+            color1_2.a = alpha;
+            color1_3.a = alpha;
+
+            sprite1_1.color = color1_1;
+            sprite1_2.color = color1_2;
+            sprite1_3.color = color1_3;
+
+            yield return null;
+        }
+
+        overlab_effect3_1_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        overlab_effect3_1_2 = PatternManager.Instance.StartPattern("PatternEffect");
+        overlab_effect3_1_3 = PatternManager.Instance.StartPattern("PatternEffect");
+
+        TrailRender tr1, tr2, tr3;
+        tr1 = overlab_effect3_1_1.GetComponent<TrailRender>();
+        tr1.trailWidthMultiplier = 4f;
+
+        tr2 = overlab_effect3_1_2.GetComponent<TrailRender>();
+        tr2.trailWidthMultiplier = 4f;
+
+        tr3 = overlab_effect3_1_3.GetComponent<TrailRender>();
+        tr3.trailWidthMultiplier = 4f;
+
+        overlab_effect3_1_1.transform.position = overlab_pattern3_1_1.transform.position;
+        overlab_effect3_1_2.transform.position = overlab_pattern3_1_2.transform.position;
+        overlab_effect3_1_3.transform.position = overlab_pattern3_1_3.transform.position;
+
+        Vector3 effect1_endPos = new Vector3(57f, -62f, 0); // 이펙트 도착지점
+        Vector3 effect2_endPos = new Vector3(0, -90f, 0); // 이펙트 도착지점
+        Vector3 effect3_endPos = new Vector3(-57f, -62f, 0); // 이펙트 도착지점
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.1f)
+        {
+            TrailRender.overlab_showTrail = true;
+            float t = (Time.time - startTime) / 0.1f;
+
+            overlab_effect3_1_1.transform.position = Vector3.Lerp(overlab_effect3_1_1.transform.position, effect1_endPos, t); // 이동
+            overlab_effect3_1_2.transform.position = Vector3.Lerp(overlab_effect3_1_2.transform.position, effect2_endPos, t); // 이동
+            overlab_effect3_1_3.transform.position = Vector3.Lerp(overlab_effect3_1_3.transform.position, effect3_endPos, t); // 이동
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1.5f)
+        {
+            if (Time.time - startTime > 1.0f)
+                TrailRender.overlab_showTrail = false;
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            float t = (Time.time - startTime) / 0.3f;
+
+            overlab_pattern3_1_1.transform.position = Vector3.Lerp(overlab_pattern3_1_1.transform.position, pattern1_endPos, t); // 이동
+            yield return null;
+        }
+        overlab_stone3_1 = PatternManager.Instance.StartPattern("VFX_knight_stone");
+        overlab_stone3_1.transform.position = new Vector3(27.2f, -32.2f, 0);
+
+        // 모든 파티클의 위치를 부모 오브젝트와 동일하게 설정
+        ParticleSystem[] particleSystems1 = overlab_stone3_1.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem particleSystem in particleSystems1)
+        {
+            particleSystem.transform.localPosition = Vector3.zero;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            float t = (Time.time - startTime) / 0.3f;
+
+            overlab_pattern3_1_2.transform.position = Vector3.Lerp(overlab_pattern3_1_2.transform.position, pattern2_endPos, t); // 이동
+            yield return null;
+        }
+        overlab_stone3_2 = PatternManager.Instance.StartPattern("VFX_knight_stone");
+        overlab_stone3_2.transform.position = new Vector3(0, -48f, 0);
+        // 모든 파티클의 위치를 부모 오브젝트와 동일하게 설정
+        ParticleSystem[] particleSystems2 = overlab_stone3_2.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem particleSystem in particleSystems2)
+        {
+            particleSystem.transform.localPosition = Vector3.zero;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            float t = (Time.time - startTime) / 0.3f;
+
+            overlab_pattern3_1_3.transform.position = Vector3.Lerp(overlab_pattern3_1_3.transform.position, pattern3_endPos, t); // 이동
+            yield return null;
+        }
+        overlab_stone3_3 = PatternManager.Instance.StartPattern("VFX_knight_stone");
+        overlab_stone3_3.transform.position = new Vector3(-27.2f, -32.2f, 0);
+        // 모든 파티클의 위치를 부모 오브젝트와 동일하게 설정
+        ParticleSystem[] particleSystems3 = overlab_stone3_3.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem particleSystem in particleSystems3)
+        {
+            particleSystem.transform.localPosition = Vector3.zero;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+
+            color1_1.a = 1 - alpha;
+            color1_2.a = 1 - alpha;
+            color1_3.a = 1 - alpha;
+
+            sprite1_1.color = color1_1;
+            sprite1_2.color = color1_2;
+            sprite1_3.color = color1_3;
+
+            yield return null;
+        }
+        Destroy(overlab_stone3_1);
+        Destroy(overlab_stone3_2);
+        Destroy(overlab_stone3_3);
+
+        Destroy(overlab_pattern3_1_1);
+        Destroy(overlab_pattern3_1_2);
+        Destroy(overlab_pattern3_1_3);
+
+        Destroy(overlab_effect3_1_1);
+        Destroy(overlab_effect3_1_2);
+        Destroy(overlab_effect3_1_3);
+
+        isOverlab = false;
+    }
+
+    #endregion
+    void Scp3_2()
+    {
+        isPattern = true;
+        StartCoroutine(Scp3_2_Pattern());
+    }
+    #region Scp3_2 패턴로직
+    IEnumerator Scp3_2_Pattern()
+    {
+        #region 초기세팅
+        pattern3_2_1 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        pattern3_2_1.transform.position = new Vector3(-28, 70, 0);
+        pattern3_2_1.SetActive(true);
+        SpriteRenderer spritePattern2_1 = pattern3_2_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_1 = spritePattern2_1.color;
+        colorPattern2_1.a = 0f;
+        spritePattern2_1.color = colorPattern2_1;
+
+        pattern3_2_2 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        pattern3_2_2.transform.position = new Vector3(-21, 70, 0);
+        pattern3_2_2.SetActive(true);
+        SpriteRenderer spritePattern2_2 = pattern3_2_2.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_2 = spritePattern2_2.color;
+        colorPattern2_2.a = 0f;
+        spritePattern2_2.color = colorPattern2_2;
+
+        pattern3_2_3 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        pattern3_2_3.transform.position = new Vector3(-14, 70, 0);
+        pattern3_2_3.SetActive(true);
+        SpriteRenderer spritePattern2_3 = pattern3_2_3.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_3 = spritePattern2_3.color;
+        colorPattern2_3.a = 0f;
+        spritePattern2_3.color = colorPattern2_3;
+
+
+        pattern3_2_4 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        pattern3_2_4.transform.position = new Vector3(-7, 70, 0);
+        pattern3_2_4.SetActive(true);
+        SpriteRenderer spritePattern2_4 = pattern3_2_4.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_4 = spritePattern2_4.color;
+        colorPattern2_4.a = 0f;
+        spritePattern2_4.color = colorPattern2_4;
+
+        pattern3_2_5 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        pattern3_2_5.transform.position = new Vector3(0, 70, 0);
+        pattern3_2_5.SetActive(true);
+        SpriteRenderer spritePattern2_5 = pattern3_2_5.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_5 = spritePattern2_5.color;
+        colorPattern2_5.a = 0f;
+        spritePattern2_5.color = colorPattern2_5;
+
+        pattern3_2_6 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        pattern3_2_6.transform.position = new Vector3(7, 70, 0);
+        pattern3_2_6.SetActive(true);
+        SpriteRenderer spritePattern2_6 = pattern3_2_6.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_6 = spritePattern2_6.color;
+        colorPattern2_6.a = 0f;
+        spritePattern2_6.color = colorPattern2_6;
+
+        pattern3_2_7 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        pattern3_2_7.transform.position = new Vector3(14, 70, 0);
+        pattern3_2_7.SetActive(true);
+        SpriteRenderer spritePattern2_7 = pattern3_2_7.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_7 = spritePattern2_7.color;
+        colorPattern2_7.a = 0f;
+        spritePattern2_7.color = colorPattern2_7;
+
+        pattern3_2_8 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        pattern3_2_8.transform.position = new Vector3(21, 70, 0);
+        pattern3_2_8.SetActive(true);
+        SpriteRenderer spritePattern2_8 = pattern3_2_8.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_8 = spritePattern2_8.color;
+        colorPattern2_8.a = 0f;
+        spritePattern2_8.color = colorPattern2_8;
+
+        pattern3_2_9 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        pattern3_2_9.transform.position = new Vector3(28, 70, 0);
+        pattern3_2_9.SetActive(true);
+        SpriteRenderer spritePattern2_9 = pattern3_2_9.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_9 = spritePattern2_9.color;
+        colorPattern2_9.a = 0f;
+        spritePattern2_9.color = colorPattern2_9;
+
+        effect3_2_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect3_2_2 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect3_2_3 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect3_2_4 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect3_2_5 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect3_2_6 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect3_2_7 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect3_2_8 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect3_2_9 = PatternManager.Instance.StartPattern("PatternEffect");
+
+        TrailRender tr1, tr2, tr3, tr4, tr5, tr6, tr7, tr8, tr9;
+        tr1 = effect3_2_1.GetComponent<TrailRender>(); tr3 = effect3_2_3.GetComponent<TrailRender>();
+        tr2 = effect3_2_2.GetComponent<TrailRender>(); tr4 = effect3_2_4.GetComponent<TrailRender>();
+        tr5 = effect3_2_5.GetComponent<TrailRender>(); tr7 = effect3_2_7.GetComponent<TrailRender>();
+        tr6 = effect3_2_6.GetComponent<TrailRender>(); tr8 = effect3_2_8.GetComponent<TrailRender>();
+        tr9 = effect3_2_9.GetComponent<TrailRender>();
+
+        tr1.trailWidthMultiplier = 4f; tr3.trailWidthMultiplier = 4f; tr5.trailWidthMultiplier = 4f; tr7.trailWidthMultiplier = 4f; tr9.trailWidthMultiplier = 4f;
+        tr2.trailWidthMultiplier = 4f; tr4.trailWidthMultiplier = 4f; tr6.trailWidthMultiplier = 4f; tr8.trailWidthMultiplier = 4f;
+
+        effect3_2_1.transform.position = pattern3_2_1.transform.position;
+        effect3_2_2.transform.position = pattern3_2_2.transform.position;
+        effect3_2_3.transform.position = pattern3_2_3.transform.position;
+        effect3_2_4.transform.position = pattern3_2_4.transform.position;
+        effect3_2_5.transform.position = pattern3_2_5.transform.position;
+        effect3_2_6.transform.position = pattern3_2_6.transform.position;
+        effect3_2_7.transform.position = pattern3_2_7.transform.position;
+        effect3_2_8.transform.position = pattern3_2_8.transform.position;
+        effect3_2_9.transform.position = pattern3_2_9.transform.position;
+
+        Vector3 effect1_endPos = new Vector3(-28, -62, 0);
+        Vector3 effect2_endPos = new Vector3(-21, -62, 0);
+        Vector3 effect3_endPos = new Vector3(-14, -62, 0);
+        Vector3 effect4_endPos = new Vector3(-7, -62, 0);
+        Vector3 effect5_endPos = new Vector3(0, -62, 0);
+        Vector3 effect6_endPos = new Vector3(7, -62, 0);
+        Vector3 effect7_endPos = new Vector3(14, -62, 0);
+        Vector3 effect8_endPos = new Vector3(21, -62, 0);
+        Vector3 effect9_endPos = new Vector3(28, -62, 0);
+
+        #endregion
+        float startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            yield return null;
+        }
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            colorPattern2_1.a = alpha;
+            spritePattern2_1.color = colorPattern2_1;
+
+            colorPattern2_2.a = alpha;
+            spritePattern2_2.color = colorPattern2_2;
+
+            colorPattern2_3.a = alpha;
+            spritePattern2_3.color = colorPattern2_3;
+
+            colorPattern2_4.a = alpha;
+            spritePattern2_4.color = colorPattern2_4;
+
+            colorPattern2_5.a = alpha;
+            spritePattern2_5.color = colorPattern2_5;
+
+            colorPattern2_6.a = alpha;
+            spritePattern2_6.color = colorPattern2_6;
+
+            colorPattern2_7.a = alpha;
+            spritePattern2_7.color = colorPattern2_7;
+
+            colorPattern2_8.a = alpha;
+            spritePattern2_8.color = colorPattern2_8;
+
+            colorPattern2_9.a = alpha;
+            spritePattern2_9.color = colorPattern2_9;
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.1f)
+        {
+            TrailRender.overlab_showTrail = true;
+            float t = (Time.time - startTime) / 0.1f;
+            effect3_2_1.transform.position = Vector3.Lerp(effect3_2_1.transform.position, effect1_endPos, t); // 이동
+            effect3_2_2.transform.position = Vector3.Lerp(effect3_2_2.transform.position, effect2_endPos, t); // 이동
+            effect3_2_3.transform.position = Vector3.Lerp(effect3_2_3.transform.position, effect3_endPos, t); // 이동
+            effect3_2_4.transform.position = Vector3.Lerp(effect3_2_4.transform.position, effect4_endPos, t); // 이동
+            effect3_2_5.transform.position = Vector3.Lerp(effect3_2_5.transform.position, effect5_endPos, t); // 이동
+            effect3_2_6.transform.position = Vector3.Lerp(effect3_2_6.transform.position, effect6_endPos, t); // 이동
+            effect3_2_7.transform.position = Vector3.Lerp(effect3_2_7.transform.position, effect7_endPos, t); // 이동
+            effect3_2_8.transform.position = Vector3.Lerp(effect3_2_8.transform.position, effect8_endPos, t); // 이동
+            effect3_2_9.transform.position = Vector3.Lerp(effect3_2_9.transform.position, effect9_endPos, t); // 이동
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1.5f)
+        {
+            if (Time.time - startTime > 1.0f)
+                TrailRender.overlab_showTrail = false;
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 2)
+        {
+            float totalSpeed = -300f;
+            float speed1 = totalSpeed;
+            float speed2 = totalSpeed;
+            float speed3 = totalSpeed;
+            float speed4 = totalSpeed;
+            float speed5 = totalSpeed;
+            float speed6 = totalSpeed;
+            float speed7 = totalSpeed;
+            float speed8 = totalSpeed;
+            float speed9 = totalSpeed;
+            if (Time.time - startTime > 0.1f)
+            {
+                pattern3_2_1.transform.position += new Vector3(0, speed1 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.2f)
+            {
+               pattern3_2_2.transform.position += new Vector3(0, speed2 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.3f)
+            {
+                pattern3_2_3.transform.position += new Vector3(0, speed3 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.4f)
+            {
+                pattern3_2_4.transform.position += new Vector3(0, speed4 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.5f)
+            {
+               pattern3_2_5.transform.position += new Vector3(0, speed5 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.6f)
+            {
+                pattern3_2_6.transform.position += new Vector3(0, speed6 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.7f)
+            {
+                pattern3_2_7.transform.position += new Vector3(0, speed7 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.8f)
+            {
+                pattern3_2_8.transform.position += new Vector3(0, speed8 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.9f)
+            {
+                pattern3_2_9.transform.position += new Vector3(0, speed9 * Time.deltaTime, 0);
+            }
+
+
+
+            yield return null;
+
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            colorPattern2_1.a = 1f - alpha;
+            spritePattern2_1.color = colorPattern2_1;
+
+            colorPattern2_2.a = 1f - alpha;
+            spritePattern2_2.color = colorPattern2_2;
+
+            colorPattern2_3.a = 1f - alpha;
+            spritePattern2_3.color = colorPattern2_3;
+
+            colorPattern2_4.a = 1f - alpha;
+            spritePattern2_4.color = colorPattern2_4;
+
+            colorPattern2_5.a = 1f - alpha;
+            spritePattern2_5.color = colorPattern2_5;
+
+            colorPattern2_6.a = 1f - alpha;
+            spritePattern2_6.color = colorPattern2_6;
+
+            colorPattern2_7.a = 1f - alpha;
+            spritePattern2_7.color = colorPattern2_7;
+
+            colorPattern2_8.a = 1f - alpha;
+            spritePattern2_8.color = colorPattern2_8;
+
+            colorPattern2_9.a = 1f - alpha;
+            spritePattern2_9.color = colorPattern2_9;
+
+            yield return null;
+        }
+
+        #region 삭제
+        Destroy(pattern3_2_1);
+        Destroy(pattern3_2_2);
+        Destroy(pattern3_2_3);
+        Destroy(pattern3_2_4);
+        Destroy(pattern3_2_5);
+        Destroy(pattern3_2_6);
+        Destroy(pattern3_2_7);
+        Destroy(pattern3_2_8);
+        Destroy(pattern3_2_9);
+
+        Destroy(effect3_2_1);
+        Destroy(effect3_2_2);
+        Destroy(effect3_2_3);
+        Destroy(effect3_2_4);
+        Destroy(effect3_2_5);
+        Destroy(effect3_2_6);
+        Destroy(effect3_2_7);
+        Destroy(effect3_2_8);
+        Destroy(effect3_2_9);
+        #endregion
+        isPattern = false;
+
+        yield return null;
+    }
+
+
+    #endregion
+    void overlab_Scp3_2()
+    {
+        isOverlab = true;
+        StartCoroutine(overlab_Scp3_2_Pattern());
+    }
+    #region Scp3_2 패턴로직
+    IEnumerator overlab_Scp3_2_Pattern()
+    {
+        #region 초기세팅
+        overlab_pattern3_2_1 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        overlab_pattern3_2_1.transform.position = new Vector3(-28, 70, 0);
+        overlab_pattern3_2_1.SetActive(true);
+        SpriteRenderer spritePattern2_1 = overlab_pattern3_2_1.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_1 = spritePattern2_1.color;
+        colorPattern2_1.a = 0f;
+        spritePattern2_1.color = colorPattern2_1;
+
+        overlab_pattern3_2_2 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        overlab_pattern3_2_2.transform.position = new Vector3(-21, 70, 0);
+        overlab_pattern3_2_2.SetActive(true);
+        SpriteRenderer spritePattern2_2 = overlab_pattern3_2_2.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_2 = spritePattern2_2.color;
+        colorPattern2_2.a = 0f;
+        spritePattern2_2.color = colorPattern2_2;
+
+        overlab_pattern3_2_3 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        overlab_pattern3_2_3.transform.position = new Vector3(-14, 70, 0);
+        overlab_pattern3_2_3.SetActive(true);
+        SpriteRenderer spritePattern2_3 = overlab_pattern3_2_3.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_3 = spritePattern2_3.color;
+        colorPattern2_3.a = 0f;
+        spritePattern2_3.color = colorPattern2_3;
+
+
+        overlab_pattern3_2_4 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        overlab_pattern3_2_4.transform.position = new Vector3(-7, 70, 0);
+        overlab_pattern3_2_4.SetActive(true);
+        SpriteRenderer spritePattern2_4 = overlab_pattern3_2_4.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_4 = spritePattern2_4.color;
+        colorPattern2_4.a = 0f;
+        spritePattern2_4.color = colorPattern2_4;
+
+       overlab_pattern3_2_5 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+       overlab_pattern3_2_5.transform.position = new Vector3(0, 70, 0);
+       overlab_pattern3_2_5.SetActive(true);
+        SpriteRenderer spritePattern2_5 = overlab_pattern3_2_5.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_5 = spritePattern2_5.color;
+        colorPattern2_5.a = 0f;
+        spritePattern2_5.color = colorPattern2_5;
+
+        overlab_pattern3_2_6 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        overlab_pattern3_2_6.transform.position = new Vector3(7, 70, 0);
+        overlab_pattern3_2_6.SetActive(true);
+        SpriteRenderer spritePattern2_6 = overlab_pattern3_2_6.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_6 = spritePattern2_6.color;
+        colorPattern2_6.a = 0f;
+        spritePattern2_6.color = colorPattern2_6;
+
+        overlab_pattern3_2_7 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        overlab_pattern3_2_7.transform.position = new Vector3(14, 70, 0);
+        overlab_pattern3_2_7.SetActive(true);
+        SpriteRenderer spritePattern2_7 = overlab_pattern3_2_7.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_7 = spritePattern2_7.color;
+        colorPattern2_7.a = 0f;
+        spritePattern2_7.color = colorPattern2_7;
+
+        overlab_pattern3_2_8 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        overlab_pattern3_2_8.transform.position = new Vector3(21, 70, 0);
+        overlab_pattern3_2_8.SetActive(true);
+        SpriteRenderer spritePattern2_8 = overlab_pattern3_2_8.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_8 = spritePattern2_8.color;
+        colorPattern2_8.a = 0f;
+        spritePattern2_8.color = colorPattern2_8;
+
+        overlab_pattern3_2_9 = PatternManager.Instance.StartPattern("Stage3_Arrow");
+        overlab_pattern3_2_9.transform.position = new Vector3(28, 70, 0);
+        overlab_pattern3_2_9.SetActive(true);
+        SpriteRenderer spritePattern2_9 = overlab_pattern3_2_9.GetComponent<SpriteRenderer>();
+        UnityEngine.Color colorPattern2_9 = spritePattern2_9.color;
+        colorPattern2_9.a = 0f;
+        spritePattern2_9.color = colorPattern2_9;
+
+        overlab_effect3_2_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        overlab_effect3_2_2 = PatternManager.Instance.StartPattern("PatternEffect");
+        overlab_effect3_2_3 = PatternManager.Instance.StartPattern("PatternEffect");
+        overlab_effect3_2_4 = PatternManager.Instance.StartPattern("PatternEffect");
+        overlab_effect3_2_5 = PatternManager.Instance.StartPattern("PatternEffect");
+        overlab_effect3_2_6 = PatternManager.Instance.StartPattern("PatternEffect");
+        overlab_effect3_2_7 = PatternManager.Instance.StartPattern("PatternEffect");
+        overlab_effect3_2_8 = PatternManager.Instance.StartPattern("PatternEffect");
+        overlab_effect3_2_9 = PatternManager.Instance.StartPattern("PatternEffect");
+
+        TrailRender tr1, tr2, tr3, tr4, tr5, tr6, tr7, tr8, tr9;
+        tr1 = overlab_effect3_2_1.GetComponent<TrailRender>(); tr3 = overlab_effect3_2_3.GetComponent<TrailRender>();
+        tr2 = overlab_effect3_2_2.GetComponent<TrailRender>(); tr4 = overlab_effect3_2_4.GetComponent<TrailRender>();
+        tr5 = overlab_effect3_2_5.GetComponent<TrailRender>(); tr7 = overlab_effect3_2_7.GetComponent<TrailRender>();
+        tr6 = overlab_effect3_2_6.GetComponent<TrailRender>(); tr8 = overlab_effect3_2_8.GetComponent<TrailRender>();
+        tr9 = overlab_effect3_2_9.GetComponent<TrailRender>();
+
+        tr1.trailWidthMultiplier = 4f; tr3.trailWidthMultiplier = 4f; tr5.trailWidthMultiplier = 4f; tr7.trailWidthMultiplier = 4f; tr9.trailWidthMultiplier = 4f;
+        tr2.trailWidthMultiplier = 4f; tr4.trailWidthMultiplier = 4f; tr6.trailWidthMultiplier = 4f; tr8.trailWidthMultiplier = 4f;
+
+        overlab_effect3_2_1.transform.position = overlab_pattern3_2_1.transform.position;
+        overlab_effect3_2_2.transform.position = overlab_pattern3_2_2.transform.position;
+        overlab_effect3_2_3.transform.position = overlab_pattern3_2_3.transform.position;
+        overlab_effect3_2_4.transform.position = overlab_pattern3_2_4.transform.position;
+        overlab_effect3_2_5.transform.position = overlab_pattern3_2_5.transform.position;
+        overlab_effect3_2_6.transform.position = overlab_pattern3_2_6.transform.position;
+        overlab_effect3_2_7.transform.position = overlab_pattern3_2_7.transform.position;
+        overlab_effect3_2_8.transform.position = overlab_pattern3_2_8.transform.position;
+        overlab_effect3_2_9.transform.position = overlab_pattern3_2_9.transform.position;
+
+        Vector3 effect1_endPos = new Vector3(-28, -62, 0);
+        Vector3 effect2_endPos = new Vector3(-21, -62, 0);
+        Vector3 effect3_endPos = new Vector3(-14, -62, 0);
+        Vector3 effect4_endPos = new Vector3(-7, -62, 0);
+        Vector3 effect5_endPos = new Vector3(0, -62, 0);
+        Vector3 effect6_endPos = new Vector3(7, -62, 0);
+        Vector3 effect7_endPos = new Vector3(14, -62, 0);
+        Vector3 effect8_endPos = new Vector3(21, -62, 0);
+        Vector3 effect9_endPos = new Vector3(28, -62, 0);
+
+        #endregion
+        float startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            yield return null;
+        }
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            colorPattern2_1.a = alpha;
+            spritePattern2_1.color = colorPattern2_1;
+
+            colorPattern2_2.a = alpha;
+            spritePattern2_2.color = colorPattern2_2;
+
+            colorPattern2_3.a = alpha;
+            spritePattern2_3.color = colorPattern2_3;
+
+            colorPattern2_4.a = alpha;
+            spritePattern2_4.color = colorPattern2_4;
+
+            colorPattern2_5.a = alpha;
+            spritePattern2_5.color = colorPattern2_5;
+
+            colorPattern2_6.a = alpha;
+            spritePattern2_6.color = colorPattern2_6;
+
+            colorPattern2_7.a = alpha;
+            spritePattern2_7.color = colorPattern2_7;
+
+            colorPattern2_8.a = alpha;
+            spritePattern2_8.color = colorPattern2_8;
+
+            colorPattern2_9.a = alpha;
+            spritePattern2_9.color = colorPattern2_9;
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.1f)
+        {
+            TrailRender.overlab_showTrail = true;
+            float t = (Time.time - startTime) / 0.1f;
+            overlab_effect3_2_1.transform.position = Vector3.Lerp(overlab_effect3_2_1.transform.position, effect1_endPos, t); // 이동
+            overlab_effect3_2_2.transform.position = Vector3.Lerp(overlab_effect3_2_2.transform.position, effect2_endPos, t); // 이동
+            overlab_effect3_2_3.transform.position = Vector3.Lerp(overlab_effect3_2_3.transform.position, effect3_endPos, t); // 이동
+            overlab_effect3_2_4.transform.position = Vector3.Lerp(overlab_effect3_2_4.transform.position, effect4_endPos, t); // 이동
+            overlab_effect3_2_5.transform.position = Vector3.Lerp(overlab_effect3_2_5.transform.position, effect5_endPos, t); // 이동
+            overlab_effect3_2_6.transform.position = Vector3.Lerp(overlab_effect3_2_6.transform.position, effect6_endPos, t); // 이동
+            overlab_effect3_2_7.transform.position = Vector3.Lerp(overlab_effect3_2_7.transform.position, effect7_endPos, t); // 이동
+            overlab_effect3_2_8.transform.position = Vector3.Lerp(overlab_effect3_2_8.transform.position, effect8_endPos, t); // 이동
+            overlab_effect3_2_9.transform.position = Vector3.Lerp(overlab_effect3_2_9.transform.position, effect9_endPos, t); // 이동
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1.5f)
+        {
+            if (Time.time - startTime > 1.0f)
+                TrailRender.overlab_showTrail = false;
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 2)
+        {
+            float totalSpeed = -300f;
+            float speed1 = totalSpeed;
+            float speed2 = totalSpeed;
+            float speed3 = totalSpeed;
+            float speed4 = totalSpeed;
+            float speed5 = totalSpeed;
+            float speed6 = totalSpeed;
+            float speed7 = totalSpeed;
+            float speed8 = totalSpeed;
+            float speed9 = totalSpeed;
+            if (Time.time - startTime > 0.1f)
+            {
+                overlab_pattern3_2_1.transform.position += new Vector3(0, speed1 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.2f)
+            {
+                overlab_pattern3_2_2.transform.position += new Vector3(0, speed2 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.3f)
+            {
+                overlab_pattern3_2_3.transform.position += new Vector3(0, speed3 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.4f)
+            {
+                overlab_pattern3_2_4.transform.position += new Vector3(0, speed4 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.5f)
+            {
+                overlab_pattern3_2_5.transform.position += new Vector3(0, speed5 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.6f)
+            {
+                overlab_pattern3_2_6.transform.position += new Vector3(0, speed6 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.7f)
+            {
+                overlab_pattern3_2_7.transform.position += new Vector3(0, speed7 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.8f)
+            {
+                overlab_pattern3_2_8.transform.position += new Vector3(0, speed8 * Time.deltaTime, 0);
+            }
+            if (Time.time - startTime > 0.9f)
+            {
+                overlab_pattern3_2_9.transform.position += new Vector3(0, speed9 * Time.deltaTime, 0);
+            }
+
+
+
+            yield return null;
+
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1)
+        {
+            float alpha = (Time.time - startTime) / 1f;
+            colorPattern2_1.a = 1f - alpha;
+            spritePattern2_1.color = colorPattern2_1;
+
+            colorPattern2_2.a = 1f - alpha;
+            spritePattern2_2.color = colorPattern2_2;
+
+            colorPattern2_3.a = 1f - alpha;
+            spritePattern2_3.color = colorPattern2_3;
+
+            colorPattern2_4.a = 1f - alpha;
+            spritePattern2_4.color = colorPattern2_4;
+
+            colorPattern2_5.a = 1f - alpha;
+            spritePattern2_5.color = colorPattern2_5;
+
+            colorPattern2_6.a = 1f - alpha;
+            spritePattern2_6.color = colorPattern2_6;
+
+            colorPattern2_7.a = 1f - alpha;
+            spritePattern2_7.color = colorPattern2_7;
+
+            colorPattern2_8.a = 1f - alpha;
+            spritePattern2_8.color = colorPattern2_8;
+
+            colorPattern2_9.a = 1f - alpha;
+            spritePattern2_9.color = colorPattern2_9;
+
+            yield return null;
+        }
+
+        #region 삭제
+        Destroy(overlab_pattern3_2_1);
+        Destroy(overlab_pattern3_2_2);
+        Destroy(overlab_pattern3_2_3);
+        Destroy(overlab_pattern3_2_4);
+        Destroy(overlab_pattern3_2_5);
+        Destroy(overlab_pattern3_2_6);
+        Destroy(overlab_pattern3_2_7);
+        Destroy(overlab_pattern3_2_8);
+        Destroy(overlab_pattern3_2_9);
+
+        Destroy(overlab_effect3_2_1);
+        Destroy(overlab_effect3_2_2);
+        Destroy(overlab_effect3_2_3);
+        Destroy(overlab_effect3_2_4);
+        Destroy(overlab_effect3_2_5);
+        Destroy(overlab_effect3_2_6);
+        Destroy(overlab_effect3_2_7);
+        Destroy(overlab_effect3_2_8);
+        Destroy(overlab_effect3_2_9);
+        #endregion
+        isOverlab = false;
+
+        yield return null;
+    }
+
+
+    #endregion
+    void Scp3_4()
+    {
+        isPattern = true;
+        StartCoroutine(Scp3_4_Pattern());
+    }
+    #region Scp3_4 패턴로직
+    IEnumerator Scp3_4_Pattern()
+    {
+        #region Settgin
+        pattern3_4_1 = PatternManager.Instance.StartPattern("Stage3_Cannon");
+        pattern3_4_2 = PatternManager.Instance.StartPattern("Stage3_Cannon");
+        pattern3_4_3 = PatternManager.Instance.StartPattern("Stage3_Cannon");
+
+        target3_4_1 = PatternManager.Instance.StartPattern("Stage1_GunAim");
+        target3_4_2 = PatternManager.Instance.StartPattern("Stage1_GunAim");
+        target3_4_3 = PatternManager.Instance.StartPattern("Stage1_GunAim");
+
+        Transform bulletPosTransform1 = pattern3_4_1.transform.Find("BulletPos");
+        Transform bulletPosTransform2 = pattern3_4_2.transform.Find("BulletPos");
+        Transform bulletPosTransform3 = pattern3_4_3.transform.Find("BulletPos");
+
+
+        pattern3_4_1.transform.position = new Vector3(-34, 16, 0);
+        pattern3_4_2.transform.position = new Vector3(0, 57, 0);
+        pattern3_4_3.transform.position = new Vector3(34, 16, 0);
+
+        SpriteRenderer ptn_sprite1 = pattern3_4_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer ptn_sprite2 = pattern3_4_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer ptn_sprite3 = pattern3_4_3.GetComponent<SpriteRenderer>();
+
+        SpriteRenderer target_sprite1 = target3_4_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer target_sprite2 = target3_4_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer target_sprite3 = target3_4_3.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color ptn_color1 = ptn_sprite1.color;
+        UnityEngine.Color ptn_color2 = ptn_sprite2.color;
+        UnityEngine.Color ptn_color3 = ptn_sprite3.color;
+
+        UnityEngine.Color target_color1 = target_sprite1.color;
+        UnityEngine.Color target_color2 = target_sprite2.color;
+        UnityEngine.Color target_color3 = target_sprite3.color;
+
+        ptn_color1.a = 0f;
+        ptn_color2.a = 0f;
+        ptn_color3.a = 0f;
+        target_color1.a = 0f;
+        target_color2.a = 1f;
+        target_color3.a = 1f;
+
+        ptn_sprite1.color = ptn_color1;
+        ptn_sprite2.color = ptn_color2;
+        ptn_sprite3.color = ptn_color3;
+        target_sprite1.color = target_color1;
+        target_sprite2.color = target_color2;
+        target_sprite3.color = target_color3;
+
+        float targetSizeup = 0.3f;
+
+        #endregion
+        target3_4_1.SetActive(true);
+        float startTime = Time.time;
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+
+            ptn_color1.a = alpha;
+            ptn_color2.a = alpha;
+            ptn_color3.a = alpha;
+
+            target_color1.a = alpha;
+            target_sprite1.color = target_color1;
+
+            ptn_sprite1.color = ptn_color1;
+            ptn_sprite2.color = ptn_color2;
+            ptn_sprite3.color = ptn_color3;
+
+            target3_4_1.transform.position = PlayerPos;
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            float addeuler = 0f;
+
+            Vector3 direction1 = PlayerPos - pattern3_4_1.transform.position;
+            Quaternion lookRotation1 = Quaternion.LookRotation(Vector3.forward, direction1);
+            pattern3_4_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation1.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+            Vector3 direction2 = PlayerPos - pattern3_4_2.transform.position;
+            Quaternion lookRotation2 = Quaternion.LookRotation(Vector3.forward, direction2);
+            pattern3_4_2.transform.rotation = Quaternion.Euler(0, 0, lookRotation2.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+            Vector3 direction3 = PlayerPos - pattern3_4_3.transform.position;
+            Quaternion lookRotation3 = Quaternion.LookRotation(Vector3.forward, direction3);
+            pattern3_4_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation3.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+
+
+            target3_4_1.transform.position = PlayerPos;
+            target3_4_1.transform.localScale += new Vector3(targetSizeup * Time.deltaTime, targetSizeup * Time.deltaTime, 0);
+
+
+            yield return null;
+        }
+
+        target3_4_2.SetActive(true);
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            float addeuler = 0f;
+
+            Vector3 direction2 = PlayerPos - pattern3_4_2.transform.position;
+            Quaternion lookRotation2 = Quaternion.LookRotation(Vector3.forward, direction2);
+            pattern3_4_2.transform.rotation = Quaternion.Euler(0, 0, lookRotation2.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+            Vector3 direction3 = PlayerPos - pattern3_4_3.transform.position;
+            Quaternion lookRotation3 = Quaternion.LookRotation(Vector3.forward, direction3);
+            pattern3_4_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation3.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+
+
+            target3_4_2.transform.position = PlayerPos;
+            target3_4_2.transform.localScale += new Vector3(targetSizeup * Time.deltaTime, targetSizeup * Time.deltaTime, 0);
+            yield return null;
+        }
+
+
+
+        target3_4_3.SetActive(true);
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            float addeuler = 0f;
+            Vector3 direction3 = PlayerPos - pattern3_4_3.transform.position;
+            Quaternion lookRotation3 = Quaternion.LookRotation(Vector3.forward, direction3);
+            pattern3_4_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation3.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+
+
+            target3_4_3.transform.position = PlayerPos;
+            target3_4_3.transform.localScale += new Vector3(targetSizeup * Time.deltaTime, targetSizeup * Time.deltaTime, 0);
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = Mathf.PingPong((Time.time - startTime) * 5f, 1f); // 알파값을 PingPong 함수를 사용하여 반짝거리는 효과를 생성
+
+            target_color1.a = alpha;
+            target_color2.a = alpha;
+            target_color3.a = alpha;
+
+            target_sprite1.color = target_color1;
+            target_sprite2.color = target_color2;
+            target_sprite3.color = target_color3;
+
+
+            yield return null;
+        }
+
+
+        float bulletSpeed = 400f;
+
+        GameObject bullet1 = PatternManager.Instance.StartPattern("Stage3_Cannonball");
+        GameObject bullet2 = PatternManager.Instance.StartPattern("Stage3_Cannonball");
+        GameObject bullet3 = PatternManager.Instance.StartPattern("Stage3_Cannonball");
+
+        bullet1.transform.position = bulletPosTransform1.transform.position;
+        bullet2.transform.position = bulletPosTransform2.transform.position;
+        bullet3.transform.position = bulletPosTransform3.transform.position;
+
+        bullet1.transform.rotation = pattern3_4_1.transform.rotation;
+        bullet2.transform.rotation = pattern3_4_2.transform.rotation;
+        bullet3.transform.rotation = pattern3_4_3.transform.rotation;
+
+        ParticleSystem shoot1 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot1.transform.position = bulletPosTransform1.transform.position;
+        shoot1.transform.localScale = new Vector3(15, 15, 15);
+        shoot1.transform.rotation = pattern3_4_1.transform.rotation;
+        var main1 = shoot1.main;
+        main1.startRotationZ = 0f;
+
+
+
+        Vector3 dir1 = target3_4_1.transform.position - pattern3_4_1.transform.position;
+        Vector3 dir2 = target3_4_2.transform.position - pattern3_4_2.transform.position;
+        Vector3 dir3 = target3_4_3.transform.position - pattern3_4_3.transform.position;
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            if (Time.time - startTime > 0.5f)
+            {
+                if (shoot1 != null) Destroy(shoot1.gameObject);
+            }
+            bullet1.GetComponent<Rigidbody2D>().velocity = dir1.normalized * bulletSpeed;
+            yield return null;
+        }
+        ParticleSystem shoot2 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot2.transform.position = bulletPosTransform2.transform.position;
+        shoot2.transform.localScale = new Vector3(15, 15, 15);
+        shoot2.transform.rotation = pattern3_4_2.transform.rotation;
+        var main2 = shoot2.main;
+        main2.startRotationZ = 0f;
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            if (Time.time - startTime > 0.5f)
+            {
+                if (shoot2 != null) Destroy(shoot2.gameObject);
+            }
+            bullet2.GetComponent<Rigidbody2D>().velocity = dir2.normalized * bulletSpeed;
+            yield return null;
+        }
+        ParticleSystem shoot3 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot3.transform.position = bulletPosTransform3.transform.position;
+        shoot3.transform.localScale = new Vector3(15, 15, 15);
+        shoot3.transform.rotation = pattern3_4_3.transform.rotation;
+        var main3 = shoot3.main;
+        main3.startRotationZ = 0f;
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            if (Time.time - startTime > 0.5f)
+            {
+                if (shoot3 != null) Destroy(shoot3.gameObject);
+            }
+            bullet3.GetComponent<Rigidbody2D>().velocity = dir3.normalized * bulletSpeed;
+            yield return null;
+        }
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+
+            ptn_color1.a = 1 - alpha;
+            ptn_color2.a = 1 - alpha;
+            ptn_color3.a = 1 - alpha;
+
+            target_color1.a = 1 - alpha;
+            target_color2.a = 1 - alpha;
+            target_color3.a = 1 - alpha;
+
+            ptn_sprite1.color = ptn_color1;
+            ptn_sprite2.color = ptn_color2;
+            ptn_sprite3.color = ptn_color3;
+
+            target_sprite1.color = target_color1;
+            target_sprite2.color = target_color2;
+            target_sprite3.color = target_color3;
+
+            yield return null;
+        }
+        Destroy(bullet1);
+        Destroy(bullet2);
+        Destroy(bullet3);
+        Destroy(pattern3_4_1);
+        Destroy(pattern3_4_2);
+        Destroy(pattern3_4_3);
+        Destroy(target3_4_1);
+        Destroy(target3_4_2);
+        Destroy(target3_4_3);
+
+        isPattern = false;
+    }
+    #endregion
+    void overlab_Scp3_4()
+    {
+        isOverlab = true;
+        StartCoroutine(overlab_Scp3_4_Pattern());
+    }
+    #region overlab_Scp3_4 패턴로직
+    IEnumerator overlab_Scp3_4_Pattern()
+    {
+        #region Settgin
+        overlab_pattern3_4_1 = PatternManager.Instance.StartPattern("Stage3_Cannon");
+        overlab_pattern3_4_2 = PatternManager.Instance.StartPattern("Stage3_Cannon");
+        overlab_pattern3_4_3 = PatternManager.Instance.StartPattern("Stage3_Cannon");
+
+        overlab_target3_4_1 = PatternManager.Instance.StartPattern("Stage1_GunAim");
+        overlab_target3_4_2 = PatternManager.Instance.StartPattern("Stage1_GunAim");
+        overlab_target3_4_3 = PatternManager.Instance.StartPattern("Stage1_GunAim");
+
+        Transform bulletPosTransform1 = overlab_pattern3_4_1.transform.Find("BulletPos");
+        Transform bulletPosTransform2 = overlab_pattern3_4_2.transform.Find("BulletPos");
+        Transform bulletPosTransform3 = overlab_pattern3_4_3.transform.Find("BulletPos");
+
+
+        overlab_pattern3_4_1.transform.position = new Vector3(-34, 16, 0);
+        overlab_pattern3_4_2.transform.position = new Vector3(0, 57, 0);
+        overlab_pattern3_4_3.transform.position = new Vector3(34, 16, 0);
+
+        SpriteRenderer ptn_sprite1 = overlab_pattern3_4_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer ptn_sprite2 = overlab_pattern3_4_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer ptn_sprite3 = overlab_pattern3_4_3.GetComponent<SpriteRenderer>();
+
+        SpriteRenderer target_sprite1 = overlab_target3_4_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer target_sprite2 = overlab_target3_4_2.GetComponent<SpriteRenderer>();
+        SpriteRenderer target_sprite3 = overlab_target3_4_3.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color ptn_color1 = ptn_sprite1.color;
+        UnityEngine.Color ptn_color2 = ptn_sprite2.color;
+        UnityEngine.Color ptn_color3 = ptn_sprite3.color;
+
+        UnityEngine.Color target_color1 = target_sprite1.color;
+        UnityEngine.Color target_color2 = target_sprite2.color;
+        UnityEngine.Color target_color3 = target_sprite3.color;
+
+        ptn_color1.a = 0f;
+        ptn_color2.a = 0f;
+        ptn_color3.a = 0f;
+        target_color1.a = 0f;
+        target_color2.a = 1f;
+        target_color3.a = 1f;
+
+        ptn_sprite1.color = ptn_color1;
+        ptn_sprite2.color = ptn_color2;
+        ptn_sprite3.color = ptn_color3;
+        target_sprite1.color = target_color1;
+        target_sprite2.color = target_color2;
+        target_sprite3.color = target_color3;
+
+        float targetSizeup = 0.3f;
+
+        #endregion
+        overlab_target3_4_1.SetActive(true);
+        float startTime = Time.time;
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+
+            ptn_color1.a = alpha;
+            ptn_color2.a = alpha;
+            ptn_color3.a = alpha;
+
+            target_color1.a = alpha;
+            target_sprite1.color = target_color1;
+
+            ptn_sprite1.color = ptn_color1;
+            ptn_sprite2.color = ptn_color2;
+            ptn_sprite3.color = ptn_color3;
+
+            overlab_target3_4_1.transform.position = PlayerPos;
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            float addeuler = 0f;
+
+            Vector3 direction1 = PlayerPos - overlab_pattern3_4_1.transform.position;
+            Quaternion lookRotation1 = Quaternion.LookRotation(Vector3.forward, direction1);
+            overlab_pattern3_4_1.transform.rotation = Quaternion.Euler(0, 0, lookRotation1.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+            Vector3 direction2 = PlayerPos - overlab_pattern3_4_2.transform.position;
+            Quaternion lookRotation2 = Quaternion.LookRotation(Vector3.forward, direction2);
+            overlab_pattern3_4_2.transform.rotation = Quaternion.Euler(0, 0, lookRotation2.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+            Vector3 direction3 = PlayerPos - overlab_pattern3_4_3.transform.position;
+            Quaternion lookRotation3 = Quaternion.LookRotation(Vector3.forward, direction3);
+            overlab_pattern3_4_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation3.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+
+
+            overlab_target3_4_1.transform.position = PlayerPos;
+            overlab_target3_4_1.transform.localScale += new Vector3(targetSizeup * Time.deltaTime, targetSizeup * Time.deltaTime, 0);
+
+
+            yield return null;
+        }
+
+        overlab_target3_4_2.SetActive(true);
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            float addeuler = 0f;
+
+            Vector3 direction2 = PlayerPos - overlab_pattern3_4_2.transform.position;
+            Quaternion lookRotation2 = Quaternion.LookRotation(Vector3.forward, direction2);
+            overlab_pattern3_4_2.transform.rotation = Quaternion.Euler(0, 0, lookRotation2.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+            Vector3 direction3 = PlayerPos - overlab_pattern3_4_3.transform.position;
+            Quaternion lookRotation3 = Quaternion.LookRotation(Vector3.forward, direction3);
+            overlab_pattern3_4_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation3.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+
+
+            overlab_target3_4_2.transform.position = PlayerPos;
+            overlab_target3_4_2.transform.localScale += new Vector3(targetSizeup * Time.deltaTime, targetSizeup * Time.deltaTime, 0);
+            yield return null;
+        }
+
+
+
+        overlab_target3_4_3.SetActive(true);
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            float addeuler = 0f;
+            Vector3 direction3 = PlayerPos - overlab_pattern3_4_3.transform.position;
+            Quaternion lookRotation3 = Quaternion.LookRotation(Vector3.forward, direction3);
+            overlab_pattern3_4_3.transform.rotation = Quaternion.Euler(0, 0, lookRotation3.eulerAngles.z + addeuler); // 총구가 바라보는 방향으로 회전
+
+
+
+            overlab_target3_4_3.transform.position = PlayerPos;
+            overlab_target3_4_3.transform.localScale += new Vector3(targetSizeup * Time.deltaTime, targetSizeup * Time.deltaTime, 0);
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = Mathf.PingPong((Time.time - startTime) * 5f, 1f); // 알파값을 PingPong 함수를 사용하여 반짝거리는 효과를 생성
+
+            target_color1.a = alpha;
+            target_color2.a = alpha;
+            target_color3.a = alpha;
+
+            target_sprite1.color = target_color1;
+            target_sprite2.color = target_color2;
+            target_sprite3.color = target_color3;
+
+
+            yield return null;
+        }
+
+
+        float bulletSpeed = 400f;
+
+        GameObject bullet1 = PatternManager.Instance.StartPattern("Stage3_Cannonball");
+        GameObject bullet2 = PatternManager.Instance.StartPattern("Stage3_Cannonball");
+        GameObject bullet3 = PatternManager.Instance.StartPattern("Stage3_Cannonball");
+
+        bullet1.transform.position = bulletPosTransform1.transform.position;
+        bullet2.transform.position = bulletPosTransform2.transform.position;
+        bullet3.transform.position = bulletPosTransform3.transform.position;
+
+        bullet1.transform.rotation = overlab_pattern3_4_1.transform.rotation;
+        bullet2.transform.rotation = overlab_pattern3_4_2.transform.rotation;
+        bullet3.transform.rotation = overlab_pattern3_4_3.transform.rotation;
+
+        ParticleSystem shoot1 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot1.transform.position = bulletPosTransform1.transform.position;
+        shoot1.transform.localScale = new Vector3(15, 15, 15);
+        shoot1.transform.rotation = overlab_pattern3_4_1.transform.rotation;
+        var main1 = shoot1.main;
+        main1.startRotationZ = 0f;
+
+
+
+        Vector3 dir1 = overlab_target3_4_1.transform.position - overlab_pattern3_4_1.transform.position;
+        Vector3 dir2 = overlab_target3_4_2.transform.position - overlab_pattern3_4_2.transform.position;
+        Vector3 dir3 = overlab_target3_4_3.transform.position - overlab_pattern3_4_3.transform.position;
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            if (Time.time - startTime > 0.5f)
+            {
+                if (shoot1 != null) Destroy(shoot1.gameObject);
+            }
+            bullet1.GetComponent<Rigidbody2D>().velocity = dir1.normalized * bulletSpeed;
+            yield return null;
+        }
+        ParticleSystem shoot2 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot2.transform.position = bulletPosTransform2.transform.position;
+        shoot2.transform.localScale = new Vector3(15, 15, 15);
+        shoot2.transform.rotation = overlab_pattern3_4_2.transform.rotation;
+        var main2 = shoot2.main;
+        main2.startRotationZ = 0f;
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            if (Time.time - startTime > 0.5f)
+            {
+                if (shoot2 != null) Destroy(shoot2.gameObject);
+            }
+            bullet2.GetComponent<Rigidbody2D>().velocity = dir2.normalized * bulletSpeed;
+            yield return null;
+        }
+        ParticleSystem shoot3 = ParticleManager.Instance.StartParticle("VFX_shooting");
+        shoot3.transform.position = bulletPosTransform3.transform.position;
+        shoot3.transform.localScale = new Vector3(15, 15, 15);
+        shoot3.transform.rotation = overlab_pattern3_4_3.transform.rotation;
+        var main3 = shoot3.main;
+        main3.startRotationZ = 0f;
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            if (Time.time - startTime > 0.5f)
+            {
+                if (shoot3 != null) Destroy(shoot3.gameObject);
+            }
+            bullet3.GetComponent<Rigidbody2D>().velocity = dir3.normalized * bulletSpeed;
+            yield return null;
+        }
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.5f)
+        {
+            float alpha = (Time.time - startTime) / 0.5f;
+
+            ptn_color1.a = 1 - alpha;
+            ptn_color2.a = 1 - alpha;
+            ptn_color3.a = 1 - alpha;
+
+            target_color1.a = 1 - alpha;
+            target_color2.a = 1 - alpha;
+            target_color3.a = 1 - alpha;
+
+            ptn_sprite1.color = ptn_color1;
+            ptn_sprite2.color = ptn_color2;
+            ptn_sprite3.color = ptn_color3;
+
+            target_sprite1.color = target_color1;
+            target_sprite2.color = target_color2;
+            target_sprite3.color = target_color3;
+
+            yield return null;
+        }
+        Destroy(bullet1);
+        Destroy(bullet2);
+        Destroy(bullet3);
+        Destroy(overlab_pattern3_4_1);
+        Destroy(overlab_pattern3_4_2);
+        Destroy(overlab_pattern3_4_3);
+        Destroy(overlab_target3_4_1);
+        Destroy(overlab_target3_4_2);
+        Destroy(overlab_target3_4_3);
+
+        isOverlab = false;
+    }
+    #endregion
 
 
     void Start()
@@ -3904,12 +5531,12 @@ public class Stage_infinity : MonoBehaviour
 
             if (!isPattern && !isOverlab)
             {
-                randomPattern = Random.Range(1, 9);
+                randomPattern = Random.Range(1, 13);
                 switch (randomPattern)
                 {
                     case 1:
                         Scp1_2();
-                        randomOverlab = Random.Range(1, 9);
+                        randomOverlab = Random.Range(1, 10);
                         switch (randomOverlab)
                         {
                             case 1:
@@ -3924,13 +5551,26 @@ public class Stage_infinity : MonoBehaviour
                             case 4:
                                 overlab_Scp1_8_1();
                                 break;
-                            default:
+                            case 5:
+                                overlab_Scp2_2();
+                                break;
+                            case 6:
+                                overlab_Scp2_4();
+                                break;
+                            case 7:
+                                overlab_Scp3_1();
+                                break;
+                            case 8:
+                                overlab_Scp3_2();
+                                break;
+                            case 9:
+                                overlab_Scp3_4();
                                 break;
                         }
                         break;
                     case 2:
                         Scp1_3();
-                        randomOverlab = Random.Range(1, 9);
+                        randomOverlab = Random.Range(1, 10);
                         switch (randomOverlab)
                         {
                             case 1:
@@ -3945,7 +5585,20 @@ public class Stage_infinity : MonoBehaviour
                             case 4:
                                 overlab_Scp1_8_1();
                                 break;
-                            default:
+                            case 5:
+                                overlab_Scp2_2();
+                                break;
+                            case 6:
+                                overlab_Scp2_4();
+                                break;
+                            case 7:
+                                overlab_Scp3_1();
+                                break;
+                            case 8:
+                                overlab_Scp3_2();
+                                break;
+                            case 9:
+                                overlab_Scp3_4();
                                 break;
                         }
                         break;
@@ -3954,7 +5607,7 @@ public class Stage_infinity : MonoBehaviour
                         break;
                     case 4:
                         Scp1_5();
-                        randomOverlab = Random.Range(1, 9);
+                        randomOverlab = Random.Range(1, 10);
                         switch (randomOverlab)
                         {
                             case 1:
@@ -3969,14 +5622,27 @@ public class Stage_infinity : MonoBehaviour
                             case 4:
                                 overlab_Scp1_8_1();
                                 break;
-                            default:
+                            case 5:
+                                overlab_Scp2_2();
+                                break;
+                            case 6:
+                                overlab_Scp2_4();
+                                break;
+                            case 7:
+                                overlab_Scp3_1();
+                                break;
+                            case 8:
+                                overlab_Scp3_2();
+                                break;    
+                            case 9:
+                                overlab_Scp3_4();
                                 break;
                         }
 
                         break;
                     case 5:
                         Scp1_7();
-                        randomOverlab = Random.Range(1, 9);
+                        randomOverlab = Random.Range(1, 10);
                         switch (randomOverlab)
                         {
                             case 1:
@@ -3991,17 +5657,32 @@ public class Stage_infinity : MonoBehaviour
                             case 4:
                                 overlab_Scp1_8_1();
                                 break;
-                            default:
+                            case 5:
+                                overlab_Scp2_2();
+                                break;
+                            case 6:
+                                overlab_Scp2_4();
+                                break;
+                            case 7:
+                                overlab_Scp3_1();
+                                break;
+                            case 8:
+                                overlab_Scp3_2();
+                                break;
+                            case 9:
+                                overlab_Scp3_4();
                                 break;
                         }
-
                         break;
                     case 6:
                         Scp1_8();
                         break;
-                    case 7:
-                        Scp1_8_1();
-                        randomOverlab = Random.Range(1, 9);
+                    case 8:
+                        Scp1_9();
+                        break;
+                    case 9:
+                        Scp2_2();
+                        randomOverlab = Random.Range(1, 10);
                         switch (randomOverlab)
                         {
                             case 1:
@@ -4014,14 +5695,160 @@ public class Stage_infinity : MonoBehaviour
                                 overlab_Scp1_7();
                                 break;
                             case 4:
+                                overlab_Scp1_8_1();
+                                break;
+                            case 5:
                                 overlab_Scp1_2();
                                 break;
-                            default:
+                            case 6:
+                                overlab_Scp2_4();
+                                break;
+                            case 7:
+                                overlab_Scp3_1();
+                                break;
+                            case 8:
+                                overlab_Scp3_2();
+                                break;
+                            case 9:
+                                overlab_Scp3_4();
                                 break;
                         }
                         break;
-                    case 8:
-                        Scp1_9();
+                    case 10:
+                        Scp2_4();
+                        randomOverlab = Random.Range(1, 10);
+                        switch (randomOverlab)
+                        {
+                            case 1:
+                                overlab_Scp1_3();
+                                break;
+                            case 2:
+                                overlab_Scp1_5();
+                                break;
+                            case 3:
+                                overlab_Scp1_7();
+                                break;
+                            case 4:
+                                overlab_Scp1_8_1();
+                                break;
+                            case 5:
+                                overlab_Scp2_2();
+                                break;
+                            case 6:
+                                overlab_Scp1_2();
+                                break;
+                            case 7:
+                                overlab_Scp3_1();
+                                break;
+                            case 8:
+                                overlab_Scp3_2();
+                                break;
+                            case 9:
+                                overlab_Scp3_4();
+                                break;
+                        }
+                        break;
+                    case 11:
+                        Scp3_1();
+                        randomOverlab = Random.Range(1, 10);
+                        switch (randomOverlab)
+                        {
+                            case 1:
+                                overlab_Scp1_3();
+                                break;
+                            case 2:
+                                overlab_Scp1_5();
+                                break;
+                            case 3:
+                                overlab_Scp1_7();
+                                break;
+                            case 4:
+                                overlab_Scp1_8_1();
+                                break;
+                            case 5:
+                                overlab_Scp2_2();
+                                break;
+                            case 6:
+                                overlab_Scp2_4();
+                                break;
+                            case 7:
+                                overlab_Scp3_1();
+                                break;
+                            case 8:
+                                overlab_Scp1_2();
+                                break;
+                            case 9:
+                                overlab_Scp3_4();
+                                break;
+                        }
+                        break;
+                    case 12:
+                        Scp3_2();
+                        randomOverlab = Random.Range(1, 10);
+                        switch (randomOverlab)
+                        {
+                            case 1:
+                                overlab_Scp1_3();
+                                break;
+                            case 2:
+                                overlab_Scp1_5();
+                                break;
+                            case 3:
+                                overlab_Scp1_7();
+                                break;
+                            case 4:
+                                overlab_Scp1_8_1();
+                                break;
+                            case 5:
+                                overlab_Scp2_2();
+                                break;
+                            case 6:
+                                overlab_Scp2_4();
+                                break;
+                            case 7:
+                                overlab_Scp3_1();
+                                break;
+                            case 8:
+                                overlab_Scp1_2();
+                                break;
+                            case 9:
+                                overlab_Scp3_4();
+                                break;
+                        }
+                        break;
+                    case 13:
+                        Scp3_4();
+                        randomOverlab = Random.Range(1, 11);
+                        switch (randomOverlab)
+                        {
+                            case 1:
+                                overlab_Scp1_3();
+                                break;
+                            case 2:
+                                overlab_Scp1_5();
+                                break;
+                            case 3:
+                                overlab_Scp1_7();
+                                break;
+                            case 4:
+                                overlab_Scp1_8_1();
+                                break;
+                            case 5:
+                                overlab_Scp2_2();
+                                break;
+                            case 6:
+                                overlab_Scp2_4();
+                                break;
+                            case 7:
+                                overlab_Scp3_1();
+                                break;
+                            case 8:
+                                overlab_Scp3_2();
+                                break;
+                            case 9:
+                                overlab_Scp1_2();
+                                break;
+                        }
                         break;
 
 
@@ -4032,7 +5859,6 @@ public class Stage_infinity : MonoBehaviour
         #region Score
         if(PlayerController.isDie)
         {
-           
             if (currentTime > maxTime)
                 maxTime = currentTime;
         }

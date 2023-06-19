@@ -162,7 +162,7 @@ public class Stage3_Boss : MonoBehaviour
     #region HP && Die
     public Image fillImage;
     public float maxHp;
-    float currentHp;
+    public static float currentHp;
     ParticleSystem hitEffect;
 
 
@@ -658,7 +658,7 @@ public class Stage3_Boss : MonoBehaviour
     {
         #region 초기세팅
         pattern2_1 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        pattern2_1.transform.position = new Vector3(-28, 62, 0);
+        pattern2_1.transform.position = new Vector3(-28, 70, 0);
         pattern2_1.SetActive(true);
         SpriteRenderer spritePattern2_1 = pattern2_1.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_1 = spritePattern2_1.color;
@@ -666,7 +666,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_1.color = colorPattern2_1;
 
         pattern2_2 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        pattern2_2.transform.position = new Vector3(-21, 62, 0);
+        pattern2_2.transform.position = new Vector3(-21, 70, 0);
         pattern2_2.SetActive(true);
         SpriteRenderer spritePattern2_2 = pattern2_2.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_2 = spritePattern2_2.color;
@@ -674,7 +674,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_2.color = colorPattern2_2;
 
         pattern2_3 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        pattern2_3.transform.position = new Vector3(-14, 62, 0);
+        pattern2_3.transform.position = new Vector3(-14, 70, 0);
         pattern2_3.SetActive(true);
         SpriteRenderer spritePattern2_3 = pattern2_3.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_3 = spritePattern2_3.color;
@@ -683,7 +683,7 @@ public class Stage3_Boss : MonoBehaviour
 
 
         pattern2_4 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        pattern2_4.transform.position = new Vector3(-7, 62, 0);
+        pattern2_4.transform.position = new Vector3(-7, 70, 0);
         pattern2_4.SetActive(true);
         SpriteRenderer spritePattern2_4 = pattern2_4.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_4 = spritePattern2_4.color;
@@ -691,7 +691,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_4.color = colorPattern2_4;
 
         pattern2_5 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        pattern2_5.transform.position = new Vector3(0, 62, 0);
+        pattern2_5.transform.position = new Vector3(0, 70, 0);
         pattern2_5.SetActive(true);
         SpriteRenderer spritePattern2_5 = pattern2_5.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_5 = spritePattern2_5.color;
@@ -699,7 +699,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_5.color = colorPattern2_5;
 
         pattern2_6 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        pattern2_6.transform.position = new Vector3(7, 62, 0);
+        pattern2_6.transform.position = new Vector3(7, 70, 0);
         pattern2_6.SetActive(true);
         SpriteRenderer spritePattern2_6 = pattern2_6.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_6 = spritePattern2_6.color;
@@ -707,7 +707,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_6.color = colorPattern2_6;
 
         pattern2_7 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        pattern2_7.transform.position = new Vector3(14, 62, 0);
+        pattern2_7.transform.position = new Vector3(14, 70, 0);
         pattern2_7.SetActive(true);
         SpriteRenderer spritePattern2_7 = pattern2_7.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_7 = spritePattern2_7.color;
@@ -715,7 +715,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_7.color = colorPattern2_7;
 
         pattern2_8 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        pattern2_8.transform.position = new Vector3(21, 62, 0);
+        pattern2_8.transform.position = new Vector3(21, 70, 0);
         pattern2_8.SetActive(true);
         SpriteRenderer spritePattern2_8 = pattern2_8.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_8 = spritePattern2_8.color;
@@ -723,7 +723,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_8.color = colorPattern2_8;
 
         pattern2_9 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        pattern2_9.transform.position = new Vector3(28, 62, 0);
+        pattern2_9.transform.position = new Vector3(28, 70, 0);
         pattern2_9.SetActive(true);
         SpriteRenderer spritePattern2_9 = pattern2_9.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_9 = spritePattern2_9.color;
@@ -969,7 +969,7 @@ public class Stage3_Boss : MonoBehaviour
     {
         #region 초기세팅
         overlab_pattern2_1 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        overlab_pattern2_1.transform.position = new Vector3(-28, 62, 0);
+        overlab_pattern2_1.transform.position = new Vector3(-28, 70, 0);
         overlab_pattern2_1.SetActive(true);
         SpriteRenderer spritePattern2_1 = overlab_pattern2_1.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_1 = spritePattern2_1.color;
@@ -977,7 +977,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_1.color = colorPattern2_1;
 
         overlab_pattern2_2 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        overlab_pattern2_2.transform.position = new Vector3(-21, 62, 0);
+        overlab_pattern2_2.transform.position = new Vector3(-21, 70, 0);
         overlab_pattern2_2.SetActive(true);
         SpriteRenderer spritePattern2_2 = overlab_pattern2_2.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_2 = spritePattern2_2.color;
@@ -985,7 +985,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_2.color = colorPattern2_2;
 
         overlab_pattern2_3 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        overlab_pattern2_3.transform.position = new Vector3(-14, 62, 0);
+        overlab_pattern2_3.transform.position = new Vector3(-14, 70, 0);
         overlab_pattern2_3.SetActive(true);
         SpriteRenderer spritePattern2_3 = overlab_pattern2_3.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_3 = spritePattern2_3.color;
@@ -994,7 +994,7 @@ public class Stage3_Boss : MonoBehaviour
 
 
         overlab_pattern2_4 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        overlab_pattern2_4.transform.position = new Vector3(-7, 62, 0);
+        overlab_pattern2_4.transform.position = new Vector3(-7, 70, 0);
         overlab_pattern2_4.SetActive(true);
         SpriteRenderer spritePattern2_4 = overlab_pattern2_4.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_4 = spritePattern2_4.color;
@@ -1002,7 +1002,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_4.color = colorPattern2_4;
 
         overlab_pattern2_5 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        overlab_pattern2_5.transform.position = new Vector3(0, 62, 0);
+        overlab_pattern2_5.transform.position = new Vector3(0, 70, 0);
         overlab_pattern2_5.SetActive(true);
         SpriteRenderer spritePattern2_5 = overlab_pattern2_5.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_5 = spritePattern2_5.color;
@@ -1010,7 +1010,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_5.color = colorPattern2_5;
 
         overlab_pattern2_6 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        overlab_pattern2_6.transform.position = new Vector3(7, 62, 0);
+        overlab_pattern2_6.transform.position = new Vector3(7, 70, 0);
         overlab_pattern2_6.SetActive(true);
         SpriteRenderer spritePattern2_6 = overlab_pattern2_6.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_6 = spritePattern2_6.color;
@@ -1018,7 +1018,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_6.color = colorPattern2_6;
 
         overlab_pattern2_7 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        overlab_pattern2_7.transform.position = new Vector3(14, 62, 0);
+        overlab_pattern2_7.transform.position = new Vector3(14, 70, 0);
         overlab_pattern2_7.SetActive(true);
         SpriteRenderer spritePattern2_7 = overlab_pattern2_7.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_7 = spritePattern2_7.color;
@@ -1026,7 +1026,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_7.color = colorPattern2_7;
 
         overlab_pattern2_8 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        overlab_pattern2_8.transform.position = new Vector3(21, 62, 0);
+        overlab_pattern2_8.transform.position = new Vector3(21, 70, 0);
         overlab_pattern2_8.SetActive(true);
         SpriteRenderer spritePattern2_8 = overlab_pattern2_8.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_8 = spritePattern2_8.color;
@@ -1034,7 +1034,7 @@ public class Stage3_Boss : MonoBehaviour
         spritePattern2_8.color = colorPattern2_8;
 
         overlab_pattern2_9 = PatternManager.Instance.StartPattern("Stage3_Arrow");
-        overlab_pattern2_9.transform.position = new Vector3(28, 62, 0);
+        overlab_pattern2_9.transform.position = new Vector3(28, 70, 0);
         overlab_pattern2_9.SetActive(true);
         SpriteRenderer spritePattern2_9 = overlab_pattern2_9.GetComponent<SpriteRenderer>();
         UnityEngine.Color colorPattern2_9 = spritePattern2_9.color;
@@ -1203,7 +1203,6 @@ public class Stage3_Boss : MonoBehaviour
             yield return null;
 
         }
-        SetCurrentAnimation(AnimState_night.idle);
         startTime = Time.time;
         while (Time.time - startTime < 1)
         {
@@ -2555,6 +2554,121 @@ public class Stage3_Boss : MonoBehaviour
         fillAmount = Mathf.Clamp(fillAmount, 0f, 1f);
         fillImage.fillAmount = fillAmount;
         #endregion
+
+        if (delayTime < 2f)
+            delayTime += Time.deltaTime;
+        else if (delayTime > 2f)
+        {
+            delayTime = 3f;
+            if (!isPattern && !isOverlab && !isGate)
+            {
+                randomPattern = Random.Range(1, 10);
+                switch (randomPattern)
+                {
+                    case 1:
+                        Scp3_1();
+                        randomOverlab = Random.Range(1, 7);
+                        switch (randomOverlab)
+                        {
+                            case 1:
+                                Overlab_Scp3_2();
+                                break;
+                            case 2:
+                                Overlab_Scp3_3();
+                                break;
+                            case 3:
+                                Overlab_Scp3_4();
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 2:
+                        Scp3_2();
+                        randomOverlab = Random.Range(1, 7);
+                        switch (randomOverlab)
+                        {
+                            case 1:
+                                Overlab_Scp3_1();
+                                break;
+                            case 2:
+                                Overlab_Scp3_3();
+                                break;
+                            case 3:
+                                Overlab_Scp3_4();
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 3:
+                        Scp3_3();
+                        randomOverlab = Random.Range(1, 7);
+                        switch (randomOverlab)
+                        {
+                            case 1:
+                                Overlab_Scp3_2();
+                                break;
+                            case 2:
+                                Overlab_Scp3_1();
+                                break;
+                            case 3:
+                                Overlab_Scp3_4();
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 4:
+                        Scp3_4();
+                        randomOverlab = Random.Range(1, 7);
+                        switch (randomOverlab)
+                        {
+                            case 1:
+                                Overlab_Scp3_2();
+                                break;
+                            case 2:
+                                Overlab_Scp3_3();
+                                break;
+                            case 3:
+                                Overlab_Scp3_1();
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 5:
+                        Scp3_5();
+                        break;
+                    case 6:
+                        Scp3_6();
+                        break;
+                    case 7:
+                        Scp3_7();
+                        randomCastle = Random.Range(1, 3);
+                        switch (randomCastle)
+                        {
+                            case 1:
+                                Scp3_8();
+                                break;
+
+                            case 2:
+                                Scp3_9();
+                                break;
+                        }
+                        break;
+                    case 8:
+                        Scp3_10();
+                        break;
+                    case 9:
+                        Scp3_10();
+                        break;
+
+                }
+            }
+        }
+
+
 
 
         PlayerPos = Player.transform.position;

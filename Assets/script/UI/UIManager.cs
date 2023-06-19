@@ -57,6 +57,22 @@ public class UIManager : MonoBehaviour
             DeathUI.gameObject.SetActive(true);
             Time.timeScale = 0f;
         }
+        if (PlayerController.isDie && sceneCheck == 2)
+        {
+            SoundManager.Instance.PauseSound();
+
+            deathScore.text = Stage2_Boss.currentHp.ToString();
+            DeathUI.gameObject.SetActive(true);
+            Time.timeScale = 0f;
+        }
+        if (PlayerController.isDie && sceneCheck == 3)
+        {
+            SoundManager.Instance.PauseSound();
+
+            deathScore.text = Stage3_Boss.currentHp.ToString();
+            DeathUI.gameObject.SetActive(true);
+            Time.timeScale = 0f;
+        }
         if (PlayerController.isDie && sceneCheck == 4)
         {
             SoundManager.Instance.PauseSound();

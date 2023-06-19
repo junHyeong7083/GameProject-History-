@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     float hitCoolTime = 2f;
     float hitTimer;
     float shaderOffset;
+    float deathDelayTime = 0;
     //-------------------사용할 컴포넌트-------------------
     EdgeCollider2D lineCollider; // 라인렌더러시 사용할 콜라이더
     Rigidbody2D lineRigid;

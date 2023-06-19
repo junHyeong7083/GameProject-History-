@@ -109,7 +109,7 @@ public class Stage2_Boss : MonoBehaviour
     #region HP && Die
     public Image fillImage;
     public float maxHp;
-    float currentHp;
+    public static float currentHp;
     ParticleSystem hitEffect;
 
     float bossDieTime = 0f;

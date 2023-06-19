@@ -2132,7 +2132,7 @@ MonoBehaviour:
   DeathUI: {fileID: 5746998756242324372}
   deathScore: {fileID: 3639450578838330765}
   maxScore: {fileID: 0}
-  sceneCheck: 1
+  sceneCheck: 2
 --- !u!1 &1334542576
 GameObject:
   m_ObjectHideFlags: 0
