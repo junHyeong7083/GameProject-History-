@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+
 
 public class SoundManager : MonoBehaviour
 {
     private static SoundManager instance;
-    
+    public float masterVolume;
+    public float bgmVolume;
+    public float sfxVolume;
+
     public static SoundManager Instance
     {
         get
@@ -18,7 +23,7 @@ public class SoundManager : MonoBehaviour
 
             return instance;
         }
-    } 
+    }
 
     private AudioSource bgmPlayer;
     private AudioSource sfxPlayer;
@@ -27,12 +32,12 @@ public class SoundManager : MonoBehaviour
     public float masterVolumeBGM = 1f;
 
     [SerializeField]
-    private AudioClip MainBgmAudioClip; //
+    private AudioClip MainBgmAudioClip;
 
     [SerializeField]
     private AudioClip[] sfxAudioClips;
 
-    Dictionary<string, AudioClip> audioClipsDic = new Dictionary<string, AudioClip>(); //
+    Dictionary<string, AudioClip> audioClipsDic = new Dictionary<string, AudioClip>();
 
     bool IsPause = false;
 
@@ -42,8 +47,7 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        //DontDestroyOnLoad(this.gameObject); 
-        
+
         bgmPlayer = GetComponentsInChildren<AudioSource>()[0];
         sfxPlayer = GetComponentsInChildren<AudioSource>()[1];
 
@@ -52,11 +56,25 @@ public class SoundManager : MonoBehaviour
             audioClipsDic.Add(audioclip.name, audioclip);
         }
 
+        LoadVolume(); // 이전에 저장한 볼륨 값 로드
+        ApplyVolume(); // 볼륨 값 적용
     }
 
+    public void LoadVolume()
+    {
+        masterVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
+        bgmVolume = PlayerPrefs.GetFloat("BGMVolume", 1f);
+        sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+    }
 
+    private void ApplyVolume()
+    {
+        masterVolumeBGM = masterVolume;
+        masterVolumeSFX = masterVolume;
 
-
+        bgmPlayer.volume = bgmVolume * masterVolumeBGM;
+        sfxPlayer.volume = sfxVolume * masterVolumeSFX;
+    }
     // SFX
     public void PlaySFXSound(string name, float volume = 1f)
     {
@@ -66,14 +84,14 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        if(!IsPause)
-            sfxPlayer.PlayOneShot(audioClipsDic[name], volume * masterVolumeSFX); // 
+        if (!IsPause)
+            sfxPlayer.PlayOneShot(audioClipsDic[name], volume * masterVolumeSFX);
     }
 
-    //BGM 
+    // BGM 
     public void SetBGMSound(int bgm_num, float volume = 1f)
     {
-        bgmPlayer.loop = true; //BGM 
+        bgmPlayer.loop = true;
         bgmPlayer.volume = volume * masterVolumeBGM;
 
         if (bgm_num == 1)
@@ -94,13 +112,12 @@ public class SoundManager : MonoBehaviour
         return masterVolumeBGM;
     }
 
-
     // Sound Play
     public void PlaySound()
     {
         bgmPlayer.Play();
 
-        if(IsPause)
+        if (IsPause)
             IsPause = false;
     }
 
@@ -109,9 +126,7 @@ public class SoundManager : MonoBehaviour
     {
         bgmPlayer.Pause();
 
-        if(!IsPause)
+        if (!IsPause)
             IsPause = true;
     }
-
-
 }

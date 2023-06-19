@@ -10,12 +10,12 @@ public class Tutorial_CutScene : MonoBehaviour
     [SerializeField]
     private int currentPanelIndex = 0; // 현재 활성화된 패널 인덱스
 
-    public Image clearPanel; // 클리어 패널
 
     private bool canTransition = true; // 패널 전환 가능 여부를 나타내는 변수
-
+    float delaytTime;
     private void Start()
     {
+        delaytTime = 0f;
         // 시작 시 0번째 패널을 활성화하고 페이드 인 시작
         panels[currentPanelIndex].gameObject.SetActive(true);
         StartCoroutine(FadeInPanel(panels[currentPanelIndex]));
@@ -58,16 +58,19 @@ public class Tutorial_CutScene : MonoBehaviour
         {
             // 현재 패널 페이드 아웃
             StartCoroutine(FadeOutPanel(panels[currentPanelIndex]));
-
-            SceneManager.LoadScene("TitleScene");
-            Time.timeScale = 1f;
+            delaytTime += Time.deltaTime;
+            if(delaytTime > 1.5f)
+            {
+                SceneManager.LoadScene("TitleScene");
+                Time.timeScale = 1f;
+            }
         }
     }
 
     public void NextPanel()
     {
         int nextPanelIndex = currentPanelIndex + 1; // 다음 패널 인덱스 계산
-
+        SoundManager.Instance.PlaySFXSound("Test");
         if (nextPanelIndex <= panels.Length)
         {
             // 현재 패널 페이드 아웃
