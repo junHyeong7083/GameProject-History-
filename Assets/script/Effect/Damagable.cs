@@ -4,26 +4,53 @@ using UnityEngine;
 
 public class Damagable : MonoBehaviour
 {
-    //  private void OnParticleCollision(GameObject other)
-    //  {
-    //      PlayerController player = other.GetComponent<PlayerController>();
-    //      if (player != null && player.gameObject.layer == 7)
-    //      {
-    //          player.DecreaseHp();
-    //          Debug.Log("파티클 충돌1");
-    //      }
-    //  }
-    private void OnParticleCollision(GameObject other)
+    public GameObject ParentObj;
+    public GameObject ChildObj;
+    GameObject player;
+
+    PlayerController playerController;
+
+
+    CircleCollider2D parentCollider;
+    CircleCollider2D childCollider;
+
+
+    float delayTime;
+    private void Start()
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player")) // 원하는 레이어를 체크
+        player =  GameObject.Find("Player");
+        playerController = player.GetComponent<PlayerController>();
+
+        parentCollider = ParentObj.GetComponent<CircleCollider2D>();
+        childCollider = ChildObj.GetComponent<CircleCollider2D>();
+
+        parentCollider.radius = 12f;
+        childCollider.radius = 7f;
+
+        delayTime = 0f;
+    }
+
+ 
+
+
+
+
+    private void Update()
+    {
+        delayTime += Time.deltaTime;
+        if(delayTime > 2.5f)
         {
-            Debug.Log("파티클 충돌");
-            PlayerController player = GetComponent<PlayerController>();
-            if (player != null)
-            {
-                player.DecreaseHp();
-                Debug.Log("플레이어 체력 감소");
-            }
+            delayTime = 4f;
+            parentCollider.radius += Time.deltaTime*80;
+            childCollider.radius += Time.deltaTime * 80;
+        }
+
+
+        if(ParentDamage.parentChecker && ! ChildDamageable.childChecker)
+        {
+            playerController.DecreaseHp();
         }
     }
+
+
 }

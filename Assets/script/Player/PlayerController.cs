@@ -68,7 +68,12 @@ public class PlayerController : MonoBehaviour
 
     public void DecreaseHp()
     {
-        Hp--;
+        if (hitTimer >= hitCoolTime)
+        {
+            Hp--;
+            isHit = false;
+            hitTimer = 0;
+        }
     }
 
     private void OnParticleCollision(GameObject other)
@@ -78,7 +83,7 @@ public class PlayerController : MonoBehaviour
      }
 
 
-        private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
 
         if (collision.gameObject.tag == "Stage1_Sword")

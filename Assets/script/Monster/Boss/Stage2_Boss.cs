@@ -6,8 +6,6 @@ using System.Drawing;
 using System.Net;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.SceneTemplate;
-using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.UI;
 public class Stage2_Boss : MonoBehaviour
@@ -45,7 +43,8 @@ public class Stage2_Boss : MonoBehaviour
     // -------------- Overlab_Pattern 2 --------------
     GameObject overlab_pattern2_1;
     GameObject overlab_pattern2_2;
-    Vector3 PivotPos = new Vector3(0, -2, 0);
+    GameObject overlab_effect2_1;
+    GameObject overlab_effect2_2;
 
     // ----------------- Pattern 3 -----------------
     GameObject pattern3_1;
@@ -56,7 +55,12 @@ public class Stage2_Boss : MonoBehaviour
 
     GameObject effect4_1;
     GameObject effect4_2;
+    // -----------------Overlab_Pattern 4 -----------------
+    GameObject overlab_pattern4_1;
+    GameObject overlab_pattern4_2;
 
+    GameObject overlab_effect4_1;
+    GameObject overlab_effect4_2;
     // ----------------- Pattern 5 -----------------
     GameObject pattern5_1;
     GameObject pattern5_2;
@@ -103,20 +107,22 @@ public class Stage2_Boss : MonoBehaviour
     #endregion
     // ----------------- HP -----------------
     #region HP && Die
-    public Text currentHp_Text;
-    public static float currentHp;
+    public Image fillImage;
+    public float maxHp;
+    float currentHp;
     ParticleSystem hitEffect;
 
     float bossDieTime = 0f;
     #endregion
     void Start()
     {
-        skeletonAnimation = GetComponent<SkeletonAnimation>();
 
+        skeletonAnimation = GetComponent<SkeletonAnimation>();
+        SetCurrentAnimation(AnimState_biking.biking_idle);
         // 모든 애니메이션 컴포넌트 가져오기
         //tracks = skeletonAnimation.AnimationState.Tracks.Items;
         bossDieTime = 0f;
-        currentHp = 2000f;
+        currentHp = maxHp;
         isBossDie = false;
 
         ClearPanel.SetActive(false);
@@ -388,99 +394,6 @@ public class Stage2_Boss : MonoBehaviour
     }
     #endregion
 
-    public void Overlab_Scp2_2()
-    {
-        SetCurrentAnimation(AnimState_biking.biking_idle);
-
-        isOverlab = true;
-        StartCoroutine(Overlab_Scp2_2_Pattern());
-    }
-    #region Overlab_Scp2_2 패턴로직
-    IEnumerator Overlab_Scp2_2_Pattern()
-    {
-        #region Setting
-        overlab_pattern2_1 = PatternManager.Instance.StartPattern("Test");
-        overlab_pattern2_2 = PatternManager.Instance.StartPattern("Test");
-
-        SpriteRenderer sprite2_2 = overlab_pattern2_1.GetComponent<SpriteRenderer>();
-        SpriteRenderer sprite2_3 = overlab_pattern2_2.GetComponent<SpriteRenderer>();
-
-        UnityEngine.Color color2_2 = sprite2_2.color;
-        UnityEngine.Color color2_3 = sprite2_3.color;
-
-        color2_2.a = 0;
-        color2_3.a = 0;
-
-        sprite2_2.color = color2_2;
-        sprite2_3.color = color2_3;
-
-        overlab_pattern2_1.transform.position = new Vector3(25, 20, 0);
-        overlab_pattern2_2.transform.position = new Vector3(-25, 13, 0);
-
-        Vector3 startpattern2_1 = new Vector3(25, 20, 0);
-        Vector3 midpattern2_1 = new Vector3(-10, -90, 0);
-        Vector3 endpattern2_1 = new Vector3(-35, 75, 0);
-
-        Vector3 startpattern2_2 = new Vector3(-25, 13, 0);
-        Vector3 midpattern2_2 = new Vector3(8, -77, 0);
-        Vector3 endpattern2_2 = new Vector3(30, 75, 0);
-        float duration = 2.0f; // 이동 시간
-        float euler = 35f; // 회전각도
-        #endregion
-        float startTime = Time.time;
-        while (Time.time - startTime < 1) // 대기시간
-        {
-            float alpha = (Time.time - startTime) / 1f;
-
-            color2_2.a = alpha;
-            color2_3.a = alpha;
-
-            sprite2_2.color = color2_2;
-            sprite2_3.color = color2_3;
-
-            yield return null;
-        }
-        startTime = Time.time;
-        while (Time.time - startTime < 1f)
-        {
-            overlab_pattern2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
-            overlab_pattern2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
-
-            yield return null;
-        }
-
-
-        startTime = Time.time;
-        while (Time.time - startTime < duration)
-        {
-            float t = (Time.time - startTime) / duration;
-            overlab_pattern2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
-            overlab_pattern2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
-
-            Vector3 position1 = Vector3.Lerp(startpattern2_1, endpattern2_1, t) + midpattern2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
-            overlab_pattern2_1.transform.position = position1; // 이동
-
-            Vector3 position2 = Vector3.Lerp(startpattern2_2, endpattern2_2, t) + midpattern2_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
-            overlab_pattern2_2.transform.position = position2; // 이동
-
-            yield return null;
-        }
-
-        startTime = Time.time;
-        while (Time.time - startTime < 3 - duration)
-        {
-            overlab_pattern2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
-            overlab_pattern2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
-
-            yield return null;
-        }
-        Destroy(overlab_pattern2_1);
-        Destroy(overlab_pattern2_2);
-
-        isOverlab = false;
-    }
-    #endregion
-
     public void Scp2_3()
     {
         SetCurrentAnimation(AnimState_biking.biking_idle);
@@ -521,7 +434,7 @@ public class Stage2_Boss : MonoBehaviour
 
             colortarget.a = alpha;
             spritetarget.color = colortarget;
-
+            target3.transform.position = PlayerPos;
             yield return null;
         }// 투명도 조절
 
@@ -593,6 +506,7 @@ public class Stage2_Boss : MonoBehaviour
             {
                 stage2_Wolf.SetCurrentAnimation(Stage2_wolf.AnimState_wolf.animation);
             } // 다시 idle
+            Destroy(target3);
 
 
             yield return null;
@@ -639,13 +553,15 @@ public class Stage2_Boss : MonoBehaviour
         while (Time.time - startTime < 1)
         {
             float alpha = (Time.time - startTime) / 1;
+            colortarget.a = 1 - alpha;
+            spritetarget.color = colortarget;
             float decreaseAlpha = 1 - alpha;
             stage2_Wolf.SetTransparencyForAllSlots(decreaseAlpha);
 
             yield return null;
         }// 투명도 조절
 
-
+        Destroy(target3);
 
         isPattern = false;
     }
@@ -1200,15 +1116,17 @@ public class Stage2_Boss : MonoBehaviour
       //  StartCoroutine(CameraShaking(0.1f, 0.5f));
         while (Time.time - startTime < 0.8f) // 일부로 다음패턴 넘어가기 빠르게 시간을 줄일까 고민중
         {
+            float alpha = (Time.time - startTime) / 1f;
             color6_5.a = 1f;
             color6_6.a = 1f;
 
             sprite6_5.color = color6_5;
             sprite6_6.color = color6_6;
-
+            color_hammer.a = 1- alpha;
+            sprite_hammer.color = color_hammer;
             yield return null;
         }
-
+        Destroy(pattern6_Hammer);
 
         isPattern = false; // 패턴끝
     }
@@ -1730,11 +1648,67 @@ public class Stage2_Boss : MonoBehaviour
     }
     #endregion
 
+    public void Test()
+    {
+        currentHp -= 200f;
+    }
 
+
+    float delayTime;
     private void Update()
     {
+        #region Hp Bar
+        float fillAmount = currentHp / maxHp;
+        fillAmount = Mathf.Clamp(fillAmount, 0f, 1f);
+        fillImage.fillAmount = fillAmount;
+        #endregion
+
         PlayerPos = Player.transform.position;
         bossPos = this.transform.position;
+
+        if (delayTime < 2f)
+            delayTime += Time.deltaTime;
+        else if(delayTime > 2f)
+        {
+            delayTime = 3f;
+            if(!isPattern && !isOverlab)
+            {
+                randomPattern = Random.Range(1, 8);
+                switch(randomPattern)
+                {
+                    case 1:
+                        Scp2_2();
+                        break;
+                    case 2:
+                        Scp2_3();
+                        break;
+                    case 3:
+                        Scp2_4();
+                        break;
+                    case 4:
+                        Scp2_5();
+                        break;
+                    case 5:
+                        Scp2_6();
+                        break;
+                    case 6:
+                        Scp2_7();
+                        break;
+                    case 7:
+                        Scp2_1();
+                        break;
+
+                }
+            }
+
+        }
+
+
+
+
+
+
+
         if (currentHp <= 0)
         {
             currentHp = 0;

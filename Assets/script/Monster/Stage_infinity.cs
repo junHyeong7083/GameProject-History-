@@ -8,6 +8,8 @@ using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 using Spine.Unity;
 using Unity.VisualScripting;
+using static Stage2_Boss;
+
 public class Stage_infinity : MonoBehaviour
 {
     Rigidbody2D rigidbody2D;
@@ -17,7 +19,7 @@ public class Stage_infinity : MonoBehaviour
     Camera cam;
     Vector3 cameraOriginalPos;
 
-    // ----------------- Pattern2 -----------------
+    // ----------------- Pattern1_2 -----------------
     #region Pattern2
     bool nextPtn1State = false;
     bool nextPtn2State = false;
@@ -26,13 +28,13 @@ public class Stage_infinity : MonoBehaviour
     GameObject pattern2_1;
     GameObject pattern2_2;
     #endregion
-    // ----------------- Pattern3 -----------------
+    // ----------------- Pattern1_3 -----------------
     #region Pattern3
     GameObject pattern3_1;
     GameObject pattern3_2;
     GameObject pattern3_3;
     #endregion
-    // ----------------- Pattern4 -----------------
+    // ----------------- Pattern1_4 -----------------
     #region Pattern4
     GameObject pattern4_1;
     GameObject pattern4_2;
@@ -43,7 +45,7 @@ public class Stage_infinity : MonoBehaviour
     GameObject pattern4_7;
     GameObject pattern4_8;
     #endregion
-    // ----------------- Pattern5 -----------------
+    // ----------------- Pattern1_5 -----------------
     #region Pattern5
     GameObject pattern5_1;
     GameObject target_1;
@@ -63,7 +65,7 @@ public class Stage_infinity : MonoBehaviour
     ParticleSystem shoot5;
     #endregion
     float bulletSpeed = 400f;
-    // ----------------- Pattern7 -----------------
+    // ----------------- Pattern1_7 -----------------
     #region Pattern7
     GameObject pattern7_1;
     GameObject pattern7_2;
@@ -75,7 +77,7 @@ public class Stage_infinity : MonoBehaviour
     GameObject pattern7_8;
     GameObject pattern7_9;
     #endregion
-    // ----------------- Pattern8 -----------------
+    // ----------------- Pattern1_8 -----------------
     #region Pattern8
     GameObject pattern8_1;
     GameObject pattern8_2;
@@ -84,18 +86,50 @@ public class Stage_infinity : MonoBehaviour
     GameObject arrow2;
     GameObject arrow3;
     #endregion
-    // ----------------- Pattern8_1 ---------------
+    // ----------------- Pattern1_8_1 ---------------
     #region Pattern8_1
     GameObject target8_1;
     GameObject arrow8_1;
     GameObject arrow8_2;
     GameObject arrow8_3;
     #endregion
-    // ----------------- Pattern9 -----------------
+    // ----------------- Pattern1_9 -----------------
     #region Pattern9
     GameObject pattern9_1;
     GameObject pattern9_2;
     #endregion
+
+    // ----------------- Pattern 2_2 -----------------
+    GameObject pattern2_2_1;
+    GameObject pattern2_2_2;
+
+    GameObject effect2_1;
+    GameObject effect2_2;
+    // ----------------- overlab_Pattern 2_2 -----------------
+    GameObject overlab_pattern2_2_1;
+    GameObject overlab_pattern2_2_2;
+
+    GameObject overlab_effect2_1;
+    GameObject overlab_effect2_2;
+
+
+
+    // ----------------- Pattern 4 -----------------
+    GameObject pattern2_4_1;
+    GameObject pattern2_4_2;
+
+    GameObject effect4_1;
+    GameObject effect4_2;
+
+    // ----------------- overlab_Pattern 4 -----------------
+    GameObject overlab_pattern2_4_1;
+    GameObject overlab_pattern2_4_2;
+
+    GameObject overlab_effect4_1;
+    GameObject overlab_effect4_2;
+
+
+
     // ----------------- Overlab -----------------
     #region Overlab
     // ----------------- PatternOverlab_2 -----------------
@@ -137,7 +171,7 @@ public class Stage_infinity : MonoBehaviour
     GameObject overlab_arrow8_1;
     GameObject overlab_arrow8_2;
     GameObject overlab_arrow8_3;
-#endregion
+    #endregion
     float ptn9_playTime = 0.3f;
     float ptn9_delayTime = 1.7f;
 
@@ -148,8 +182,8 @@ public class Stage_infinity : MonoBehaviour
     int randomOverlab;
 
     //----------------- Text -----------------
-   public Text currentText;
-   public Text maxText;
+    public Text currentText;
+    public Text maxText;
 
     public void Scp1_2()
     {
@@ -3080,6 +3114,749 @@ public class Stage_infinity : MonoBehaviour
         Destroy(pattern9_1);
         Destroy(pattern9_2);
         isPattern = false;
+    }
+    #endregion
+    public void Scp2_2()
+    {
+        isPattern = true;
+        StartCoroutine(Scp2_2_Pattern());
+    }
+    #region Scp2_2 패턴로직
+    IEnumerator Scp2_2_Pattern()
+    {
+        #region Setting
+        pattern2_2_1 = PatternManager.Instance.StartPattern("Test");
+        pattern2_2_2 = PatternManager.Instance.StartPattern("Test");
+
+        effect2_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect2_2 = PatternManager.Instance.StartPattern("PatternEffect");
+
+        TrailRender tr1;
+        TrailRender tr2;
+        tr1 = effect2_1.GetComponent<TrailRender>();
+        tr2 = effect2_2.GetComponent<TrailRender>();
+        tr1.trailWidthMultiplier = 4f;
+        tr2.trailWidthMultiplier = 4f;
+
+        SpriteRenderer sprite2_2 = pattern2_2_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite2_3 = pattern2_2_2.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color2_2 = sprite2_2.color;
+        UnityEngine.Color color2_3 = sprite2_3.color;
+
+        color2_2.a = 0;
+        color2_3.a = 0;
+
+        sprite2_2.color = color2_2;
+        sprite2_3.color = color2_3;
+
+        pattern2_2_1.transform.position = new Vector3(25, 20, 0);
+        pattern2_2_2.transform.position = new Vector3(-25, 13, 0);
+
+        Vector3 startpattern2_1 = new Vector3(25, 20, 0);
+        Vector3 midpattern2_1 = new Vector3(-10, -90, 0);
+        Vector3 endpattern2_1 = new Vector3(-35, 75, 0);
+
+        Vector3 startpattern2_2 = new Vector3(-25, 13, 0);
+        Vector3 midpattern2_2 = new Vector3(8, -77, 0);
+        Vector3 endpattern2_2 = new Vector3(30, 75, 0);
+
+        Vector3 effect_startpattern2_1 = new Vector3(25, 20, 0);
+        Vector3 effect_midpattern2_1 = new Vector3(-10, -90, 0);
+        Vector3 effect_endpattern2_1 = new Vector3(-30, 75, 0);
+
+        Vector3 effect_startpattern2_2 = new Vector3(-25, 13, 0);
+        Vector3 effect_midpattern2_2 = new Vector3(8, -77, 0);
+        Vector3 effect_endpattern2_2 = new Vector3(30, 75, 0);
+
+        float duration = 2.0f; // 이동 시간
+        float euler = 35f; // 회전각도
+        #endregion
+        float startTime = Time.time;
+        while (Time.time - startTime < 1) // 대기시간
+        {
+            float alpha = (Time.time - startTime) / 1f;
+
+            color2_2.a = alpha;
+            color2_3.a = alpha;
+
+            sprite2_2.color = color2_2;
+            sprite2_3.color = color2_3;
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            pattern2_2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
+            pattern2_2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.04f)
+        {
+            float t = (Time.time - startTime) / 0.04f;
+            TrailRender.showTrail = true;
+
+            pattern2_2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
+            pattern2_2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
+
+            Vector3 position1 = Vector3.Lerp(effect_startpattern2_1, effect_endpattern2_1, t) + effect_midpattern2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            effect2_1.transform.position = position1; // 이동
+
+            Vector3 position2 = Vector3.Lerp(effect_startpattern2_2, effect_endpattern2_2, t) + effect_midpattern2_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            effect2_2.transform.position = position2; // 이동
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            pattern2_2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
+            pattern2_2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+
+            yield return null;
+
+        }
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            pattern2_2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);  // 뱅글뱅글
+            pattern2_2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);   // 뱅글뱅글
+
+            Vector3 position1 = Vector3.Lerp(startpattern2_1, endpattern2_1, t) + midpattern2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            pattern2_2_1.transform.position = position1; // 이동
+
+            Vector3 position2 = Vector3.Lerp(startpattern2_2, endpattern2_2, t) + midpattern2_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            pattern2_2_2.transform.position = position2; // 이동
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 3 - duration)
+        {
+            pattern2_2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
+            pattern2_2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
+
+            yield return null;
+        }
+        Destroy(pattern2_2_1);
+        Destroy(pattern2_2_2);
+        Destroy(effect2_1);
+        Destroy(effect2_2);
+        isPattern = false;
+    }
+    #endregion
+
+    public void overlabScp2_2()
+    {
+        isOverlab = true;
+        StartCoroutine(overalb_Scp2_2_Pattern());
+    }
+    #region overlab_Scp2_2 패턴로직
+    IEnumerator overalb_Scp2_2_Pattern()
+    {
+        #region Setting
+        overlab_pattern2_2_1 = PatternManager.Instance.StartPattern("Test");
+        overlab_pattern2_2_2 = PatternManager.Instance.StartPattern("Test");
+
+        overlab_effect2_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        overlab_effect2_2 = PatternManager.Instance.StartPattern("PatternEffect");
+
+        TrailRender tr1;
+        TrailRender tr2;
+        tr1 = overlab_effect2_1.GetComponent<TrailRender>();
+        tr2 = overlab_effect2_2.GetComponent<TrailRender>();
+        tr1.trailWidthMultiplier = 4f;
+        tr2.trailWidthMultiplier = 4f;
+
+        SpriteRenderer sprite2_2 = overlab_pattern2_2_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite2_3 = overlab_pattern2_2_2.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color2_2 = sprite2_2.color;
+        UnityEngine.Color color2_3 = sprite2_3.color;
+
+        color2_2.a = 0;
+        color2_3.a = 0;
+
+        sprite2_2.color = color2_2;
+        sprite2_3.color = color2_3;
+
+        overlab_pattern2_2_1.transform.position = new Vector3(25, 20, 0);
+        overlab_pattern2_2_2.transform.position = new Vector3(-25, 13, 0);
+
+        Vector3 startpattern2_1 = new Vector3(25, 20, 0);
+        Vector3 midpattern2_1 = new Vector3(-10, -90, 0);
+        Vector3 endpattern2_1 = new Vector3(-35, 75, 0);
+
+        Vector3 startpattern2_2 = new Vector3(-25, 13, 0);
+        Vector3 midpattern2_2 = new Vector3(8, -77, 0);
+        Vector3 endpattern2_2 = new Vector3(30, 75, 0);
+
+        Vector3 effect_startpattern2_1 = new Vector3(25, 20, 0);
+        Vector3 effect_midpattern2_1 = new Vector3(-10, -90, 0);
+        Vector3 effect_endpattern2_1 = new Vector3(-30, 75, 0);
+
+        Vector3 effect_startpattern2_2 = new Vector3(-25, 13, 0);
+        Vector3 effect_midpattern2_2 = new Vector3(8, -77, 0);
+        Vector3 effect_endpattern2_2 = new Vector3(30, 75, 0);
+
+        float duration = 2.0f; // 이동 시간
+        float euler = 35f; // 회전각도
+        #endregion
+        float startTime = Time.time;
+        while (Time.time - startTime < 1) // 대기시간
+        {
+            float alpha = (Time.time - startTime) / 1f;
+
+            color2_2.a = alpha;
+            color2_3.a = alpha;
+
+            sprite2_2.color = color2_2;
+            sprite2_3.color = color2_3;
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            overlab_pattern2_2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
+            overlab_pattern2_2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.04f)
+        {
+            float t = (Time.time - startTime) / 0.04f;
+            TrailRender.showTrail = true;
+
+            overlab_pattern2_2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
+            overlab_pattern2_2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
+
+            Vector3 position1 = Vector3.Lerp(effect_startpattern2_1, effect_endpattern2_1, t) + effect_midpattern2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            overlab_effect2_1.transform.position = position1; // 이동
+
+            Vector3 position2 = Vector3.Lerp(effect_startpattern2_2, effect_endpattern2_2, t) + effect_midpattern2_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            overlab_effect2_2.transform.position = position2; // 이동
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            overlab_pattern2_2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
+            overlab_pattern2_2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+
+            yield return null;
+
+        }
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            overlab_pattern2_2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);  // 뱅글뱅글
+            overlab_pattern2_2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);   // 뱅글뱅글
+
+            Vector3 position1 = Vector3.Lerp(startpattern2_1, endpattern2_1, t) + midpattern2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            overlab_pattern2_2_1.transform.position = position1; // 이동
+
+            Vector3 position2 = Vector3.Lerp(startpattern2_2, endpattern2_2, t) + midpattern2_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            overlab_pattern2_2_2.transform.position = position2; // 이동
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 3 - duration)
+        {
+            overlab_pattern2_2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
+            overlab_pattern2_2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
+
+            yield return null;
+        }
+        Destroy(overlab_pattern2_2_1);
+        Destroy(overlab_pattern2_2_2);
+        Destroy(overlab_effect2_1);
+        Destroy(overlab_effect2_2);
+        isOverlab = false;
+    }
+    #endregion
+    public void Scp2_4()
+    {
+        isPattern = true;
+        StartCoroutine(Scp2_4_Pattern());    
+    }
+    #region Scp2_4 패턴로직
+    IEnumerator Scp2_4_Pattern()
+    {
+        pattern2_4_1 = PatternManager.Instance.StartPattern("Test"); // 왼쪽
+        pattern2_4_2 = PatternManager.Instance.StartPattern("Test"); // 오른쪽
+
+        effect4_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        effect4_2 = PatternManager.Instance.StartPattern("PatternEffect");
+
+        TrailRender tr1;
+        TrailRender tr2;
+        tr1 = effect4_1.GetComponent<TrailRender>();
+        tr2 = effect4_2.GetComponent<TrailRender>();
+
+        tr1.trailWidthMultiplier = 2f;
+        tr2.trailWidthMultiplier = 2f;
+        #region Setting
+        SpriteRenderer sprite4_1 = pattern2_4_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite4_2 = pattern2_4_2.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color4_1 = sprite4_1.color;
+        UnityEngine.Color color4_2 = sprite4_2.color;
+
+        color4_1.a = 0f;
+        color4_2.a = 0f;
+
+        sprite4_1.color = color4_1;
+        sprite4_2.color = color4_2;
+
+        pattern2_4_1.transform.position = new Vector3(-25, 0, 0);
+        pattern2_4_2.transform.position = new Vector3(25, 0, 0); // 시작좌표
+
+        #region 포물선 좌표값
+        Vector3 startpattern4_1 = new Vector3(-25, 0, 0);
+        Vector3 midpattern4_1 = new Vector3(0, 25, 0);
+        Vector3 endpattern4_1 = new Vector3(25, 0, 0);
+
+        Vector3 startpattern4_2 = new Vector3(25, 0, 0);
+        Vector3 midpattern4_2 = new Vector3(0, -25, 0);
+        Vector3 endpattern4_2 = new Vector3(-25, 0, 0);
+        // =============돌아옴=============
+        Vector3 startpattern4_1_1 = new Vector3(25, 0, 0);
+        Vector3 midpattern4_1_1 = new Vector3(0, 25, 0);
+        Vector3 endpattern4_1_1 = new Vector3(-25, 0, 0);
+
+        Vector3 startpattern4_2_1 = new Vector3(-25, 0, 0);
+        Vector3 midpattern4_2_1 = new Vector3(0, -25, 0);
+        Vector3 endpattern4_2_1 = new Vector3(25, 0, 0);
+   
+        #endregion
+
+        #endregion
+        float startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            // 투명도 점점 올리기
+            float alpha = (Time.time - startTime) / 1f;
+            color4_1.a = alpha;
+            color4_2.a = alpha;
+
+            sprite4_1.color = color4_1;
+            sprite4_2.color = color4_2;
+
+            yield return null;
+        } // 투명도
+        float duration = 1.5f; // 이동 시간
+        float rotateSpeed = 35f;
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.7f)
+        {
+            float t = (Time.time - startTime) / 0.7f;
+
+            pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50);    //뱅글뱅글
+            pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50);  //뱅글뱅글
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.1f)
+        {
+            float t = (Time.time - startTime) / 0.1f;
+            pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            TrailRender.showTrail = true;
+
+            Vector3 position1 = Vector3.Lerp(startpattern4_1, endpattern4_1, t) + midpattern4_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            effect4_1.transform.position = position1; // 이동
+
+            Vector3 position2 = Vector3.Lerp(startpattern4_2, endpattern4_2, t) + midpattern4_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            effect4_2.transform.position = position2; // 이동
+
+            yield return null;
+        }
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            Vector3 position1 = Vector3.Lerp(startpattern4_1, endpattern4_1, t) + midpattern4_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            pattern2_4_1.transform.position = position1; // 이동
+
+            Vector3 position2 = Vector3.Lerp(startpattern4_2, endpattern4_2, t) + midpattern4_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            pattern2_4_2.transform.position = position2; // 이동
+
+            yield return null;
+        } // 날라감
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            rotateSpeed -= Time.deltaTime * 20f;
+            pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+            yield return null;
+        }// 잠깐 대기하면서 회전속도감소
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.1f)
+        {
+            float t = (Time.time - startTime) / 0.1f;
+            TrailRender.showTrail = true;
+
+            pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            Vector3 position1 = Vector3.Lerp(startpattern4_1_1, endpattern4_1_1, t) + midpattern4_1_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            effect4_1.transform.position = position1; // 이동
+
+
+            Vector3 position2 = Vector3.Lerp(startpattern4_2_1, endpattern4_2_1, t) + midpattern4_2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            effect4_2.transform.position = position2; // 이동
+
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+            yield return null;
+        }
+
+        rotateSpeed = 35f;
+
+        startTime = Time.time;
+        while (Time.time - startTime < duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+            pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, +rotateSpeed * Time.deltaTime * 50f);
+
+            Vector3 position1 = Vector3.Lerp(startpattern4_1_1, endpattern4_1_1, t) + midpattern4_1_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            pattern2_4_1.transform.position = position1; // 이동
+
+
+            Vector3 position2 = Vector3.Lerp(startpattern4_2_1, endpattern4_2_1, t) + midpattern4_2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            pattern2_4_2.transform.position = position2; // 이동
+
+
+            yield return null;
+        } // 돌아옴
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+            pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, +rotateSpeed * Time.deltaTime * 50f);
+            yield return null;
+        }// 잠깐 대기
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+            pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, +rotateSpeed * Time.deltaTime * 50f);
+            // 투명도 점점0
+            float alpha = (Time.time - startTime) / 1f;
+            color4_1.a = 1 - alpha;
+            color4_2.a = 1 - alpha;
+
+            sprite4_1.color = color4_1;
+            sprite4_2.color = color4_2;
+
+            yield return null;
+        } // 투명도감소
+
+        Destroy(pattern2_4_1.gameObject);
+        Destroy(pattern2_4_2.gameObject);
+        Destroy(effect4_1.gameObject);
+        Destroy(effect4_2.gameObject);
+        isPattern = false;
+    }
+    #endregion
+    public void overlab_Scp2_4()
+    {
+        isOverlab = true;
+        StartCoroutine(overlab_Scp2_4_Pattern());
+    }
+    #region Scp2_4 패턴로직
+    IEnumerator overlab_Scp2_4_Pattern()
+    {
+        overlab_pattern2_4_1 = PatternManager.Instance.StartPattern("Test"); // 왼쪽
+        overlab_pattern2_4_2 = PatternManager.Instance.StartPattern("Test"); // 오른쪽
+
+        overlab_effect4_1 = PatternManager.Instance.StartPattern("PatternEffect");
+        overlab_effect4_2 = PatternManager.Instance.StartPattern("PatternEffect");
+
+        TrailRender tr1;
+        TrailRender tr2;
+        tr1 = overlab_effect4_1.GetComponent<TrailRender>();
+        tr2 = overlab_effect4_2.GetComponent<TrailRender>();
+
+        tr1.trailWidthMultiplier = 2f;
+        tr2.trailWidthMultiplier = 2f;
+        #region Setting
+        SpriteRenderer sprite4_1 = overlab_pattern2_4_1.GetComponent<SpriteRenderer>();
+        SpriteRenderer sprite4_2 = overlab_pattern2_4_2.GetComponent<SpriteRenderer>();
+
+        UnityEngine.Color color4_1 = sprite4_1.color;
+        UnityEngine.Color color4_2 = sprite4_2.color;
+
+        color4_1.a = 0f;
+        color4_2.a = 0f;
+
+        sprite4_1.color = color4_1;
+        sprite4_2.color = color4_2;
+
+        overlab_pattern2_4_1.transform.position = new Vector3(-25, 0, 0);
+        overlab_pattern2_4_2.transform.position = new Vector3(25, 0, 0); // 시작좌표
+
+        #region 포물선 좌표값
+        Vector3 startpattern4_1 = new Vector3(-25, 0, 0);
+        Vector3 midpattern4_1 = new Vector3(0, 25, 0);
+        Vector3 endpattern4_1 = new Vector3(25, 0, 0);
+
+        Vector3 startpattern4_2 = new Vector3(25, 0, 0);
+        Vector3 midpattern4_2 = new Vector3(0, -25, 0);
+        Vector3 endpattern4_2 = new Vector3(-25, 0, 0);
+        // =============돌아옴=============
+        Vector3 startpattern4_1_1 = new Vector3(25, 0, 0);
+        Vector3 midpattern4_1_1 = new Vector3(0, 25, 0);
+        Vector3 endpattern4_1_1 = new Vector3(-25, 0, 0);
+
+        Vector3 startpattern4_2_1 = new Vector3(-25, 0, 0);
+        Vector3 midpattern4_2_1 = new Vector3(0, -25, 0);
+        Vector3 endpattern4_2_1 = new Vector3(25, 0, 0);
+
+        #endregion
+
+        #endregion
+        float startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            // 투명도 점점 올리기
+            float alpha = (Time.time - startTime) / 1f;
+            color4_1.a = alpha;
+            color4_2.a = alpha;
+
+            sprite4_1.color = color4_1;
+            sprite4_2.color = color4_2;
+
+            yield return null;
+        } // 투명도
+        float duration = 1.5f; // 이동 시간
+        float rotateSpeed = 35f;
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.7f)
+        {
+            float t = (Time.time - startTime) / 0.7f;
+
+            overlab_pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50);    //뱅글뱅글
+            overlab_pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50);  //뱅글뱅글
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.1f)
+        {
+            float t = (Time.time - startTime) / 0.1f;
+            overlab_pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            overlab_pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            TrailRender.showTrail = true;
+
+            Vector3 position1 = Vector3.Lerp(startpattern4_1, endpattern4_1, t) + midpattern4_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+           overlab_effect4_1.transform.position = position1; // 이동
+
+            Vector3 position2 = Vector3.Lerp(startpattern4_2, endpattern4_2, t) + midpattern4_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            overlab_effect4_2.transform.position = position2; // 이동
+
+            yield return null;
+        }
+
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            overlab_pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            overlab_pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+            yield return null;
+        }
+
+        startTime = Time.time;
+        while (Time.time - startTime < duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            overlab_pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            overlab_pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            Vector3 position1 = Vector3.Lerp(startpattern4_1, endpattern4_1, t) + midpattern4_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            overlab_pattern2_4_1.transform.position = position1; // 이동
+
+            Vector3 position2 = Vector3.Lerp(startpattern4_2, endpattern4_2, t) + midpattern4_2 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            overlab_pattern2_4_2.transform.position = position2; // 이동
+
+            yield return null;
+        } // 날라감
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            rotateSpeed -= Time.deltaTime * 20f;
+            overlab_pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            overlab_pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+            yield return null;
+        }// 잠깐 대기하면서 회전속도감소
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.1f)
+        {
+            float t = (Time.time - startTime) / 0.1f;
+            TrailRender.showTrail = true;
+
+            overlab_pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            overlab_pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            Vector3 position1 = Vector3.Lerp(startpattern4_1_1, endpattern4_1_1, t) + midpattern4_1_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            overlab_effect4_1.transform.position = position1; // 이동
+
+
+            Vector3 position2 = Vector3.Lerp(startpattern4_2_1, endpattern4_2_1, t) + midpattern4_2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            overlab_effect4_2.transform.position = position2; // 이동
+
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            overlab_pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
+            overlab_pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+
+            yield return null;
+        }
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            TrailRender.showTrail = false;
+            yield return null;
+        }
+
+        rotateSpeed = 35f;
+
+        startTime = Time.time;
+        while (Time.time - startTime < duration)
+        {
+            float t = (Time.time - startTime) / duration;
+            overlab_pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+            overlab_pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, +rotateSpeed * Time.deltaTime * 50f);
+
+            Vector3 position1 = Vector3.Lerp(startpattern4_1_1, endpattern4_1_1, t) + midpattern4_1_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            overlab_pattern2_4_1.transform.position = position1; // 이동
+
+
+            Vector3 position2 = Vector3.Lerp(startpattern4_2_1, endpattern4_2_1, t) + midpattern4_2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
+            overlab_pattern2_4_2.transform.position = position2; // 이동
+
+
+            yield return null;
+        } // 돌아옴
+
+        startTime = Time.time;
+        while (Time.time - startTime < 0.3f)
+        {
+            overlab_pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+            overlab_pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, +rotateSpeed * Time.deltaTime * 50f);
+            yield return null;
+        }// 잠깐 대기
+
+        startTime = Time.time;
+        while (Time.time - startTime < 1f)
+        {
+            overlab_pattern2_4_1.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
+            overlab_pattern2_4_2.transform.eulerAngles += new Vector3(0, 0, +rotateSpeed * Time.deltaTime * 50f);
+            // 투명도 점점0
+            float alpha = (Time.time - startTime) / 1f;
+            color4_1.a = 1 - alpha;
+            color4_2.a = 1 - alpha;
+
+            sprite4_1.color = color4_1;
+            sprite4_2.color = color4_2;
+
+            yield return null;
+        } // 투명도감소
+
+        Destroy(overlab_pattern2_4_1.gameObject);
+        Destroy(overlab_pattern2_4_2.gameObject);
+        Destroy(overlab_effect4_1.gameObject);
+        Destroy(overlab_effect4_2.gameObject);
+        isOverlab = false;
     }
     #endregion
 

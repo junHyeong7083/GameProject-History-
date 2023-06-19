@@ -1,0 +1,111 @@
+knight.png
+size:7223,3983
+filter:Linear,Linear
+pma:true
+0c19d56f0745a2a4
+bounds:6016,2957,1024,1024
+L_calf
+bounds:6873,670,212,465
+L_foot
+bounds:7042,3177,186,177
+rotate:90
+L_hand
+bounds:7023,2549,196,215
+L_hand 2
+bounds:5234,2439,524,1542
+L_hand_2
+bounds:6246,1504,300,275
+L_low_arm
+bounds:3772,1431,276,262
+L_ribbon
+bounds:4050,1463,182,951
+L_shield
+bounds:5720,42,524,1541
+L_shoulder
+bounds:7042,3365,179,307
+L_shoulder 2
+bounds:7042,3674,179,307
+L_thigh
+bounds:3329,1425,268,441
+rotate:90
+L_thigh 2
+bounds:2886,1425,268,441
+rotate:90
+L_up_arm
+bounds:6246,688,257,496
+R_Hand
+bounds:5760,3549,187,235
+rotate:90
+R_axe
+bounds:2886,1695,525,2286
+R_calf
+bounds:5760,2448,257,507
+R_foot
+bounds:6016,1591,208,188
+R_hand 2
+bounds:3413,1695,525,2286
+R_hand_2
+bounds:7023,2332,196,215
+R_hand_3
+bounds:6246,1186,316,297
+rotate:90
+R_low_arm
+bounds:5760,3738,243,246
+rotate:90
+R_ribbon
+bounds:6019,2766,189,1020
+rotate:90
+R_shoulder
+bounds:6568,302,424,366
+R_shoulder 2
+bounds:6505,711,424,366
+rotate:90
+R_thigh
+bounds:6521,2448,316,500
+rotate:90
+R_thigh  2
+bounds:6019,2448,316,500
+rotate:90
+R_up_arm
+bounds:6246,184,320,502
+X
+bounds:2,1421,1440,2560
+back_cloth
+bounds:6016,1781,533,665
+bow1
+bounds:2,2,1104,1417
+bow2
+bounds:1108,2,1104,1417
+bow3
+bounds:2214,2,1104,1417
+bow4
+bounds:3320,6,1104,1417
+cloak
+bounds:4426,15,1292,1565
+cloak 2
+bounds:3940,2416,1292,1565
+front_cloth_1
+bounds:5739,1760,275,677
+front_cloth_2
+bounds:3940,1791,72,623
+front_collar
+bounds:5760,2983,281,195
+rotate:90
+front_collar blood
+bounds:5760,3266,281,223
+rotate:90
+head
+bounds:6548,1137,504,566
+rotate:90
+head 2
+bounds:6551,1643,504,566
+rotate:90
+pelvis
+bounds:6551,2149,468,297
+spear
+bounds:1444,1421,1440,2560
+upper_body
+bounds:5065,1585,672,829
+upper_body blood
+bounds:4234,1582,832,829
+rotate:90

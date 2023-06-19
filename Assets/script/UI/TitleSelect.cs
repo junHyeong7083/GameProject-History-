@@ -62,6 +62,14 @@ public class TitleSelect : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
+    public void stage2_change()
+    {
+        SceneManager.LoadScene(1);
+    }
+    public void stage3_change()
+    {
+        SceneManager.LoadScene(1);
+    }
 
     void Update()
     {
@@ -89,18 +97,26 @@ public class TitleSelect : MonoBehaviour
                 {
                     switch (SelectIcon)
                     {
-                        case 1:
+                        case 1: // 스테이지 선택
                             checkActive = false;
                             SelectPanel.gameObject.SetActive(true);
                             break;
-                        case 2:
+                        case 2: // 웨이브모드
                             SceneManager.LoadScene(2);
                             checkActive = false;
                             break;
-                        case 3:
+                        case 3: // 게임종료
+#if UNITY_EDITOR
+                            // 에디터에서는 플레이 모드를 중지합니다.
+                            UnityEditor.EditorApplication.isPlaying = false;
+#else
+        // 빌드된 게임에서는 어플리케이션을 종료합니다.
+        Application.Quit();
+#endif
                             checkActive = false;
                             break;
-                        case 4:
+                        case 4: // 튜토리얼
+                            SceneManager.LoadScene(4);
                             checkActive = false;
                             break;
                     }
