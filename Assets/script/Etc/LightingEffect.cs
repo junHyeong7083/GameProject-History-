@@ -67,6 +67,12 @@ public class LightingEffect : MonoBehaviour
         float normalizedTime = animatorState.normalizedTime % 1f; // 정규화된 시간(0~1 범위)
 
         currentFrame = Mathf.FloorToInt(normalizedTime * totalFrames);
+
+        if (currentFrame == totalFrames - 1)
+        {
+            // Collider 활성화
+            collider.enabled = false;
+        }
     }
 
 }

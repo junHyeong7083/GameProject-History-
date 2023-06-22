@@ -116,6 +116,7 @@ public class Stage2_Boss : MonoBehaviour
     #endregion
     void Start()
     {
+        delayTime = 0f;
 
         skeletonAnimation = GetComponent<SkeletonAnimation>();
         SetCurrentAnimation(AnimState_biking.biking_idle);
@@ -140,7 +141,10 @@ public class Stage2_Boss : MonoBehaviour
         hitEffect.gameObject.SetActive(false);
         #endregion
     }
-
+    public void Test()
+    {
+        currentHp -= 1000;
+    }
 
     public enum AnimState_biking
     {
@@ -318,16 +322,17 @@ public class Stage2_Boss : MonoBehaviour
 
             yield return null;
         }
-        startTime = Time.time;
-        while(Time.time - startTime < 1f)
+        startTime = Time.time; 
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
+        while (Time.time - startTime < 1f)
         {
             pattern2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
             pattern2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
-
+            
             yield return null;
         }
         startTime = Time.time;
-        while(Time.time - startTime < 0.04f)
+        while (Time.time - startTime < 0.04f)
         {
             float t = (Time.time - startTime) / 0.04f;
             TrailRender.showTrail = true;
@@ -343,15 +348,16 @@ public class Stage2_Boss : MonoBehaviour
 
             yield return null;
         }
-        startTime = Time.time;
-        while(Time.time - startTime < 1f)
+        startTime = Time.time; 
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
+        while (Time.time - startTime < 1f)
         {
+      
             pattern2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
             pattern2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
 
             yield return null;
         }
-
         startTime = Time.time;
         while(Time.time - startTime < 0.3f)
         {
@@ -361,7 +367,7 @@ public class Stage2_Boss : MonoBehaviour
 
         }
 
-
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         startTime = Time.time;
         while(Time.time - startTime  < duration)
         {
@@ -379,7 +385,7 @@ public class Stage2_Boss : MonoBehaviour
         }
 
         startTime = Time.time;
-        while(Time.time - startTime < 3-duration)
+        while (Time.time - startTime < 3-duration)
         {
             pattern2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
             pattern2_2.transform.eulerAngles += new Vector3(0, 0, euler * Time.deltaTime * 50);
@@ -647,12 +653,12 @@ public class Stage2_Boss : MonoBehaviour
         float rotateSpeed = 35f;
 
         startTime = Time.time;
-        while(Time.time - startTime<0.7f)
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
+        while (Time.time - startTime<0.7f)
         {
             float t = (Time.time - startTime) / 0.7f;
             Vector3 bossposition = Vector3.Lerp(startboss, endboss, t); // 포물선 이동 경로 계산
             this.transform.position = bossposition; // 이동
-
 
             pattern4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50);    //뱅글뱅글
             pattern4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50);  //뱅글뱅글
@@ -677,7 +683,7 @@ public class Stage2_Boss : MonoBehaviour
             yield return null;
         }
 
-
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         startTime = Time.time;
         while(Time.time - startTime < 1f)
         {
@@ -693,7 +699,7 @@ public class Stage2_Boss : MonoBehaviour
             TrailRender.showTrail = false;
             yield return null;
         }
-
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         startTime = Time.time;
         while (Time.time - startTime < duration)
         {
@@ -738,7 +744,7 @@ public class Stage2_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-        while(Time.time - startTime < 1f)
+        while (Time.time - startTime < 1f)
         {
             pattern4_1.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime * 50f);
             pattern4_2.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime * 50f);
@@ -754,6 +760,7 @@ public class Stage2_Boss : MonoBehaviour
 
         rotateSpeed = 35f;
 
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         startTime = Time.time;
         while (Time.time - startTime < duration)
         {
@@ -771,7 +778,7 @@ public class Stage2_Boss : MonoBehaviour
 
             yield return null;
         } // 돌아옴
-
+      //  SoundManager.Instance.PlaySFXSound("Scp2_2");
         startTime = Time.time;
         while (Time.time - startTime < 0.3f)
         {
@@ -845,7 +852,7 @@ public class Stage2_Boss : MonoBehaviour
         pattern5_1.transform.position = new Vector3(-21, -2, 0);
         SpriteRenderer sprite5_1 = pattern5_1.GetComponent<SpriteRenderer>();
         UnityEngine.Color color5_1 = sprite5_1.color;
-
+        SoundManager.Instance.PlaySFXSound("Scp2_5");
         PatternEffect.transform.position = new Vector3(0, 80, 0);
         targetPosition = new Vector3(PatternEffect.transform.position.x, PatternEffect.transform.position.y - 500f, PatternEffect.transform.position.z);
         startTime = Time.time;
@@ -879,7 +886,7 @@ public class Stage2_Boss : MonoBehaviour
         pattern5_2.transform.position = new Vector3(0, -2, 0);
         SpriteRenderer sprite5_2 = pattern5_2.GetComponent<SpriteRenderer>();
         UnityEngine.Color color5_2 = sprite5_2.color;
-
+        SoundManager.Instance.PlaySFXSound("Scp2_5");
         PatternEffect.transform.position = new Vector3(21, 80, 0);
         targetPosition = new Vector3(PatternEffect.transform.position.x, PatternEffect.transform.position.y - 500f, PatternEffect.transform.position.z);
 
@@ -910,6 +917,7 @@ public class Stage2_Boss : MonoBehaviour
         pattern5_3 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
         pattern5_3.transform.position = new Vector3(21, -2, 0);
         SpriteRenderer sprite5_3 = pattern5_3.GetComponent<SpriteRenderer>();
+        SoundManager.Instance.PlaySFXSound("Scp2_5");
         UnityEngine.Color color5_3 = sprite5_3.color;
         startTime = Time.time;
         while (Time.time - startTime < 1f)
@@ -980,6 +988,8 @@ public class Stage2_Boss : MonoBehaviour
 
             yield return null;
         }
+        SoundManager.Instance.PlaySFXSound("hammer");
+
         SetCurrentAnimation(AnimState_biking.biking_idle);
         effect6_1.transform.position = new Vector3(-7, 80, 0);
         Vector3 targetPosition1 = new Vector3(effect6_1.transform.position.x, effect6_1.transform.position.y - 500f, effect6_1.transform.position.z);
@@ -1012,7 +1022,7 @@ public class Stage2_Boss : MonoBehaviour
 
         pattern6_1 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
         pattern6_2 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
-      
+        SoundManager.Instance.PlaySFXSound("Scp2_5");
         pattern6_1.transform.position = new Vector3(-7, -2, 0);
         pattern6_2.transform.position = new Vector3( 7, -2, 0);
 
@@ -1057,7 +1067,7 @@ public class Stage2_Boss : MonoBehaviour
 
         pattern6_3 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
         pattern6_4 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
-
+        SoundManager.Instance.PlaySFXSound("Scp2_5");
         pattern6_3.transform.position = new Vector3(-15, -2, 0);
         pattern6_4.transform.position = new Vector3(15, -2, 0);
 
@@ -1102,7 +1112,7 @@ public class Stage2_Boss : MonoBehaviour
         }
         pattern6_5 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
         pattern6_6 = PatternManager.Instance.StartPattern("Stage2_LightningEffect");
-
+        SoundManager.Instance.PlaySFXSound("Scp2_5");
         pattern6_5.transform.position = new Vector3(-24, -2, 0);
         pattern6_6.transform.position = new Vector3(24, -2, 0);
 
@@ -1170,7 +1180,8 @@ public class Stage2_Boss : MonoBehaviour
 
         startTime = Time.time;
         float duration = 1.5f;
-        while(Time.time - startTime < duration)
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
+        while (Time.time - startTime < duration)
         {
             if(Time.time - startTime < 0.5f)
             {
@@ -1183,7 +1194,7 @@ public class Stage2_Boss : MonoBehaviour
             float t = (Time.time - startTime) / duration;
             Vector3 position1 = Vector3.Lerp(startpattern7_1, endpattern7_1, t) + midpattern7_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
             pattern7.transform.position = position1;
-
+            
             yield return null;
         } // 헤머 포물선
         SetCurrentAnimation(AnimState_biking.biking_idle);
@@ -1209,13 +1220,14 @@ public class Stage2_Boss : MonoBehaviour
         pattern7.transform.eulerAngles = new Vector3(0, 0, 45);
         rotateSpeed = 720f;
         startTime = Time.time;
-        while(Time.time - startTime < 3 )
+        SoundManager.Instance.PlaySFXSound("hammer2");
+        while (Time.time - startTime < 3 )
         {
             TrailRender.showTrail = false;
             float offset = 60f * Time.deltaTime;
             pattern7.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime);
             pattern7.transform.position += new Vector3(offset * 2, 0, 0);
-       
+
 
             yield return null;
         } // 왼-> 오
@@ -1239,7 +1251,7 @@ public class Stage2_Boss : MonoBehaviour
         } // 이펙트 보여줌
 
         pattern7.transform.eulerAngles = new Vector3(0, 0, -45);
-
+        SoundManager.Instance.PlaySFXSound("hammer2");
         startTime = Time.time;
         while(Time.time - startTime <3)
         {
@@ -1247,6 +1259,7 @@ public class Stage2_Boss : MonoBehaviour
             float offset = -60f * Time.deltaTime;
             pattern7.transform.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime);
             pattern7.transform.position += new Vector3(offset * 2, 0, 0);
+
             yield return null;
         } // 오 -> 왼
 
@@ -1269,7 +1282,7 @@ public class Stage2_Boss : MonoBehaviour
         }
 
         pattern7.transform.eulerAngles = new Vector3(0, 0, 45);
-
+        SoundManager.Instance.PlaySFXSound("hammer2");
         while (Time.time - startTime < 3)
         {
             TrailRender.showTrail = false;
@@ -1277,7 +1290,7 @@ public class Stage2_Boss : MonoBehaviour
             pattern7.transform.eulerAngles += new Vector3(0, 0, -rotateSpeed * Time.deltaTime);
 
             pattern7.transform.position += new Vector3(offset * 2, 0, 0);
-             
+      
 
             yield return null;
         } // 왼-> 오
@@ -1648,7 +1661,7 @@ public class Stage2_Boss : MonoBehaviour
     }
     #endregion
 
-    public void Test()
+    public void Test2()
     {
         currentHp -= 200f;
     }
@@ -1657,6 +1670,8 @@ public class Stage2_Boss : MonoBehaviour
     float delayTime;
     private void Update()
     {
+        TrailRender.showTrail = false;
+        TrailRender.overlab_showTrail = false;
         #region Hp Bar
         float fillAmount = currentHp / maxHp;
         fillAmount = Mathf.Clamp(fillAmount, 0f, 1f);
@@ -1665,23 +1680,39 @@ public class Stage2_Boss : MonoBehaviour
 
         PlayerPos = Player.transform.position;
         bossPos = this.transform.position;
+        #region Boss Hit
+        if (!isBossDie)
+        {
+            if (PlayerController.atkState) // 공격상태이면
+            {
+                hitEffect.transform.position = bossPos;
+                hitEffect.gameObject.SetActive(true);
+                currentHp -= Time.deltaTime * 50f;
+            }
+            else if (!PlayerController.atkState)
+            {
+                hitEffect.gameObject.SetActive(false);
+            }
+        }
+        #endregion
+
 
         if (delayTime < 2f)
             delayTime += Time.deltaTime;
-        else if(delayTime > 2f)
+        else if (delayTime > 2f)
         {
             delayTime = 3f;
-            if(!isPattern && !isOverlab)
+            if (!isPattern && !isOverlab)
             {
-                randomPattern = Random.Range(1, 8);
-                switch(randomPattern)
+                randomPattern = Random.Range(1, 7);
+                switch (randomPattern)
                 {
                     case 1:
                         Scp2_2();
                         break;
-                    case 2:
-                        Scp2_3();
-                        break;
+                    //case 2:
+                       // Scp2_3();
+                     //   break;
                     case 3:
                         Scp2_4();
                         break;
@@ -1694,7 +1725,7 @@ public class Stage2_Boss : MonoBehaviour
                     case 6:
                         Scp2_7();
                         break;
-                    case 7:
+                    case 2:
                         Scp2_1();
                         break;
 
@@ -1707,14 +1738,12 @@ public class Stage2_Boss : MonoBehaviour
 
 
 
-
-
         if (currentHp <= 0)
         {
             currentHp = 0;
             isBossDie = true;
             StopAllCoroutines();
-        //    SetCurrentAnimation(AnimState.samurai_anima_death_suiside);  사망 애니메이션
+            SetCurrentAnimation(AnimState_biking.biking_death1);  //사망 애니메이션
             if (isBossDie)
             {
                 bossDieTime += Time.deltaTime;

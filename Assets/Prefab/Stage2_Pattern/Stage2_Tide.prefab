@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1760965255651823492}
   m_Layer: 0
   m_Name: Stage2_Tide
-  m_TagString: Untagged
+  m_TagString: Stage1_Sword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

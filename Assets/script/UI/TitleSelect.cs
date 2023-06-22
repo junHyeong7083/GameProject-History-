@@ -18,8 +18,8 @@ public class TitleSelect : MonoBehaviour
     public Image Stage3_image;
 
     public Image Stage1_clear;
-   // public Image Stage2_clear;
-   // public Image Stage3_clear;
+    public Image Stage2_clear;
+    public Image Stage3_clear;
 
     public Image select_1;
     public Image select_2;
@@ -28,7 +28,7 @@ public class TitleSelect : MonoBehaviour
 
     [Header("BestScore")]
     public Text infinityMode;
-    public Text totalStage; // 내가 몇스테이지까지 깼는가?
+    public Text totalStage;  // 내가 몇스테이지까지 깼는가?
 
     private float radius;
     private Vector2 value;
@@ -64,11 +64,11 @@ public class TitleSelect : MonoBehaviour
     }
     public void stage2_change()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(3);
     }
     public void stage3_change()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(4);
     }
 
     void Update()
@@ -77,7 +77,7 @@ public class TitleSelect : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved)
+            if ( touch.phase == TouchPhase.Moved)
             {
                 istouch = true;
                 checkActive = true;
@@ -99,6 +99,7 @@ public class TitleSelect : MonoBehaviour
                     {
                         case 1: // 스테이지 선택
                             checkActive = false;
+                            istouch = false;
                             SelectPanel.gameObject.SetActive(true);
                             break;
                         case 2: // 웨이브모드
@@ -116,7 +117,7 @@ public class TitleSelect : MonoBehaviour
                             checkActive = false;
                             break;
                         case 4: // 튜토리얼
-                            SceneManager.LoadScene(4);
+                            SceneManager.LoadScene(5);
                             checkActive = false;
                             break;
                     }
@@ -209,10 +210,14 @@ public class TitleSelect : MonoBehaviour
                 Stage1_clear.gameObject.SetActive(true);
                 totalStage.text = "Stage " + clearCheck.ToString();
                 break;
-            case 2:   
+            case 2:
+                Stage2_image.gameObject.SetActive(false);
+                Stage2_clear.gameObject.SetActive(true);
                 totalStage.text = "Stage " + clearCheck.ToString();
                 break;
             case 3:
+                Stage3_image.gameObject.SetActive(false);
+                Stage3_clear.gameObject.SetActive(true);
                 totalStage.text = "Stage " + clearCheck.ToString();
                 break;
 

@@ -328,7 +328,6 @@ public class Stage3_Boss : MonoBehaviour
             yield return null;
         }
         SetCurrentAnimation(AnimState_night.atk);
-
         effect1_1 = PatternManager.Instance.StartPattern("PatternEffect");
         effect1_2 = PatternManager.Instance.StartPattern("PatternEffect");
         effect1_3 = PatternManager.Instance.StartPattern("PatternEffect");
@@ -364,7 +363,7 @@ public class Stage3_Boss : MonoBehaviour
 
             yield return null;
         }
-
+     //   SoundManager.Instance.PlaySFXSound("Spear");
         startTime = Time.time;
         while (Time.time - startTime < 1.5f)
         {
@@ -374,6 +373,7 @@ public class Stage3_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Spear");
         while (Time.time - startTime < 0.3f)
         {
             float t = (Time.time - startTime) / 0.3f;
@@ -392,6 +392,7 @@ public class Stage3_Boss : MonoBehaviour
         }
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Spear");
         while (Time.time - startTime < 0.3f)
         {
             float t = (Time.time - startTime) / 0.3f;
@@ -410,6 +411,7 @@ public class Stage3_Boss : MonoBehaviour
 
         SetCurrentAnimation(AnimState_night.idle);
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Spear");
         while (Time.time - startTime < 0.3f)
         {
             float t = (Time.time - startTime) / 0.3f;
@@ -564,6 +566,7 @@ public class Stage3_Boss : MonoBehaviour
 
             yield return null;
         }
+        SoundManager.Instance.PlaySFXSound("Spear");
         startTime = Time.time;
         while (Time.time - startTime < 0.3f)
         {
@@ -581,7 +584,7 @@ public class Stage3_Boss : MonoBehaviour
         {
             particleSystem.transform.localPosition = Vector3.zero;
         }
-
+        SoundManager.Instance.PlaySFXSound("Spear");
         startTime = Time.time;
         while (Time.time - startTime < 0.3f)
         {
@@ -598,7 +601,7 @@ public class Stage3_Boss : MonoBehaviour
         {
             particleSystem.transform.localPosition = Vector3.zero;
         }
-   
+        SoundManager.Instance.PlaySFXSound("Spear");
         startTime = Time.time;
         while (Time.time - startTime < 0.3f)
         {
@@ -773,6 +776,7 @@ public class Stage3_Boss : MonoBehaviour
         #endregion
         float startTime = Time.time;
         SetCurrentAnimation(AnimState_night.bow);
+        SoundManager.Instance.PlaySFXSound("bow");
         while (Time.time - startTime < 1)
         {
             yield return null;
@@ -839,7 +843,7 @@ public class Stage3_Boss : MonoBehaviour
             yield return null;
         }
         SetCurrentAnimation(AnimState_night.bow_2);
-
+        SoundManager.Instance.PlaySFXSound("arrow");
         startTime = Time.time;
         while (Time.time - startTime < 2)
         {
@@ -1148,6 +1152,7 @@ public class Stage3_Boss : MonoBehaviour
 
             yield return null;
         }
+        SoundManager.Instance.PlaySFXSound("arrow");
         startTime = Time.time;
         while (Time.time - startTime < 2)
         {
@@ -1305,11 +1310,10 @@ public class Stage3_Boss : MonoBehaviour
      
 
         pattern3Aim.SetActive(false);
-
+        SoundManager.Instance.PlaySFXSound("Spear");
         Vector3 startPos = pattern3_1.transform.position;
         Vector3 direction = (PlayerPos - startPos).normalized;
         float distance = 0f; // 초기 거리를 0으로 설정합니다.
-
         while (true)
         {
             pattern3_1.transform.position = startPos + direction * distance;
@@ -1388,9 +1392,8 @@ public class Stage3_Boss : MonoBehaviour
         sprite3_1.color = color3_1;
 
 
-
+        SoundManager.Instance.PlaySFXSound("Spear");
         overlab_pattern3Aim.SetActive(false);
-
         Vector3 startPos = overlab_pattern3_1.transform.position;
         Vector3 direction = (PlayerPos - startPos).normalized;
         float distance = 0f; // 초기 거리를 0으로 설정합니다.
@@ -1522,8 +1525,9 @@ public class Stage3_Boss : MonoBehaviour
         }
 
         startTime = Time.time;
-        while(Time.time - startTime < 1.0f)
-        {
+        SoundManager.Instance.PlaySFXSound("WaitCanon");
+          while (Time.time - startTime < 1.0f)
+          {
             float addeuler = 0f;
 
             Vector3 direction1 = PlayerPos - pattern4_1.transform.position;
@@ -1546,7 +1550,7 @@ public class Stage3_Boss : MonoBehaviour
 
             yield return null;
         }
-
+        SoundManager.Instance.PlaySFXSound("WaitCanon");
         target4_2.SetActive(true);
         startTime = Time.time;
         while (Time.time - startTime < 1.0f)
@@ -1569,7 +1573,7 @@ public class Stage3_Boss : MonoBehaviour
         }
 
 
-
+        SoundManager.Instance.PlaySFXSound("WaitCanon");
         target4_3.SetActive(true);
         startTime = Time.time;
         while (Time.time - startTime < 1.0f)
@@ -1633,7 +1637,8 @@ public class Stage3_Boss : MonoBehaviour
 
 
         startTime = Time.time;
-        while(Time.time - startTime < 1.0f)
+        SoundManager.Instance.PlaySFXSound("Canon");
+        while (Time.time - startTime < 1.0f)
         {
             if (Time.time - startTime > 0.5f)
             {
@@ -1650,6 +1655,7 @@ public class Stage3_Boss : MonoBehaviour
         main2.startRotationZ = 0f;
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Canon");
         while (Time.time - startTime < 1.0f)
         {
             if (Time.time - startTime > 0.5f)
@@ -1667,6 +1673,7 @@ public class Stage3_Boss : MonoBehaviour
         main3.startRotationZ = 0f;
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Canon");
         while (Time.time - startTime < 1f)
         {
             if (Time.time - startTime > 0.5f)
@@ -1794,7 +1801,7 @@ public class Stage3_Boss : MonoBehaviour
 
             yield return null;
         }
-
+        SoundManager.Instance.PlaySFXSound("WaitCanon");
         startTime = Time.time;
         while (Time.time - startTime < 1f)
         {
@@ -1820,7 +1827,7 @@ public class Stage3_Boss : MonoBehaviour
 
             yield return null;
         }
-
+        SoundManager.Instance.PlaySFXSound("WaitCanon");
         overlab_target4_2.SetActive(true);
         startTime = Time.time;
         while (Time.time - startTime < 1f)
@@ -1843,7 +1850,7 @@ public class Stage3_Boss : MonoBehaviour
         }
 
 
-
+        SoundManager.Instance.PlaySFXSound("WaitCanon");
         overlab_target4_3.SetActive(true);
         startTime = Time.time;
         while (Time.time - startTime < 1f)
@@ -1905,7 +1912,7 @@ public class Stage3_Boss : MonoBehaviour
         Vector3 dir2 = overlab_target4_2.transform.position - overlab_pattern4_2.transform.position;
         Vector3 dir3 = overlab_target4_3.transform.position - overlab_pattern4_3.transform.position;
 
-
+        SoundManager.Instance.PlaySFXSound("Canon");
         startTime = Time.time;
         while (Time.time - startTime <1f)
         {
@@ -1923,6 +1930,7 @@ public class Stage3_Boss : MonoBehaviour
         var main2 = shoot2.main;
         main2.startRotationZ = 0f;
 
+        SoundManager.Instance.PlaySFXSound("Canon");
         startTime = Time.time;
         while (Time.time - startTime < 1f)
         {
@@ -1940,6 +1948,7 @@ public class Stage3_Boss : MonoBehaviour
         var main3 = shoot3.main;
         main3.startRotationZ = 0f;
 
+        SoundManager.Instance.PlaySFXSound("Canon");
         startTime = Time.time;
         while (Time.time - startTime < 1f)
         {
@@ -2020,10 +2029,12 @@ public class Stage3_Boss : MonoBehaviour
 
         startTime = Time.time;
         SetCurrentAnimation(AnimState_night.sword_swing);
+        SoundManager.Instance.PlaySFXSound("bigsword");
         while (Time.time - startTime < 0.5f)
         {
             yield return null;
         }
+        SoundManager.Instance.PlaySFXSound("Sword_swing");
         startTime = Time.time;
         while(Time.time - startTime < 1f)
         {
@@ -2046,11 +2057,13 @@ public class Stage3_Boss : MonoBehaviour
         skeletonAnimation.Skeleton.ScaleX = flipX ? -1f : 1f;
         SetCurrentAnimation(AnimState_night.sword_swing);
 
+        SoundManager.Instance.PlaySFXSound("bigsword");
         startTime = Time.time;
         while (Time.time - startTime < 0.5f)
         {
             yield return null;
         }
+        SoundManager.Instance.PlaySFXSound("Sword_swing");
         startTime = Time.time;
         while (Time.time - startTime < 1f)
         {
@@ -2119,12 +2132,7 @@ public class Stage3_Boss : MonoBehaviour
 
             yield return null;
         }
-        //
-        // Vector3 position1 = Vector3.Lerp(effect_startpattern2_1, effect_endpattern2_1, t) + effect_midpattern2_1 * 4 * t * (1 - t); // 포물선 이동 경로 계산
-        // this.transform.position = position1; // 이동
-        //   Vector3 startpattern2_1 = new Vector3(25, 20, 0);
-        //   Vector3 midpattern2_1 = new Vector3(-10, -90, 0);
-        //   Vector3 endpattern2_1 = new Vector3(-35, 75, 0);
+        SoundManager.Instance.PlaySFXSound("swordjump");
 
         pattern6_1 = ParticleManager.Instance.StartParticle("TestEffect");
         pattern6_1.transform.position = new Vector3(this.transform.position.x-1, this.transform.position.y - 22f, this.transform.position.z);
@@ -2520,6 +2528,7 @@ public class Stage3_Boss : MonoBehaviour
             skeletonAnimation.timeScale = 0.7f;
             yield return null;
         }
+        SoundManager.Instance.PlaySFXSound("charging");
         skeletonAnimation.timeScale = 1.5f;
         SetCurrentAnimation(AnimState_night.idle);
         Vector3 targetPos = PlayerPos;
@@ -2549,6 +2558,8 @@ public class Stage3_Boss : MonoBehaviour
 
     private void Update()
     {
+        TrailRender.showTrail = false;
+        TrailRender.overlab_showTrail = false;
         #region Hp Bar
         float fillAmount = currentHp / maxHp;
         fillAmount = Mathf.Clamp(fillAmount, 0f, 1f);
@@ -2668,7 +2679,21 @@ public class Stage3_Boss : MonoBehaviour
             }
         }
 
-
+        #region Boss Hit
+        if (!isBossDie)
+        {
+            if (PlayerController.atkState) // 공격상태이면
+            {
+                hitEffect.transform.position = bossPos;
+                hitEffect.gameObject.SetActive(true);
+                currentHp -= Time.deltaTime * 50f;
+            }
+            else if (!PlayerController.atkState)
+            {
+                hitEffect.gameObject.SetActive(false);
+            }
+        }
+        #endregion
 
 
         PlayerPos = Player.transform.position;
@@ -2678,7 +2703,7 @@ public class Stage3_Boss : MonoBehaviour
             currentHp = 0;
             isBossDie = true;
             StopAllCoroutines();
-            //    SetCurrentAnimation(AnimState.samurai_anima_death_suiside);  사망 애니메이션
+            SetCurrentAnimation(AnimState_night.death);  //사망 애니메이션
             if (isBossDie)
             {
                 bossDieTime += Time.deltaTime;
@@ -2687,7 +2712,7 @@ public class Stage3_Boss : MonoBehaviour
                     Time.timeScale = 0f;
                     ClearPanel.SetActive(true);
                 }
-                TitleSelect.clearCheck = 2;
+                TitleSelect.clearCheck = 3;
                 Debug.Log("checkInt" + TitleSelect.clearCheck);
             }
         }

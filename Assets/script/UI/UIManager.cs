@@ -37,6 +37,14 @@ public class UIManager : MonoBehaviour
         {
             SceneManager.LoadScene(1);
         }
+        if (sceneCheck == 2)
+        {
+            SceneManager.LoadScene(3);
+        }
+        if (sceneCheck == 3)
+        {
+            SceneManager.LoadScene(4);
+        }
         else if(sceneCheck == 4)
             SceneManager.LoadScene(2);
     }

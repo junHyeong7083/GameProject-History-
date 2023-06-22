@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 public class SoundManager : MonoBehaviour
 {
     private static SoundManager instance;
-    public float masterVolume;
-    public float bgmVolume;
-    public float sfxVolume;
+   public float masterVolume;
+   public float bgmVolume;
+   public float sfxVolume;
 
     public static SoundManager Instance
     {

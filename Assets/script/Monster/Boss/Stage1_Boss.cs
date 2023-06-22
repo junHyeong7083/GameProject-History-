@@ -344,7 +344,6 @@ public class Stage1_Boss : MonoBehaviour
         // pattern2_2 = Instantiate(Sword.gameObject);
 
         pattern2_1 = PatternManager.Instance.StartPattern("Stage1_Sword");
-        pattern2_2 = PatternManager.Instance.StartPattern("Stage1_Sword");
 
         #region Pattern2_1 Pos Setting
         pattern2_1.transform.localScale = new Vector3(2, 2, 2);
@@ -371,7 +370,7 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
         {
 
@@ -392,6 +391,7 @@ public class Stage1_Boss : MonoBehaviour
     IEnumerator Scp1_2_2()
     {
         #region Pattern2_2 Pos Setting
+        pattern2_2 = PatternManager.Instance.StartPattern("Stage1_Sword");
         pattern2_2.transform.localScale = new Vector3(2, 2, 2);
         pattern2_2.transform.position = new Vector3(25, 0, 0);
         pattern2_2.transform.rotation = Quaternion.Euler(0, 0, 360f);
@@ -422,7 +422,7 @@ public class Stage1_Boss : MonoBehaviour
         }
         Destroy(pattern2_1);
         startTime = Time.time;
-
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
         {
               float RotateZ = 90f;
@@ -483,7 +483,7 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
         {
 
@@ -543,7 +543,7 @@ public class Stage1_Boss : MonoBehaviour
         Destroy(overlab_pattern2_1);
 
         startTime = Time.time;
-
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
         {
             float RotateZ = 90f;
@@ -649,6 +649,7 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Sword_swing");
         while (Time.time - startTime < 2) // 1초간 rotation.z 값 변경
         {
             float speed = 150f;
@@ -868,7 +869,7 @@ public class Stage1_Boss : MonoBehaviour
 
             yield return null;
         }
-
+        SoundManager.Instance.PlaySFXSound("sword1");
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3) 
         {
@@ -919,6 +920,7 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time; // 시작 시간 저장
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < 3)
         {
             if (pattern4_2.transform.position.x > 40)
@@ -970,6 +972,7 @@ public class Stage1_Boss : MonoBehaviour
         }
 
         startTime = Time.time; // 시작 시간 저장
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < 3)
         {
             if (pattern4_3.transform.position.x < -40)
@@ -1018,6 +1021,7 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time; // 시작 시간 저장
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < 3)
         {
             if (pattern4_4.transform.position.x > 40)
@@ -1067,6 +1071,7 @@ public class Stage1_Boss : MonoBehaviour
         }
 
         startTime = Time.time; // 시작 시간 저장
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < 3)
         {
             if (pattern4_5.transform.position.x < -40)
@@ -1115,6 +1120,7 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time; // 시작 시간 저장
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < 3)
         {
             if (pattern4_6.transform.position.x > 40)
@@ -1165,6 +1171,7 @@ public class Stage1_Boss : MonoBehaviour
         }
 
         startTime = Time.time; // 시작 시간 저장
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < 3)
         {
             if (pattern4_7.transform.position.x < -40)
@@ -1214,6 +1221,7 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time; // 시작 시간 저장
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < 3)
         {
             if (pattern4_8.transform.position.x > 40)
@@ -1310,7 +1318,7 @@ public class Stage1_Boss : MonoBehaviour
 
         ptn_sprite_1.color = ptn_color;
         tgt_sprite_1.color = tgt_color;
-
+        SoundManager.Instance.PlaySFXSound("gun");
 
 
         float startTime = Time.time; // 시작 시간 저장
@@ -1341,7 +1349,6 @@ public class Stage1_Boss : MonoBehaviour
         bullet.transform.position = bulletPosTransform.transform.position;
         bullet.transform.rotation = pattern5_1.transform.rotation;
         Vector3 dir = PlayerPos - pattern5_1.transform.position;
-
         shoot1 = ParticleManager.Instance.StartParticle("VFX_shooting");
         shoot1.transform.position = bulletPosTransform.transform.position;
         shoot1.transform.localScale = new Vector3(15, 15, 15);
@@ -1356,6 +1363,7 @@ public class Stage1_Boss : MonoBehaviour
 
 
         StartCoroutine(CameraShaking(0.1f, 0.5f));
+        SoundManager.Instance.PlaySFXSound("gun");
         startTime = Time.time;
         while (Time.time - startTime < 2)
         {
@@ -1443,8 +1451,8 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
 
-
         StartCoroutine(CameraShaking(0.1f, 0.5f));
+        SoundManager.Instance.PlaySFXSound("gun");
         startTime = Time.time;
         while (Time.time - startTime < 2)
         {
@@ -1531,8 +1539,10 @@ public class Stage1_Boss : MonoBehaviour
         {
             yield return null;
         }
-
+      
         StartCoroutine(CameraShaking(0.1f, 0.5f));
+        SoundManager.Instance.PlaySFXSound("gun");
+
         startTime = Time.time;
         while (Time.time - startTime < 2)
         {
@@ -1620,8 +1630,10 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
 
-
+       
         StartCoroutine(CameraShaking(0.1f, 0.5f));
+        SoundManager.Instance.PlaySFXSound("gun");
+
         startTime = Time.time;
         while (Time.time - startTime < 2)
         {
@@ -1667,7 +1679,7 @@ public class Stage1_Boss : MonoBehaviour
         UnityEngine.Color before_Color = before_Sprite.color;
         before_Color.a = 0;
 
-
+        SoundManager.Instance.PlaySFXSound("gun");
         float startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
@@ -1714,6 +1726,8 @@ public class Stage1_Boss : MonoBehaviour
 
 
         StartCoroutine(CameraShaking(0.1f, 0.5f));
+        SoundManager.Instance.PlaySFXSound("gun");
+
         startTime = Time.time;
         while (Time.time - startTime < 2)
         {
@@ -2477,7 +2491,9 @@ public class Stage1_Boss : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-        while(Time.time - startTime <2)
+        SoundManager.Instance.PlaySFXSound("arrow");
+
+        while (Time.time - startTime <2)
         {
             float totalSpeed = 300f;
             float speed1 = totalSpeed;
@@ -2981,7 +2997,8 @@ public class Stage1_Boss : MonoBehaviour
         int bowCnt = 1;
         #endregion
         float startTime = Time.time;
-        while(Time.time - startTime < 3)
+        SoundManager.Instance.PlaySFXSound("bow");
+        while (Time.time - startTime < 3)
         {
             
             if(Time.time - startTime > 0.75f && bowCnt == 1)
@@ -3033,6 +3050,7 @@ public class Stage1_Boss : MonoBehaviour
         Vector3 arrow2Dir = (Vector3.zero - arrow2.transform.position).normalized;
         Vector3 arrow3Dir = (Vector3.zero - arrow3.transform.position).normalized;
         float bowSpeed = 250f;
+        SoundManager.Instance.PlaySFXSound("arrow");
         while (Time.time - startTime < 2)
         {
             arrow1.GetComponent<Rigidbody2D>().velocity = arrow1Dir * bowSpeed;
@@ -3117,7 +3135,7 @@ public class Stage1_Boss : MonoBehaviour
         }
         startTime = Time.time;
         Vector3 direction = (PlayerPos - arrow8_1.transform.position).normalized;
-
+        SoundManager.Instance.PlaySFXSound("arrow");
         while (Time.time - startTime < 3)
         {
             float speed = 250f; // 화살표의 이동 속도
@@ -3328,7 +3346,8 @@ public class Stage1_Boss : MonoBehaviour
         }
 
         startTime = Time.time;
-        while(Time.time - startTime < ptn9_playTime)
+        SoundManager.Instance.PlaySFXSound("Sword_swing");
+        while (Time.time - startTime < ptn9_playTime)
         {
             float Speed = 350f;
             if(randomValue == 1)
@@ -3402,7 +3421,7 @@ public class Stage1_Boss : MonoBehaviour
 
         if (delayTime < 2f)
             delayTime += Time.deltaTime;
-        else if(delayTime > 2f)
+        else if (delayTime > 2f)
         {
             delayTime = 3f;
             if (!isPattern && !isOverlab)
@@ -3547,8 +3566,8 @@ public class Stage1_Boss : MonoBehaviour
                 }
             }
         }
-        currentHp_Text.text = currentHp.ToString("F2");
-        if(currentHp <= 0)
+
+        if (currentHp <= 0)
         {
             currentHp = 0;
             isBossDie = true;

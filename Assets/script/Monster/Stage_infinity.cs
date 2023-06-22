@@ -314,7 +314,7 @@ public class Stage_infinity : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
         {
 
@@ -366,7 +366,7 @@ public class Stage_infinity : MonoBehaviour
         }
         Destroy(pattern2_1);
         startTime = Time.time;
-
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
         {
             float RotateZ = 90f;
@@ -425,7 +425,7 @@ public class Stage_infinity : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
-
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
         {
 
@@ -486,7 +486,7 @@ public class Stage_infinity : MonoBehaviour
         Destroy(overlab_pattern2_1);
 
         startTime = Time.time;
-
+        SoundManager.Instance.PlaySFXSound("sword1");
         while (Time.time - startTime < ptn2_playTime) // 2.5초간 position.y 값 변경 및 rotation.z 값 변경
         {
             float RotateZ = 90f;
@@ -590,6 +590,7 @@ public class Stage_infinity : MonoBehaviour
 
             yield return null;
         }
+        SoundManager.Instance.PlaySFXSound("Sword_swing");
         startTime = Time.time;
         while (Time.time - startTime < 2) // 1초간 rotation.z 값 변경
         {
@@ -691,6 +692,7 @@ public class Stage_infinity : MonoBehaviour
 
             yield return null;
         }
+        SoundManager.Instance.PlaySFXSound("Sword_swing");
         startTime = Time.time;
         while (Time.time - startTime < 2) // 1초간 rotation.z 값 변경
         {
@@ -808,7 +810,7 @@ public class Stage_infinity : MonoBehaviour
 
             yield return null;
         }
-
+        SoundManager.Instance.PlaySFXSound("sword1");
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
@@ -858,6 +860,7 @@ public class Stage_infinity : MonoBehaviour
 
             yield return null;
         }
+        SoundManager.Instance.PlaySFXSound("sword1");
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
@@ -908,7 +911,7 @@ public class Stage_infinity : MonoBehaviour
 
             yield return null;
         }
-
+        SoundManager.Instance.PlaySFXSound("sword1");
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
@@ -957,6 +960,7 @@ public class Stage_infinity : MonoBehaviour
 
             yield return null;
         }
+        SoundManager.Instance.PlaySFXSound("sword1");
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
@@ -1005,7 +1009,7 @@ public class Stage_infinity : MonoBehaviour
 
             yield return null;
         }
-
+        SoundManager.Instance.PlaySFXSound("sword1");
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
@@ -1054,6 +1058,7 @@ public class Stage_infinity : MonoBehaviour
 
             yield return null;
         }
+        SoundManager.Instance.PlaySFXSound("sword1");
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
@@ -1103,7 +1108,7 @@ public class Stage_infinity : MonoBehaviour
 
             yield return null;
         }
-
+        SoundManager.Instance.PlaySFXSound("sword1");
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
@@ -1153,6 +1158,7 @@ public class Stage_infinity : MonoBehaviour
 
             yield return null;
         }
+        SoundManager.Instance.PlaySFXSound("sword1");
         startTime = Time.time; // 시작 시간 저장
         while (Time.time - startTime < 3)
         {
@@ -2312,6 +2318,7 @@ public class Stage_infinity : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("arrow");
         while (Time.time - startTime < 2)
         {
             float totalSpeed = 300f;
@@ -2589,6 +2596,7 @@ public class Stage_infinity : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("arrow");
         while (Time.time - startTime < 2)
         {
             float totalSpeed = 200f;
@@ -3142,7 +3150,7 @@ public class Stage_infinity : MonoBehaviour
         pattern9_2.SetActive(true);
         #endregion
         float startTime = Time.time;
-        int randomValue = Random.Range(1, 4); ;
+        int randomValue = Random.Range(1, 3); ;
         while (Time.time - startTime < 4)
         {
             if (Time.time - startTime < 1)
@@ -3156,7 +3164,7 @@ public class Stage_infinity : MonoBehaviour
             }
             yield return null;
         }
-
+        SoundManager.Instance.PlaySFXSound("Sword_swing");
         startTime = Time.time;
         while (Time.time - startTime < ptn9_playTime)
         {
@@ -3175,11 +3183,6 @@ public class Stage_infinity : MonoBehaviour
 
                 pattern9_2.transform.position += new Vector3(X2 * Time.deltaTime, 0, 0);
                 pattern9_2.transform.eulerAngles += new Vector3(0, Y2 * Time.deltaTime, -Speed * 1.7f * Time.deltaTime);
-            }
-            else if (randomValue == 3)
-            {
-                // 패턴 x
-                //continue;
             }
             yield return null;
         }
@@ -3301,6 +3304,7 @@ public class Stage_infinity : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         while (Time.time - startTime < 1f)
         {
             pattern2_2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
@@ -3320,6 +3324,7 @@ public class Stage_infinity : MonoBehaviour
 
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         while (Time.time - startTime < duration)
         {
             float t = (Time.time - startTime) / duration;
@@ -3420,6 +3425,7 @@ public class Stage_infinity : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         while (Time.time - startTime < 1f)
         {
             overlab_pattern2_2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
@@ -3445,6 +3451,7 @@ public class Stage_infinity : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         while (Time.time - startTime < 1f)
         {
             overlab_pattern2_2_1.transform.eulerAngles += new Vector3(0, 0, -euler * Time.deltaTime * 50);
@@ -3566,7 +3573,7 @@ public class Stage_infinity : MonoBehaviour
         } // 투명도
         float duration = 1.5f; // 이동 시간
         float rotateSpeed = 35f;
-
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         startTime = Time.time;
         while (Time.time - startTime < 0.7f)
         {
@@ -3595,7 +3602,7 @@ public class Stage_infinity : MonoBehaviour
             yield return null;
         }
 
-
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         startTime = Time.time;
         while (Time.time - startTime < 1f)
         {
@@ -3613,6 +3620,7 @@ public class Stage_infinity : MonoBehaviour
         }
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         while (Time.time - startTime < duration)
         {
             float t = (Time.time - startTime) / duration;
@@ -3671,7 +3679,7 @@ public class Stage_infinity : MonoBehaviour
         }
 
         rotateSpeed = 35f;
-
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         startTime = Time.time;
         while (Time.time - startTime < duration)
         {
@@ -3795,6 +3803,7 @@ public class Stage_infinity : MonoBehaviour
         float rotateSpeed = 35f;
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         while (Time.time - startTime < 0.7f)
         {
             float t = (Time.time - startTime) / 0.7f;
@@ -3822,7 +3831,7 @@ public class Stage_infinity : MonoBehaviour
             yield return null;
         }
 
-
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         startTime = Time.time;
         while (Time.time - startTime < 1f)
         {
@@ -3840,6 +3849,7 @@ public class Stage_infinity : MonoBehaviour
         }
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         while (Time.time - startTime < duration)
         {
             float t = (Time.time - startTime) / duration;
@@ -3900,6 +3910,7 @@ public class Stage_infinity : MonoBehaviour
         rotateSpeed = 35f;
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Scp2_2");
         while (Time.time - startTime < duration)
         {
             float t = (Time.time - startTime) / duration;
@@ -4055,6 +4066,7 @@ public class Stage_infinity : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Spear");
         while (Time.time - startTime < 0.3f)
         {
             float t = (Time.time - startTime) / 0.3f;
@@ -4073,6 +4085,7 @@ public class Stage_infinity : MonoBehaviour
         }
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Spear");
         while (Time.time - startTime < 0.3f)
         {
             float t = (Time.time - startTime) / 0.3f;
@@ -4089,6 +4102,7 @@ public class Stage_infinity : MonoBehaviour
             particleSystem.transform.localPosition = Vector3.zero;
         }
 
+        SoundManager.Instance.PlaySFXSound("Spear");
         startTime = Time.time;
         while (Time.time - startTime < 0.3f)
         {
@@ -4244,6 +4258,7 @@ public class Stage_infinity : MonoBehaviour
             yield return null;
         }
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Spear");
         while (Time.time - startTime < 0.3f)
         {
             float t = (Time.time - startTime) / 0.3f;
@@ -4262,6 +4277,7 @@ public class Stage_infinity : MonoBehaviour
         }
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Spear");
         while (Time.time - startTime < 0.3f)
         {
             float t = (Time.time - startTime) / 0.3f;
@@ -4279,6 +4295,7 @@ public class Stage_infinity : MonoBehaviour
         }
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Spear");
         while (Time.time - startTime < 0.3f)
         {
             float t = (Time.time - startTime) / 0.3f;
@@ -4637,7 +4654,7 @@ public class Stage_infinity : MonoBehaviour
         isOverlab = true;
         StartCoroutine(overlab_Scp3_2_Pattern());
     }
-    #region Scp3_2 패턴로직
+    #region overlab_Scp3_2 패턴로직
     IEnumerator overlab_Scp3_2_Pattern()
     {
         #region 초기세팅
@@ -5020,6 +5037,7 @@ public class Stage_infinity : MonoBehaviour
         }
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("WaitCanon");
         while (Time.time - startTime < 1f)
         {
             float addeuler = 0f;
@@ -5047,6 +5065,7 @@ public class Stage_infinity : MonoBehaviour
 
         target3_4_2.SetActive(true);
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("WaitCanon");
         while (Time.time - startTime < 1f)
         {
             float addeuler = 0f;
@@ -5070,6 +5089,7 @@ public class Stage_infinity : MonoBehaviour
 
         target3_4_3.SetActive(true);
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("WaitCanon");
         while (Time.time - startTime < 1f)
         {
             float addeuler = 0f;
@@ -5129,7 +5149,7 @@ public class Stage_infinity : MonoBehaviour
         Vector3 dir2 = target3_4_2.transform.position - pattern3_4_2.transform.position;
         Vector3 dir3 = target3_4_3.transform.position - pattern3_4_3.transform.position;
 
-
+        SoundManager.Instance.PlaySFXSound("Canon");
         startTime = Time.time;
         while (Time.time - startTime < 1f)
         {
@@ -5148,6 +5168,7 @@ public class Stage_infinity : MonoBehaviour
         main2.startRotationZ = 0f;
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Canon");
         while (Time.time - startTime < 1f)
         {
             if (Time.time - startTime > 0.5f)
@@ -5165,6 +5186,7 @@ public class Stage_infinity : MonoBehaviour
         main3.startRotationZ = 0f;
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Canon");
         while (Time.time - startTime < 1f)
         {
             if (Time.time - startTime > 0.5f)
@@ -5294,6 +5316,7 @@ public class Stage_infinity : MonoBehaviour
         }
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("WaitCanon");
         while (Time.time - startTime < 1f)
         {
             float addeuler = 0f;
@@ -5321,6 +5344,7 @@ public class Stage_infinity : MonoBehaviour
 
         overlab_target3_4_2.SetActive(true);
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("WaitCanon");
         while (Time.time - startTime < 1f)
         {
             float addeuler = 0f;
@@ -5344,6 +5368,7 @@ public class Stage_infinity : MonoBehaviour
 
         overlab_target3_4_3.SetActive(true);
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("WaitCanon");
         while (Time.time - startTime < 1f)
         {
             float addeuler = 0f;
@@ -5405,6 +5430,7 @@ public class Stage_infinity : MonoBehaviour
 
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Canon");
         while (Time.time - startTime < 1f)
         {
             if (Time.time - startTime > 0.5f)
@@ -5422,6 +5448,7 @@ public class Stage_infinity : MonoBehaviour
         main2.startRotationZ = 0f;
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Canon");
         while (Time.time - startTime < 1f)
         {
             if (Time.time - startTime > 0.5f)
@@ -5439,6 +5466,7 @@ public class Stage_infinity : MonoBehaviour
         main3.startRotationZ = 0f;
 
         startTime = Time.time;
+        SoundManager.Instance.PlaySFXSound("Canon");
         while (Time.time - startTime < 1f)
         {
             if (Time.time - startTime > 0.5f)
@@ -5518,7 +5546,10 @@ public class Stage_infinity : MonoBehaviour
     public static float maxTime = 0f; 
     void Update()
     {
-        if(! PlayerController.isDie)
+        TrailRender.showTrail = false;
+        TrailRender.overlab_showTrail = false;
+
+        if (! PlayerController.isDie)
           currentTime += Time.deltaTime;
         PlayerPos = Player.transform.position;
 

@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 8959097685879300195}
   - component: {fileID: 8959097685879300194}
   - component: {fileID: 5793925908988434317}
+  - component: {fileID: 1970072778598164757}
   m_Layer: 0
   m_Name: Stage3_Cannonball
-  m_TagString: Untagged
+  m_TagString: Stage1_Sword
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,3 +107,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &1970072778598164757
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8959097685879300193}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 3.17

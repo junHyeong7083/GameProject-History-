@@ -54,14 +54,14 @@ public class Tutorial_CutScene : MonoBehaviour
             return default(Touch);
         } // 터치 순서따라 finger id값 저장
 
-        if (currentPanelIndex == 9) //&& canTransition
+        if (currentPanelIndex == 15) //&& canTransition
         {
             // 현재 패널 페이드 아웃
             StartCoroutine(FadeOutPanel(panels[currentPanelIndex]));
             delaytTime += Time.deltaTime;
             if(delaytTime > 1.5f)
             {
-                SceneManager.LoadScene("TitleScene");
+                SceneManager.LoadScene(0);
                 Time.timeScale = 1f;
             }
         }
@@ -70,7 +70,7 @@ public class Tutorial_CutScene : MonoBehaviour
     public void NextPanel()
     {
         int nextPanelIndex = currentPanelIndex + 1; // 다음 패널 인덱스 계산
-        SoundManager.Instance.PlaySFXSound("Test");
+        SoundManager.Instance.PlaySFXSound("CutSceneChange");
         if (nextPanelIndex <= panels.Length)
         {
             // 현재 패널 페이드 아웃
